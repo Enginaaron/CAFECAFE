@@ -69,3 +69,55 @@ func move(direction: Vector2):
 	
 	# Print the current and target tiles
 	prints("currently at", currentTile, " -----  next is", targetTile)
+func handle_interaction(tile: Vector2i):
+	var tile_name = tileMap.get_cell_source_id(0, tile)  # Get the tile type ID
+
+	match tile_name:
+		1:  # Example: Tile ID for a chopping board
+			print("Using Chopping Board")
+			chop_ingredient()
+		2:  # Example: Tile ID for a stove
+			print("Cooking on Stove")
+			cook_ingredient()
+		_:
+			print("Nothing to interact with here")
+
+func chop_ingredient():
+	print("Chopping ingredient...")
+
+func cook_ingredient():
+	print("Cooking...")
+# Detect interaction when the player presses "E"
+func _input(event):
+	if event.is_action_pressed("interact"):  # "E" key by default
+		attempt_interaction()
+
+func attempt_interaction():
+	# Get the player's current tile position
+	var current_tile: Vector2i = tileMap.local_to_map(global_position)
+	
+	# Get the direction the player is facing
+	var direction = get_facing_direction()
+	
+	# Calculate the adjacent tile in that direction
+	var target_tile: Vector2i = current_tile + direction
+	
+	# Check if the tile has interaction data
+	var tile_data: TileData = tileMap.get_cell_tile_data(0, target_tile)  # Assuming layer 0
+	
+	if tile_data and tile_data.get_custom_data("interactable"):
+		print("Interacting with tile at: ", target_tile)
+		handle_interaction(target_tile)
+
+# Function to determine which direction the player is facing
+func get_facing_direction() -> Vector2i:
+	if Input.is_action_pressed("up"):
+		return Vector2i(0, -1)
+	if Input.is_action_pressed("down"):
+		return Vector2i(0, 1)
+	if Input.is_action_pressed("left"):
+		return Vector2i(-1, 0)
+	if Input.is_action_pressed("right"):
+		return Vector2i(1, 0)
+	# Default return value (e.g., no movement)
+	return Vector2i(0, 0)
