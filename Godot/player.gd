@@ -48,8 +48,9 @@ func _process(delta: float) -> void:
 		playerDirection = "right"
 	
 	# Debug print to check the direction vector
-	prints("Direction vector: ", direction)
-	
+	# Only print the direction if it's not (0,0)
+	if direction != Vector2.ZERO:
+		prints("Direction vector: ", direction)
 	# Normalize the direction vector to ensure smooth diagonal movement
 	if direction != Vector2.ZERO:
 		move(direction.normalized())
@@ -95,9 +96,6 @@ func chop_ingredient():
 func cook_ingredient():
 	print("Cooking...")
 # Detect interaction when the player presses "E"
-func _input(event):
-	if event.is_action_pressed("interact"):  # "E" key by default
-		attempt_interaction()
 
 # Function to determine which direction the player is facing
 func get_facing_direction() -> Vector2i:
@@ -115,16 +113,26 @@ func get_facing_direction() -> Vector2i:
 func attempt_interaction():
 	# Get the player's current tile position
 	var current_tile: Vector2i = tileMap.local_to_map(global_position)
+	print("Current tile: ", current_tile)
 	
 	# Get the direction the player is facing
 	var direction = get_facing_direction()
+	print("Facing direction: ", direction)
 	
 	# Calculate the adjacent tile in that direction
 	var target_tile: Vector2i = current_tile + direction
+	print("Target tile: ", target_tile)
 	
-	# Check if the tile has interaction data
-	var tile_data: TileData = tileMap.get_cell_tile_data(0, target_tile)  # Assuming layer 0
+	# Get the tile data from the TileMap (make sure layer is correct)
+	var tile_data = tileMap.get_cell_tile_data(target_tile)  
+	print("Tile data: ", tile_data)
 	
 	if tile_data and tile_data.get_custom_data("interactable"):
 		print("Interacting with tile at: ", target_tile)
 		handle_interaction(target_tile)
+	else:
+		print("No interactable tile at: ", target_tile)
+
+func _input(event):
+	if event.is_action_pressed("interact"):  # "E" key by default
+		attempt_interaction()
