@@ -92,6 +92,19 @@ func _input(event):
 	if event.is_action_pressed("interact"):  # "E" key by default
 		attempt_interaction()
 
+# Function to determine which direction the player is facing
+func get_facing_direction() -> Vector2i:
+	if Input.is_action_pressed("up"):
+		return Vector2i(0, -1)
+	if Input.is_action_pressed("down"):
+		return Vector2i(0, 1)
+	if Input.is_action_pressed("left"):
+		return Vector2i(-1, 0)
+	if Input.is_action_pressed("right"):
+		return Vector2i(1, 0)
+	# Default return value (e.g., no movement)
+	return Vector2i(0, 0)
+
 func attempt_interaction():
 	# Get the player's current tile position
 	var current_tile: Vector2i = tileMap.local_to_map(global_position)
@@ -108,16 +121,3 @@ func attempt_interaction():
 	if tile_data and tile_data.get_custom_data("interactable"):
 		print("Interacting with tile at: ", target_tile)
 		handle_interaction(target_tile)
-
-# Function to determine which direction the player is facing
-func get_facing_direction() -> Vector2i:
-	if Input.is_action_pressed("up"):
-		return Vector2i(0, -1)
-	if Input.is_action_pressed("down"):
-		return Vector2i(0, 1)
-	if Input.is_action_pressed("left"):
-		return Vector2i(-1, 0)
-	if Input.is_action_pressed("right"):
-		return Vector2i(1, 0)
-	# Default return value (e.g., no movement)
-	return Vector2i(0, 0)
