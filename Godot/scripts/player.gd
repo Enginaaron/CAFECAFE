@@ -1,39 +1,28 @@
 extends Sprite2D
 
-# Get references to the TileMap and Sprite2D nodes
 @onready var tileMap = $"../TileMapLayer"
 @onready var sprite2D = $Sprite2D
 
-# Variable to track if the player is moving
 var isMoving = false
-
 var playerDirection = "right"
+var held_item = null  # New variable to track the item the player is holding
 
-
-# Called every physics frame
 func _physics_process(delta):
-	# If the player is not moving, return early
-	if isMoving == false:
+	if !isMoving:
 		return
-		
-	# If the player has reached the target position, stop moving
+	
 	if global_position == sprite2D.global_position:
 		isMoving = false
 		return
 	
-	# Move the sprite towards the target position
 	sprite2D.global_position = sprite2D.global_position.move_toward(global_position, 2)
 
-# Called every frame
 func _process(delta: float) -> void:
-	# Block inputs if the player is already moving
 	if isMoving:
 		return
-		
-	# Initialize a direction vector
+	
 	var direction = Vector2.ZERO
 	
-	# Check for input and add the corresponding direction
 	if Input.is_action_pressed("up"):
 		direction.y -= 1
 		playerDirection = "up"
@@ -47,32 +36,48 @@ func _process(delta: float) -> void:
 		direction.x += 1
 		playerDirection = "right"
 	
-	# Debug print to check the direction vector
-	prints("Direction vector: ", direction)
-	
-	# Normalize the direction vector to ensure smooth diagonal movement
 	if direction != Vector2.ZERO:
 		move(direction.normalized())
 
-# Function to move the player in a given direction           
+	# Check for interaction input
+	if Input.is_action_just_pressed("interact"):
+		interact()
+
 func move(direction: Vector2):
-	# Get the current tile position as a Vector2i
 	var currentTile: Vector2i = tileMap.local_to_map(global_position)
-	# Get the target tile position as a Vector2i
 	var targetTile: Vector2i = Vector2i(
-		currentTile.x + int(round(direction.x)),  # Use round() to ensure movement in both directions
+		currentTile.x + int(round(direction.x)),
 		currentTile.y + int(round(direction.y))
 	)
 	
-	# Get custom data from the target tile to check if it's walkable
 	var tileData: TileData = tileMap.get_cell_tile_data(targetTile)
-	if tileData.get_custom_data("walkable") == false:
+	if tileData and tileData.get_custom_data("walkable") == false:
 		return
 	
-	# Execute player movement
 	isMoving = true
 	global_position = tileMap.map_to_local(targetTile)
 	sprite2D.global_position = tileMap.map_to_local(currentTile)
 	
-	# Print the current and target tiles
 	prints("currently at", currentTile, " -----  next is", targetTile)
+
+func interact():
+	# Get the tile in front of the player
+	var facing_offset = Vector2.ZERO
+	match playerDirection:
+		"up": facing_offset = Vector2(0, -1)
+		"down": facing_offset = Vector2(0, 1)
+		"left": facing_offset = Vector2(-1, 0)
+		"right": facing_offset = Vector2(1, 0)
+	
+	var currentTile: Vector2i = tileMap.local_to_map(global_position)
+	var interactTile: Vector2i = currentTile + facing_offset
+
+	# Check if there's an appliance in the target tile
+	for child in tileMap.get_children():
+		if child is Node2D and tileMap.local_to_map(child.global_position) == interactTile:
+			if child.has_method("interact"):
+				var result = child.interact(held_item)
+				if result != null:
+					held_item = result  # Update the held item if the appliance returns something
+					prints("Picked up:", held_item)
+				break
