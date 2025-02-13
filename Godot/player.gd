@@ -27,15 +27,25 @@ func _process(delta: float) -> void:
 	if isMoving:
 		return
 		
-	# Check for input and move the player in the corresponding direction
+	# Initialize a direction vector
+	var direction = Vector2.ZERO
+	
+	# Check for input and add the corresponding direction
 	if Input.is_action_pressed("up"):
-		move(Vector2.UP)
+		direction.y -= 1
 	if Input.is_action_pressed("down"):
-		move(Vector2.DOWN)
+		direction.y += 1
 	if Input.is_action_pressed("left"):
-		move(Vector2.LEFT)
+		direction.x -= 1
 	if Input.is_action_pressed("right"):
-		move(Vector2.RIGHT)
+		direction.x += 1
+	
+	# Debug print to check the direction vector
+	prints("Direction vector: ", direction)
+	
+	# Normalize the direction vector to ensure smooth diagonal movement
+	if direction != Vector2.ZERO:
+		move(direction.normalized())
 
 # Function to move the player in a given direction           
 func move(direction: Vector2):
@@ -43,10 +53,9 @@ func move(direction: Vector2):
 	var currentTile: Vector2i = tileMap.local_to_map(global_position)
 	# Get the target tile position as a Vector2i
 	var targetTile: Vector2i = Vector2i(
-		currentTile.x + direction.x,
-		currentTile.y + direction.y,
+		currentTile.x + int(round(direction.x)),  # Use round() to ensure movement in both directions
+		currentTile.y + int(round(direction.y))
 	)
-	prints("currently at", currentTile, " -----  next is", targetTile)
 	
 	# Get custom data from the target tile to check if it's walkable
 	var tileData: TileData = tileMap.get_cell_tile_data(targetTile)
@@ -57,3 +66,6 @@ func move(direction: Vector2):
 	isMoving = true
 	global_position = tileMap.map_to_local(targetTile)
 	sprite2D.global_position = tileMap.map_to_local(currentTile)
+	
+	# Print the current and target tiles
+	prints("currently at", currentTile, " -----  next is", targetTile)
