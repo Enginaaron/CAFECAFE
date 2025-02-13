@@ -7,6 +7,9 @@ extends Sprite2D
 # Variable to track if the player is moving
 var isMoving = false
 
+var playerDirection = "right"
+
+
 # Called every physics frame
 func _physics_process(delta):
 	# If the player is not moving, return early
@@ -33,12 +36,16 @@ func _process(delta: float) -> void:
 	# Check for input and add the corresponding direction
 	if Input.is_action_pressed("up"):
 		direction.y -= 1
+		playerDirection = "up"
 	if Input.is_action_pressed("down"):
 		direction.y += 1
+		playerDirection = "down"
 	if Input.is_action_pressed("left"):
 		direction.x -= 1
+		playerDirection = "left"
 	if Input.is_action_pressed("right"):
 		direction.x += 1
+		playerDirection = "right"
 	
 	# Debug print to check the direction vector
 	prints("Direction vector: ", direction)
