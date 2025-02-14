@@ -1,83 +1,130 @@
 extends Sprite2D
 
+# Get references to the TileMap and Sprite2D nodes
 @onready var tileMap = $"../TileMapLayer"
 @onready var sprite2D = $Sprite2D
 
+# Variable to track if the player is moving
 var isMoving = false
-var playerDirection = "right"
-var held_item = null  # New variable to track the item the player is holding
 
+# Variable to store the last direction
+var last_direction = Vector2i(0, 0)
+
+var playerDirection = "right"
+
+
+# Called every physics frame
 func _physics_process(delta):
-	if !isMoving:
+	# If the player is not moving, return early
+	if isMoving == false:
 		return
-	
+		
+	# If the player has reached the target position, stop moving
 	if global_position == sprite2D.global_position:
 		isMoving = false
 		return
 	
+	# Move the sprite towards the target position
 	sprite2D.global_position = sprite2D.global_position.move_toward(global_position, 2)
 
+# Called every frame
 func _process(delta: float) -> void:
+	# Block inputs if the player is already moving
 	if isMoving:
 		return
-	
+		
+	# Initialize a direction vector
 	var direction = Vector2.ZERO
 	
+	# Check for input and add the corresponding direction
 	if Input.is_action_pressed("up"):
 		direction.y -= 1
-		playerDirection = "up"
+		last_direction = Vector2i(0, -1)
 	if Input.is_action_pressed("down"):
 		direction.y += 1
-		playerDirection = "down"
+		last_direction = Vector2i(0, 1)
 	if Input.is_action_pressed("left"):
 		direction.x -= 1
-		playerDirection = "left"
+		last_direction = Vector2i(-1, 0)
 	if Input.is_action_pressed("right"):
 		direction.x += 1
-		playerDirection = "right"
+		last_direction = Vector2i(1, 0)
 	
+	# Normalize the direction vector to ensure smooth diagonal movement
 	if direction != Vector2.ZERO:
 		move(direction.normalized())
 
-	# Check for interaction input
-	if Input.is_action_just_pressed("interact"):
-		interact()
-
+# Function to move the player in a given direction           
 func move(direction: Vector2):
+	# Get the current tile position as a Vector2i
 	var currentTile: Vector2i = tileMap.local_to_map(global_position)
+	# Get the target tile position as a Vector2i
 	var targetTile: Vector2i = Vector2i(
-		currentTile.x + int(round(direction.x)),
+		currentTile.x + int(round(direction.x)),  # Use round() to ensure movement in both directions
 		currentTile.y + int(round(direction.y))
 	)
 	
+	# Get custom data from the target tile to check if it's walkable
 	var tileData: TileData = tileMap.get_cell_tile_data(targetTile)
-	if tileData and tileData.get_custom_data("walkable") == false:
+	if tileData.get_custom_data("walkable") == false:
 		return
 	
+	# Execute player movement
 	isMoving = true
 	global_position = tileMap.map_to_local(targetTile)
 	sprite2D.global_position = tileMap.map_to_local(currentTile)
-	
-	prints("currently at", currentTile, " -----  next is", targetTile)
 
-func interact():
-	# Get the tile in front of the player
-	var facing_offset = Vector2.ZERO
-	match playerDirection:
-		"up": facing_offset = Vector2(0, -1)
-		"down": facing_offset = Vector2(0, 1)
-		"left": facing_offset = Vector2(-1, 0)
-		"right": facing_offset = Vector2(1, 0)
-	
-	var currentTile: Vector2i = tileMap.local_to_map(global_position)
-	var interactTile: Vector2i = currentTile + facing_offset
+func handle_interaction(tile: Vector2i):
+	var tile_name = tileMap.get_cell_source_id(tile)  # Get the tile type ID
 
-	# Check if there's an appliance in the target tile
-	for child in tileMap.get_children():
-		if child is Node2D and tileMap.local_to_map(child.global_position) == interactTile:
-			if child.has_method("interact"):
-				var result = child.interact(held_item)
-				if result != null:
-					held_item = result  # Update the held item if the appliance returns something
-					prints("Picked up:", held_item)
-				break
+	match tile_name:
+		0:  # Example: Tile ID for a chopping board
+			print("Using Chopping Board")
+			chop_ingredient()
+		2:  # Example: Tile ID for a stove
+			print("Cooking on Stove")
+			cook_ingredient()
+		_:
+			print("Nothing to interact with here")
+
+func chop_ingredient():
+	print("Chopping ingredient...")
+
+func cook_ingredient():
+	print("Cooking...")
+# Detect interaction when the player presses "E"
+
+# Function to determine which direction the player is facing
+func get_facing_direction() -> Vector2i:
+	return last_direction
+
+func attempt_interaction():
+	# Get the player's current tile position
+	var current_tile: Vector2i = tileMap.local_to_map(global_position)
+	print("Current tile: ", current_tile)
+	
+	# Get the direction the player is facing
+	var direction = get_facing_direction()
+	print("Facing direction: ", direction)
+	
+	# Calculate the adjacent tile in that direction
+	var facing_tile: Vector2i = current_tile + direction
+	print("Target tile: ", facing_tile)
+	
+	# Get the tile data from the TileMap (make sure layer is correct)
+	var tile_data = tileMap.get_cell_tile_data(facing_tile)  
+
+	print("Tile data: ", tile_data)
+	
+	if tile_data and tile_data.get_custom_data("interactable"):
+		print("Interacting with tile at: ", facing_tile)
+		var tile_id = tileMap.get_cell_source_id(facing_tile)
+		print("Tile ID at ", facing_tile, " is ", tile_id)
+
+		handle_interaction(facing_tile)
+	else:
+		print("No interactable tile at: ", facing_tile)
+
+func _input(event):
+	if event.is_action_pressed("interact"):  # "E" key by default
+		attempt_interaction()
