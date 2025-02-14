@@ -54,6 +54,7 @@ texture = ExtResource("1_fyfmq")
 5:3/next_alternative_id = 6
 5:3/0 = 0
 5:3/0/custom_data_1 = true
+5:3/0/custom_data_2 = true
 5:3/1 = 1
 5:3/2 = 2
 5:3/3 = 3
@@ -162,6 +163,8 @@ custom_data_layer_0/name = "walkable"
 custom_data_layer_0/type = 1
 custom_data_layer_1/name = "interactable"
 custom_data_layer_1/type = 1
+custom_data_layer_2/name = "oven"
+custom_data_layer_2/type = 1
 sources/0 = SubResource("TileSetAtlasSource_b1u6i")
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7ikrf"]
@@ -183,7 +186,7 @@ position = Vector2(8, 8)
 texture = SubResource("AtlasTexture_7ikrf")
 script = ExtResource("2_bxs6u")
 
-[node name="Sprite2D" type="Sprite2D" parent="player"]
+[node name="Chef" type="Sprite2D" parent="player"]
 texture = SubResource("AtlasTexture_gge3c")
 
-[node name="Camera2D" type="Camera2D" parent="player/Sprite2D"]
+[node name="Camera2D" type="Camera2D" parent="player/Chef"]

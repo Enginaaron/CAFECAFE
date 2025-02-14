@@ -2,7 +2,7 @@ extends Sprite2D
 
 # Get references to the TileMap and Sprite2D nodes
 @onready var tileMap = $"../TileMapLayer"
-@onready var sprite2D = $Sprite2D
+@onready var sprite2D = $Chef
 
 # Variable to track if the player is moving
 var isMoving = false
@@ -80,18 +80,6 @@ func move(direction: Vector2):
 	
 	# Print the current and target tiles
 	prints("currently at", currentTile, " -----  next is", targetTile)
-func handle_interaction(tile: Vector2i):
-	var tile_name = tileMap.get_cell_source_id(tile)  # Get the tile type ID
-
-	match tile_name:
-		0:  # Example: Tile ID for a chopping board
-			print("Using Chopping Board")
-			chop_ingredient()
-		2:  # Example: Tile ID for a stove
-			print("Cooking on Stove")
-			cook_ingredient()
-		_:
-			print("Nothing to interact with here")
 
 func chop_ingredient():
 	print("Chopping ingredient...")
@@ -103,6 +91,7 @@ func cook_ingredient():
 # Function to determine which direction the player is facing
 func get_facing_direction() -> Vector2i:
 	return last_direction
+	
 
 func attempt_interaction():
 	# Get the player's current tile position
@@ -127,9 +116,13 @@ func attempt_interaction():
 		var tile_id = tileMap.get_cell_source_id(facing_tile)
 		print("Tile ID at ", facing_tile, " is ", tile_id)
 
-		handle_interaction(facing_tile)
+		if tile_data and tile_data.get_custom_data("oven"):
+			cook_ingredient()
+		else:
+			print("Nothing to interact with here")
 	else:
 		print("No interactable tile at: ", facing_tile)
+		
 
 func _input(event):
 	if event.is_action_pressed("interact"):  # "E" key by default
