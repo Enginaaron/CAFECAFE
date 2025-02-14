@@ -6,12 +6,8 @@ extends Sprite2D
 
 # Variable to track if the player is moving
 var isMoving = false
-
-# Variable to store the last direction
 var last_direction = Vector2i(0, 0)
-
-var playerDirection = "right"
-
+var heldItem = null
 
 # Called every physics frame
 func _physics_process(delta):
