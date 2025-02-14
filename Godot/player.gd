@@ -25,7 +25,7 @@ func _physics_process(delta):
 		return
 	
 	# Move the sprite towards the target position
-	sprite2D.global_position = sprite2D.global_position.move_toward(global_position, 2)
+	sprite2D.global_position = sprite2D.global_position.move_toward(global_position, 1.5)
 
 # Called every frame
 func _process(delta: float) -> void:

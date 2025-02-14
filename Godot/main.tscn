@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=4 uid="uid://2s6s8hrdh1dh"]
 
 [ext_resource type="Texture2D" uid="uid://dhspgqawy4f54" path="res://tilemap_packed.png" id="1_fyfmq"]
-[ext_resource type="Script" path="res://scripts/player.gd" id="1_uvhou"]
+[ext_resource type="Script" path="res://player.gd" id="2_bxs6u"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_b1u6i"]
 texture = ExtResource("1_fyfmq")
@@ -181,7 +181,7 @@ tile_set = SubResource("TileSet_pm61e")
 [node name="player" type="Sprite2D" parent="."]
 position = Vector2(8, 8)
 texture = SubResource("AtlasTexture_7ikrf")
-script = ExtResource("1_uvhou")
+script = ExtResource("2_bxs6u")
 
 [node name="Sprite2D" type="Sprite2D" parent="player"]
 texture = SubResource("AtlasTexture_gge3c")
