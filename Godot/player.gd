@@ -7,6 +7,9 @@ extends Sprite2D
 # Variable to track if the player is moving
 var isMoving = false
 
+# Variable to store the last direction
+var last_direction = Vector2i(0, 0)
+
 var playerDirection = "right"
 
 
@@ -36,16 +39,16 @@ func _process(delta: float) -> void:
 	# Check for input and add the corresponding direction
 	if Input.is_action_pressed("up"):
 		direction.y -= 1
-		playerDirection = "up"
+		last_direction = Vector2i(0, -1)
 	if Input.is_action_pressed("down"):
 		direction.y += 1
-		playerDirection = "down"
+		last_direction = Vector2i(0, 1)
 	if Input.is_action_pressed("left"):
 		direction.x -= 1
-		playerDirection = "left"
+		last_direction = Vector2i(-1, 0)
 	if Input.is_action_pressed("right"):
 		direction.x += 1
-		playerDirection = "right"
+		last_direction = Vector2i(1, 0)
 	
 	# Debug print to check the direction vector
 	# Only print the direction if it's not (0,0)
@@ -78,10 +81,10 @@ func move(direction: Vector2):
 	# Print the current and target tiles
 	prints("currently at", currentTile, " -----  next is", targetTile)
 func handle_interaction(tile: Vector2i):
-	var tile_name = tileMap.get_cell_source_id(0, tile)  # Get the tile type ID
+	var tile_name = tileMap.get_cell_source_id(tile)  # Get the tile type ID
 
 	match tile_name:
-		1:  # Example: Tile ID for a chopping board
+		0:  # Example: Tile ID for a chopping board
 			print("Using Chopping Board")
 			chop_ingredient()
 		2:  # Example: Tile ID for a stove
@@ -99,16 +102,7 @@ func cook_ingredient():
 
 # Function to determine which direction the player is facing
 func get_facing_direction() -> Vector2i:
-	if Input.is_action_pressed("up"):
-		return Vector2i(0, -1)
-	if Input.is_action_pressed("down"):
-		return Vector2i(0, 1)
-	if Input.is_action_pressed("left"):
-		return Vector2i(-1, 0)
-	if Input.is_action_pressed("right"):
-		return Vector2i(1, 0)
-	# Default return value (e.g., no movement)
-	return Vector2i(0, 0)
+	return last_direction
 
 func attempt_interaction():
 	# Get the player's current tile position
@@ -120,18 +114,22 @@ func attempt_interaction():
 	print("Facing direction: ", direction)
 	
 	# Calculate the adjacent tile in that direction
-	var target_tile: Vector2i = current_tile + direction
-	print("Target tile: ", target_tile)
+	var facing_tile: Vector2i = current_tile + direction
+	print("Target tile: ", facing_tile)
 	
 	# Get the tile data from the TileMap (make sure layer is correct)
-	var tile_data = tileMap.get_cell_tile_data(target_tile)  
+	var tile_data = tileMap.get_cell_tile_data(facing_tile)  
+
 	print("Tile data: ", tile_data)
 	
 	if tile_data and tile_data.get_custom_data("interactable"):
-		print("Interacting with tile at: ", target_tile)
-		handle_interaction(target_tile)
+		print("Interacting with tile at: ", facing_tile)
+		var tile_id = tileMap.get_cell_source_id(facing_tile)
+		print("Tile ID at ", facing_tile, " is ", tile_id)
+
+		handle_interaction(facing_tile)
 	else:
-		print("No interactable tile at: ", target_tile)
+		print("No interactable tile at: ", facing_tile)
 
 func _input(event):
 	if event.is_action_pressed("interact"):  # "E" key by default
