@@ -1,37 +1,40 @@
 # Cooking Craze
 
-Team Members: Joel Mathews, Aaron Dam, Dragon Huynh, Ivy Zhang
+## Overview
+Cooking Craze is a fun and engaging cooking simulation game where players can interact with various ingredients, cook dishes, and manage their kitchen efficiently. The game features a player character that can move around the kitchen, interact with appliances, and process ingredients.
 
-Game Name: Cooking Craze
+## Project Structure
+The project is organized as follows:
 
-How would you pitch your game in one line?
-"Picture a cooking game that meets a wave-based survival game, except with a monstrous twist; serve both human and monster customers in a chaotic kitchen with or without a friend.
+```
+Cooking-Craze
+├── Godot
+│   ├── player.gd               # Player logic for movement and interaction
+│   ├── scenes
+│   │   ├── player.tscn         # Scene file for the player character
+│   │   ├── ingredients.tscn     # Scene file for the ingredients
+│   └── scripts
+│       ├── player.gd           # Duplicate of player.gd for script organization
+│       └── ingredients.gd       # Logic for handling ingredients
+├── project.godot                # Main project configuration file
+└── README.md                    # Documentation for the project
+```
 
-What is the key mechanic(s) that make it fun?
-Increasing difficulty with progressive waves of customers.
-Upgradeable kitchen and chef abilities.
-Special waves featuring monster customers with unique needs.
-Boss battle waves every set number of rounds.
-Single-player or couch co-op survival mode.
-Versus mode where two players compete to outlast each other.
+## Features
+- **Player Movement**: The player can move in four directions (up, down, left, right) and interact with the environment.
+- **Ingredient Processing**: Players can chop and cook ingredients using various appliances in the kitchen.
+- **Interactive Tiles**: The game includes interactable tiles that allow players to engage with different kitchen elements.
 
-How does the game actually play? (Core Game Loop)
-Survival Mode:
-Players cook in a fast-paced kitchen, preparing food to serve increasingly impatient customers.
-Customers generate income when satisfied; unsatisfied human customers cause the player to lose a life.
-After every five waves, a night shift begins, introducing monster customers who have stricter patience levels but do not cost lives.
-Unsatisfied monsters damage the restaurant, requiring money to repair.
-Every 15 waves, a boss monster appears with a complex order sequence; failure results in losing a life, but success grants a high payout.
-The game continues until all lives are lost.
+## Setup Instructions
+1. Clone the repository to your local machine.
+2. Open the project in Godot Engine.
+3. Run the `project.godot` file to start the game.
+4. Use the arrow keys to move the player and the "E" key to interact with ingredients and appliances.
 
-Versus Mode:
-Two players compete in an endless mode, each assigned color-coordinated customers.
-The first player to lose a life loses the game.
-Customers progressively become more impatient, increasing the challenge over time.
+## Future Development
+- Add more ingredients and recipes.
+- Implement a scoring system based on cooking efficiency.
+- Enhance graphics and animations for a more immersive experience.
 
-How will you keep players engaged for 30 minutes? What's the general scope of your game (will change as you go)?
-The game is designed to last an average of 20 minutes for an average skill run.
-Replayability through endless waves, with difficulty scaling dynamically.
-Players can choose between cooperative survival or competitive versus mode to extend gameplay variety.
-The upgrade system encourages progression and strategy, keeping players engaged by finding ways to optimize their gameplay
-Special waves, monster challenges, and boss fights to add variety to the experience.
+## License
+This project is licensed under the MIT License. Feel free to modify and distribute as needed.
