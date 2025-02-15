@@ -1,9 +1,12 @@
-extends Sprite2D
+extends CharacterBody2D
 
 # Get references to the TileMap and Sprite2D nodes
 @onready var tileMap = $"../TileMapLayer"
 @onready var sprite2D = $Chef
+var held_ingredient = null  # Store reference to held ingredient
 
+# Load ingredient scene
+@onready var ingredient_scene = preload("res://scenes/ingredient.tscn")
 # Variable to track if the player is moving
 var isMoving = false
 var last_direction = Vector2i(0, 0)
@@ -78,42 +81,7 @@ func move(direction: Vector2):
 	# Print the current and target tiles
 #	prints("currently at", currentTile, " -----  next is", targetTile)
 
-var cutting_time = 1.0  # seconds
-var processing_item = null  # We'll use this to store the current item being processed.
 
-var is_in_use 
-func interact(item):
-	if is_in_use:
-		return null  # Appliance is busy.
-	
-	# Check if the item can be cut.
-	if item == "Tomato":
-		is_in_use = true
-		processing_item = item  # Store the item for later use.
-		
-		var timer = Timer.new()
-		timer.wait_time = cutting_time
-		timer.one_shot = true
-		add_child(timer)
-		timer.connect("timeout", Callable(self, "_on_cutting_finished"))
-		timer.start()
-		
-		return null  # No immediate result.
-	else:
-		return item
-
-func _on_cutting_finished():
-	is_in_use = false
-	var chopped_item = processing_item + "_Chopped"
-	processing_item = null
-	emit_signal("appliance_finished", chopped_item)
-	
-func chop_ingredient():
-	print("Chopping ingredient...")
-
-func cook_ingredient():
-	print("Cooking...")
-# Detect interaction when the player presses "E"
 
 # Function to determine which direction the player is facing
 func get_facing_direction() -> Vector2i:
@@ -139,16 +107,31 @@ func attempt_interaction():
 #	print("Tile data: ", tile_data)
 	
 	if tile_data and tile_data.get_custom_data("interactable"):
-		print("Interacting with tile at: ", facing_tile)
-#		var tile_id = tileMap.get_cell_source_id(facing_tile)
-#		print("Tile ID at ", facing_tile, " is ", tile_id)
+	# Picking up from spawn tile
+		if tile_data and tile_data.get_custom_data("lettuce"):
+			if held_ingredient == null:
+				held_ingredient = load("res://scenes/ingredient.tscn").instantiate()
+				held_ingredient.pick_up()
+				add_child(held_ingredient)  # Attach to player
+				print("Picked up", held_ingredient.ingredient_name)
+			# Chopping at chopping board
+		elif tile_data and tile_data.get_custom_data("chopping board"):
+			if held_ingredient and not held_ingredient.is_chopped:
+				held_ingredient.chop()
 
-		if tile_data and tile_data.get_custom_data("oven"):
-			cook_ingredient()
-		if tile_data and tile_data.get_custom_data("chopping board"):
-			chop_ingredient()
-		else:
-			print("Nothing to interact with here")
+			# Packaging at packaging tile
+		elif tile_data and tile_data.get_custom_data("package"):
+
+			if held_ingredient and held_ingredient.state == held_ingredient.State.CHOPPED:
+				print("Packaging tile detected")
+				held_ingredient.package()
+
+		# Dropping the ingredient (optional)
+		elif tile_data and tile_data.get_custom_data("serve"):
+			if held_ingredient.state == held_ingredient.State.PACKAGED:
+				held_ingredient.drop()
+				held_ingredient.queue_free()  # Remove from player
+				held_ingredient = null
 	else:
 		print("No interactable tile at: ", facing_tile)
 		
