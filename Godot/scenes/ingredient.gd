@@ -21,55 +21,55 @@ var is_packaged: bool = false
 
 # Called when the ingredient spawns
 func _ready():
-    packaging_bar.visible = true  # Ensure it's visible at the start
-    packaging_bar.value = 0
-    packaging_timer.timeout.connect(_on_packaging_timer_timeout)  # Connect only once
-    print(ingredient_name, "spawned!")
-    update_sprite()  # Set initial sprite
-
+	packaging_bar.value = 0
+	packaging_timer.timeout.connect(_on_packaging_timer_timeout)  # Connect only once
+	print(ingredient_name, "spawned!")
+	update_sprite()  # Set initial sprite
 func _process(delta):
-    if packaging_timer.time_left > 0:
-        var progress = 100 * (1 - (packaging_timer.time_left / packaging_timer.wait_time))
-        packaging_bar.value = progress
-        print("Packaging progress:", packaging_bar.value)  # Debug
+	if packaging_timer.time_left > 0:
+		var progress = 100 * (1 - (packaging_timer.time_left / packaging_timer.wait_time))
+		packaging_bar.value = progress
+	
 
 # Pick up the ingredient
 func pick_up():
-    if not is_held:
-        is_held = true
-        print(ingredient_name, "picked up!")
+	if not is_held:
+		is_held = true
+		print(ingredient_name, "picked up!")
 
 # Drop the ingredient
 func drop():
-    if is_held:
-        is_held = false
-        print(ingredient_name, "dropped!")
+	if is_held:
+		is_held = false
+		print(ingredient_name, "dropped!")
 
 # Chop the ingredient
 func chop():
-    if state == State.WHOLE:
-        state = State.CHOPPED
-        update_sprite()
-        print("Chopped ingredient:", ingredient_name)
+	if state == State.WHOLE:
+		state = State.CHOPPED
+		update_sprite()
+		print("Chopped ingredient:", ingredient_name)
 
 func package():
-    if state == State.CHOPPED:
-        print("Packaging started...")
-        packaging_bar.value = 0  # Reset progress
-        packaging_bar.visible = true  # Show progress bar
-        packaging_timer.start()  # Start the timer
-
+	if state == State.CHOPPED:
+		print("Packaging started...")
+		packaging_bar.value = 0  # Reset progress
+		packaging_bar.visible = true  # Show progress bar
+		packaging_timer.start()  # Start the timer
+		packaging_timer.timeout.connect(_on_packaging_timer_timeout)  # Connect the signal
 func _on_packaging_timer_timeout():
-    state = State.PACKAGED
-    packaging_bar.visible = false  # Hide bar when packaging is done
-    update_sprite()
-    print("Packaged ingredient:", ingredient_name)
-
+	state = State.PACKAGED
+	packaging_bar.visible = false  # Hide bar when packaging is done
+	update_sprite()
+	print("Packaged ingredient:", ingredient_name)
+	var player = get_parent()  # Assuming the player is a direct parent
+	player.is_busy = false  # Re-enable player movement
+	
 func update_sprite():
-    match state:
-        State.WHOLE:
-            sprite.texture = whole_texture
-        State.CHOPPED:
-            sprite.texture = chopped_texture
-        State.PACKAGED:
-            sprite.texture = packaged_texture
+	match state:
+		State.WHOLE:
+			sprite.texture = whole_texture
+		State.CHOPPED:
+			sprite.texture = chopped_texture
+		State.PACKAGED:
+			sprite.texture = packaged_texture

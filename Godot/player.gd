@@ -12,8 +12,12 @@ var isMoving = false
 var last_direction = Vector2i(0, 0)
 var heldItem = null
 
+var is_busy = false
+
 # Called every physics frame
 func _physics_process(delta):
+	if is_busy:
+		return
 	# If the player is not moving, return early
 	if isMoving == false:
 		return
@@ -28,6 +32,8 @@ func _physics_process(delta):
 
 # Called every frame
 func _process(delta: float) -> void:
+	if is_busy:
+		return
 	# Block inputs if the player is already moving
 	if isMoving:
 		return
@@ -60,6 +66,8 @@ func _process(delta: float) -> void:
 
 # Function to move the player in a given direction           
 func move(direction: Vector2):
+	if is_busy:
+		return
 	# Get the current tile position as a Vector2i
 	var currentTile: Vector2i = tileMap.local_to_map(global_position)
 	# Get the target tile position as a Vector2i
@@ -123,6 +131,7 @@ func attempt_interaction():
 		elif tile_data and tile_data.get_custom_data("package"):
 
 			if held_ingredient and held_ingredient.state == held_ingredient.State.CHOPPED:
+				is_busy = true
 				print("Packaging tile detected")
 				held_ingredient.package()
 
