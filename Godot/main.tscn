@@ -211,7 +211,7 @@ sources/0 = SubResource("TileSetAtlasSource_bbmip")
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3fwpx"]
 atlas = ExtResource("1_fyfmq")
-region = Rect2(32, 128, 16, 16)
+region = Rect2(32, 112, 16, 32)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nlpgy"]
 
@@ -236,6 +236,7 @@ position = Vector2(8, 8)
 script = ExtResource("2_bxs6u")
 
 [node name="Chef" type="Sprite2D" parent="player"]
+position = Vector2(0, -8)
 texture = SubResource("AtlasTexture_3fwpx")
 
 [node name="Camera2D" type="Camera2D" parent="player/Chef"]
@@ -243,6 +244,8 @@ texture = SubResource("AtlasTexture_3fwpx")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="player"]
 scale = Vector2(0.8, 0.8)
 shape = SubResource("RectangleShape2D_nlpgy")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="player"]
 
 [node name="Ingredients" type="Node2D" parent="."]
 script = ExtResource("3_aai08")
