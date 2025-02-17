@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bcr42kg8vfodo"
-path="res://.godot/imported/cookingtiles.png-04491759b880b6cd340f1ad0a26e98a7.ctex"
+uid="uid://dhspgqawy4f54"
+path="res://.godot/imported/tilemap_packed.png-4891898e2a494e5cf1e2316b03d809d3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://cookingtiles.png"
-dest_files=["res://.godot/imported/cookingtiles.png-04491759b880b6cd340f1ad0a26e98a7.ctex"]
+source_file="res://textures/tilemap_packed.png"
+dest_files=["res://.godot/imported/tilemap_packed.png-4891898e2a494e5cf1e2316b03d809d3.ctex"]
 
 [params]
 
