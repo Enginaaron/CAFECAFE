@@ -254,6 +254,13 @@ texture = SubResource("AtlasTexture_3fwpx")
 
 [node name="Camera2D" type="Camera2D" parent="player/Chef"]
 
+[node name="Money Label" type="Label" parent="player/Chef/Camera2D"]
+offset_left = 99.0
+offset_top = -71.0
+offset_right = 111.0
+offset_bottom = -48.0
+text = "0"
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="player"]
 scale = Vector2(0.8, 0.8)
 shape = SubResource("RectangleShape2D_nlpgy")
