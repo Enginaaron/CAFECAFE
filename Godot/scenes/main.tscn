@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=4 uid="uid://dnu8810y125pi"]
+[gd_scene load_steps=16 format=4 uid="uid://dnu8810y125pi"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_oodj8"]
 [ext_resource type="Texture2D" uid="uid://v2kg034w0wq0" path="res://textures/tilemap_pack.png" id="2_i1cnr"]
@@ -209,6 +209,9 @@ region = Rect2(160, 0, 32, 64)
 font = ExtResource("4_qnehn")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nlpgy"]
+size = Vector2(32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_keh6y"]
 
 [sub_resource type="GDScript" id="GDScript_cu6fa"]
 script/source = "extends Node2D
@@ -236,16 +239,17 @@ region = Rect2(80, 48, 16, 16)
 script = ExtResource("1_oodj8")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
+position = Vector2(0, 16)
 tile_map_data = PackedByteArray("AAD9//7/AAAAAAAAAAD9////AAAAAAEAAAD9/wAAAAAAAAEAAAD9/wEAAAAAAAEAAAD9/wIAAAAAAAEAAAD9/wMAAAAAAAEAAAD+//7/AAABAAAAAAD+////AAAAAAEAAAD+/wAAAAAAAAEAAAD+/wEAAAABAAAAAAD+/wIAAAAAAAEAAAD+/wMAAAAAAAEAAAD///7/AAACAAAAAAD/////AAAAAAEAAAD//wAAAAAAAAEAAAD//wEAAAAAAAEAAAD//wIAAAAAAAEAAAD//wMAAAAAAAEAAAAAAP7/AAADAAAAAAAAAP//AAAAAAEAAAAAAAAAAAAAAAEAAAAAAAEAAAAAAAEAAAAAAAIAAAAAAAEAAAAAAAMAAAAAAAEAAAABAP7/AAABAAAAAAABAP//AAAAAAEAAAABAAAAAAAAAAEAAAABAAEAAAAEAAAAAAABAAIAAAAAAAEAAAABAAMAAAAAAAEAAAACAP7/AAACAAAAAAACAP//AAAAAAEAAAACAAAAAAAAAAEAAAACAAEAAAAAAAEAAAACAAIAAAAAAAEAAAACAAMAAAAAAAEAAAADAP7/AAABAAAAAAADAP//AAAAAAEAAAADAAAAAAAAAAEAAAADAAEAAAABAAAAAAADAAIAAAAAAAEAAAADAAMAAAAAAAEAAAAEAP7/AAAAAAAAAAAEAP//AAABAAAAAAAEAAAAAAAAAAEAAAAEAAEAAAAAAAEAAAAEAAIAAAAAAAEAAAAEAAMAAAAAAAEAAAD9//3/AAABAAEAAAD+//3/AAABAAEAAAD///3/AAABAAEAAAAAAP3/AAABAAEAAAABAP3/AAABAAEAAAACAP3/AAABAAEAAAADAP3/AAABAAEAAAAEAP3/AAABAAEAAAAFAP3/AAABAAEAAAAFAP7/AAABAAEAAAAFAP//AAABAAEAAAAFAAAAAAABAAEAAAAFAAEAAAABAAEAAAAFAAIAAAABAAEAAAAFAAMAAAABAAEAAAAFAAQAAAABAAEAAAD8/wQAAAABAAEAAAD9/wQAAAABAAEAAAD+/wQAAAABAAEAAAD//wQAAAABAAEAAAAAAAQAAAABAAEAAAABAAQAAAABAAEAAAACAAQAAAABAAEAAAADAAQAAAABAAEAAAAEAAQAAAABAAEAAAD8//3/AAABAAEAAAD8//7/AAABAAEAAAD8////AAABAAEAAAD8/wAAAAABAAEAAAD8/wEAAAABAAEAAAD8/wIAAAABAAEAAAD8/wMAAAABAAEAAAA=")
 tile_set = SubResource("TileSet_pm61e")
 rendering_quadrant_size = 32
 
 [node name="player" type="CharacterBody2D" parent="."]
-position = Vector2(8, 8)
+position = Vector2(16, 16)
 script = ExtResource("3_4rs1u")
 
 [node name="Chef" type="Sprite2D" parent="player"]
-position = Vector2(0, -8)
+position = Vector2(0, -16)
 texture = SubResource("AtlasTexture_wk504")
 
 [node name="Camera2D" type="Camera2D" parent="player/Chef"]
@@ -264,10 +268,10 @@ script = ExtResource("4_ird5e")
 metadata/_edit_use_anchors_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="player"]
-scale = Vector2(0.8, 0.8)
 shape = SubResource("RectangleShape2D_nlpgy")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="player"]
+sprite_frames = SubResource("SpriteFrames_keh6y")
 
 [node name="Ingredients" type="Node2D" parent="."]
 script = SubResource("GDScript_cu6fa")
