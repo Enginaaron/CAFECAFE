@@ -1,4 +1,5 @@
 extends Area2D
+class_name Ingredient  # Defines this script as a class
 
 @onready var packaging_timer = $PackagingTimer
 @onready var packaging_bar = $PackagingBar
@@ -42,13 +43,42 @@ func drop():
 	if is_held:
 		is_held = false
 		print(ingredient_name, "dropped!")
+		
+@export var chop_progress := 0
+@export var chop_needed := 6  # Press "E" 6 times
+var chop_tile_position = null  # Store tile position for chopping
+var progress_bar = null  # Progress bar reference
 
+@export var is_chopping := false
+func start_chopping():
+	# Make sure the ingredient stays on the tile
+	if chop_tile_position:
+		global_position = get_parent().tileMap.map_to_local(chop_tile_position)
+	
+	# Create a progress bar if it doesn't exist
+	if not progress_bar:
+		progress_bar = ProgressBar.new()
+		progress_bar.min_value = 0
+		progress_bar.max_value = chop_needed
+		progress_bar.value = chop_progress
+		progress_bar.size = Vector2(50, 10)
+		progress_bar.global_position = global_position + Vector2(0, -20)
+		get_parent().add_child(progress_bar)
 # Chop the ingredient
 func chop():
 	if state == State.WHOLE:
-		state = State.CHOPPED
-		update_sprite()
-		print("Chopped ingredient:", ingredient_name)
+		# Increase chopping progress
+		chop_progress += 1
+		progress_bar.value = chop_progress
+		print("Chop progress:", chop_progress)
+
+		# Check if chopping is complete
+		if chop_progress >= chop_needed:
+			is_chopped = true
+			print("Chopping complete!")
+			state == State.CHOPPED
+			progress_bar.queue_free()  # Remove progress bar
+			progress_bar = null
 
 func package():
 	if state == State.CHOPPED:
