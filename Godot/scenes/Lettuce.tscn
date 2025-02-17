@@ -1,15 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://byir7igr1absj"]
+[gd_scene load_steps=6 format=3 uid="uid://byir7igr1absj"]
 
 [ext_resource type="Script" path="res://scenes/ingredient.gd" id="1_x7qoh"]
 [ext_resource type="Texture2D" uid="uid://sbknmc4mqp6y" path="res://textures/Ingredient.tres" id="2_rs86c"]
-[ext_resource type="Texture2D" uid="uid://dhspgqawy4f54" path="res://textures/tilemap_packed.png" id="3_keaxc"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_h6jlb"]
-atlas = ExtResource("3_keaxc")
 region = Rect2(112, 145, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7hl6b"]
-atlas = ExtResource("3_keaxc")
 region = Rect2(128, 145, 16, 16)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xayox"]

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cxo5rsjlf4v4e"
-path="res://.godot/imported/chef.png-3f4ce8e9ecfb926cc47fd20f2aed7e00.ctex"
+uid="uid://v2kg034w0wq0"
+path="res://.godot/imported/tilemap_pack.png-3e951f7ab8d058f8cc5d88147d5142d1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://textures/chef.png"
-dest_files=["res://.godot/imported/chef.png-3f4ce8e9ecfb926cc47fd20f2aed7e00.ctex"]
+source_file="res://textures/tilemap_pack.png"
+dest_files=["res://.godot/imported/tilemap_pack.png-3e951f7ab8d058f8cc5d88147d5142d1.ctex"]
 
 [params]
 
