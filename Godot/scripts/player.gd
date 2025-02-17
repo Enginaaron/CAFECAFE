@@ -6,13 +6,13 @@ extends CharacterBody2D
 var held_ingredient = null  # Store reference to held ingredient
 
 # Load ingredient scene
-@onready var ingredient_scene = preload("res://scenes/Lettuce.tscn")
+@onready var ingredient_scene = preload("res://scenes/ingredient.tscn")
 # Variable to track if the player is moving
 var isMoving = false
 var last_direction = Vector2i(0, 0)
 
 var is_busy = false
-@onready var is_chopping = false
+
 # Called every physics frame
 func _physics_process(delta):
 	if is_busy:
@@ -117,24 +117,15 @@ func attempt_interaction():
 	# Picking up from spawn tile
 		if tile_data and tile_data.get_custom_data("lettuce"):
 			if held_ingredient == null:
-				held_ingredient = load("res://scenes/Lettuce.tscn").instantiate()
+				held_ingredient = load("res://scenes/ingredient.tscn").instantiate()
 				held_ingredient.pick_up()
 				add_child(held_ingredient)  # Attach to player
 				print("Picked up", held_ingredient.ingredient_name)
 			# Chopping at chopping board
 		elif tile_data and tile_data.get_custom_data("chopping board"):
 			if held_ingredient and not held_ingredient.is_chopped:
-				# Move ingredient to the chopping tile
-				held_ingredient.global_position = tileMap.map_to_local(facing_tile)
-						# Store the chopping tile position
-				held_ingredient.chop_tile_position = facing_tile
-				# Start chopping process
+				held_ingredient.chop()
 
-				# Start chopping process (but don't freeze player)
-				held_ingredient.start_chopping()
-				
-				# Player should no longer "hold" the ingredient
-				held_ingredient = null
 			# Packaging at packaging tile
 		elif tile_data and tile_data.get_custom_data("package"):
 
@@ -155,11 +146,4 @@ func attempt_interaction():
 
 func _input(event):
 	if event.is_action_pressed("interact"):  # "E" key by default
-				# Check for an ingredient at a chopping tile
-		for child in get_children():
-			if child is Ingredient and child.chop_tile_position:
-				child.chop()  # Chop the ingredient if it's on the board
-				return  # Stop checking after first valid chop
-		
-		# Otherwise, interact normally
 		attempt_interaction()
