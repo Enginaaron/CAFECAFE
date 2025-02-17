@@ -5,8 +5,6 @@ extends CharacterBody2D
 @onready var sprite2D = $Chef
 var held_ingredient = null  # Store reference to held ingredient
 
-# Load ingredient scene
-@onready var ingredient_scene = preload("res://scenes/ingredient.tscn")
 # Variable to track if the player is moving
 var isMoving = false
 var last_direction = Vector2i(0, 0)
@@ -117,7 +115,7 @@ func attempt_interaction():
 	# Picking up from spawn tile
 		if tile_data and tile_data.get_custom_data("lettuce"):
 			if held_ingredient == null:
-				held_ingredient = load("res://scenes/ingredient.tscn").instantiate()
+				held_ingredient = load("res://scenes/Lettuce.tscn").instantiate()
 				held_ingredient.pick_up()
 				add_child(held_ingredient)  # Attach to player
 				print("Picked up", held_ingredient.ingredient_name)

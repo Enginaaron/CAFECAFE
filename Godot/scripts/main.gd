@@ -3,7 +3,7 @@ extends Node2D
 @onready var ingredients_container = $Ingredients
 
 var ingredient_scenes = {
-	"Lettuce": preload("res://scenes/Ingredient.tscn"),
+	"Lettuce": preload("res://scenes/Lettuce.tscn"),
 }
 
 func spawn_ingredient(type, position):
