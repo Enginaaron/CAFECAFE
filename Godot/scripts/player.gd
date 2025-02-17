@@ -10,7 +10,6 @@ var held_ingredient = null  # Store reference to held ingredient
 # Variable to track if the player is moving
 var isMoving = false
 var last_direction = Vector2i(0, 0)
-var heldItem = null
 
 var is_busy = false
 
@@ -137,7 +136,7 @@ func attempt_interaction():
 
 		# Dropping the ingredient (optional)
 		elif tile_data and tile_data.get_custom_data("serve"):
-			if held_ingredient.state == held_ingredient.State.PACKAGED:
+			if held_ingredient and held_ingredient.state == held_ingredient.State.PACKAGED:
 				held_ingredient.drop()
 				held_ingredient.queue_free()  # Remove from player
 				held_ingredient = null
