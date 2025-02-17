@@ -3,6 +3,8 @@ extends CharacterBody2D
 # Get references to the TileMap and Sprite2D nodes
 @onready var tileMap = $"../TileMapLayer"
 @onready var sprite2D = $Chef
+@onready var moneyLabel = $Chef/Camera2D/MoneyLabel
+
 var held_ingredient = null  # Store reference to held ingredient
 
 # Variable to track if the player is moving
@@ -92,6 +94,8 @@ func move(direction: Vector2):
 func get_facing_direction() -> Vector2i:
 	return last_direction
 	
+func get_order_money():
+	return 5
 
 func attempt_interaction():
 	# Get the player's current tile position
@@ -138,6 +142,7 @@ func attempt_interaction():
 				held_ingredient.drop()
 				held_ingredient.queue_free()  # Remove from player
 				held_ingredient = null
+				moneyLabel.update_money(5)
 	else:
 		print("No interactable tile at: ", facing_tile)
 		
