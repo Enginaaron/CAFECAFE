@@ -1,8 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://byir7igr1absj"]
+[gd_scene load_steps=7 format=3 uid="uid://byir7igr1absj"]
 
 [ext_resource type="Script" path="res://scripts/ingredient.gd" id="1_x7qoh"]
 [ext_resource type="Texture2D" uid="uid://v2kg034w0wq0" path="res://textures/tilemap_pack.png" id="2_kueys"]
-[ext_resource type="Texture2D" uid="uid://sbknmc4mqp6y" path="res://textures/Ingredient.tres" id="2_rs86c"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5ra4e"]
 atlas = ExtResource("2_kueys")
@@ -25,7 +24,6 @@ chopped_texture = SubResource("AtlasTexture_420f1")
 packaged_texture = SubResource("AtlasTexture_fcdox")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_rs86c")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 scale = Vector2(0.8, 0.8)

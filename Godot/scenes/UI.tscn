@@ -1,5 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://5g7828xotp1y"]
+[gd_scene load_steps=5 format=3 uid="uid://5g7828xotp1y"]
 
+[ext_resource type="Texture2D" uid="uid://dwnsxnisyn7xe" path="res://textures/heldItemBox.png" id="1_j2yqk"]
+[ext_resource type="Script" path="res://scripts/heldItemTexture.gd" id="1_mfjsr"]
 [ext_resource type="FontFile" uid="uid://b0kv3mlkqmckt" path="res://textures/8-bit-hud.ttf" id="1_uue7a"]
 [ext_resource type="Script" path="res://scripts/moneylabel.gd" id="2_64wfr"]
 
@@ -19,13 +21,22 @@ offset_bottom = 40.0
 [node name="heldItemDisplay" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_left = 5.0
+offset_top = 115.0
+offset_right = 5.0
+offset_bottom = 115.0
 
 [node name="heldItemTexture" type="TextureRect" parent="heldItemDisplay"]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
+script = ExtResource("1_mfjsr")
+
+[node name="heldItemBox" type="TextureRect" parent="heldItemDisplay"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_j2yqk")
 
 [node name="moneyCounter" type="Control" parent="."]
 layout_mode = 3
