@@ -242,9 +242,6 @@ rendering_quadrant_size = 32
 
 [node name="UI" parent="." instance=ExtResource("3_cur7g")]
 
-[node name="MoneyLabel" parent="UI/moneyCounter" index="0"]
-offset_right = 45.0
-
 [node name="player" type="CharacterBody2D" parent="."]
 position = Vector2(16, 16)
 script = ExtResource("3_4rs1u")
@@ -278,5 +275,3 @@ texture = SubResource("AtlasTexture_rjw0x")
 position = Vector2(88, 56)
 scale = Vector2(0.8, 0.8)
 shape = SubResource("RectangleShape2D_mknww")
-
-[editable path="UI"]

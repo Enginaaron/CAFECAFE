@@ -14,7 +14,7 @@ var state = State.WHOLE
 
 @onready var sprite = $Sprite2D  # Reference to sprite
 
-@export var ingredient_name: String = "Lettuce"
+@export var ingredient_name: String = "LETTUCE"
 var is_held: bool = false
 var is_chopped: bool = false
 var is_packaged: bool = false
@@ -23,7 +23,7 @@ var is_packaged: bool = false
 func _ready():
 	packaging_bar.value = 0
 	packaging_timer.timeout.connect(_on_packaging_timer_timeout)  # Connect only once
-	print(ingredient_name, "spawned!")
+	print(ingredient_name, " spawned!")
 	update_sprite()  # Set initial sprite
 func _process(delta):
 	if packaging_timer.time_left > 0:
@@ -35,13 +35,13 @@ func _process(delta):
 func pick_up():
 	if not is_held:
 		is_held = true
-		print(ingredient_name, "picked up!")
+		print(ingredient_name, " picked up!")
 
 # Drop the ingredient
 func drop():
 	if is_held:
 		is_held = false
-		print(ingredient_name, "dropped!")
+		print(ingredient_name, " dropped!")
 
 # Chop the ingredient
 func chop():

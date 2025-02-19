@@ -3,7 +3,8 @@ extends CharacterBody2D
 # Get references to the TileMap and Sprite2D nodes
 @onready var tileMap = $"../TileMapLayer"
 @onready var sprite2D = $Chef
-@onready var moneyLabel = $Chef/Camera2D/MoneyLabel
+@onready var UI = $"../UI"
+@onready var moneyLabel = get_node("../UI/moneyCounter/MoneyLabel")
 
 var held_ingredient = null  # Store reference to held ingredient
 
@@ -12,6 +13,7 @@ var isMoving = false
 var last_direction = Vector2i(0, 0)
 
 var is_busy = false
+
 
 # Called every physics frame
 func _physics_process(delta):
