@@ -1,7 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://byir7igr1absj"]
 
 <<<<<<< Updated upstream
-<<<<<<< Updated upstream
 [ext_resource type="Script" path="res://scripts/ingredient.gd" id="1_x7qoh"]
 [ext_resource type="Texture2D" uid="uid://v2kg034w0wq0" path="res://textures/tilemap_pack.png" id="2_kueys"]
 
@@ -9,8 +8,6 @@
 atlas = ExtResource("2_kueys")
 region = Rect2(139, 6, 12, 12)
 =======
-=======
->>>>>>> Stashed changes
 [ext_resource type="Script" path="res://scripts/Lettuce.gd" id="1_x7qoh"]
 [ext_resource type="Texture2D" uid="uid://sbknmc4mqp6y" path="res://textures/Ingredient.tres" id="2_rs86c"]
 [ext_resource type="Texture2D" uid="uid://v2kg034w0wq0" path="res://textures/tilemap_pack.png" id="3_7j8lp"]
@@ -18,9 +15,6 @@ region = Rect2(139, 6, 12, 12)
 [sub_resource type="AtlasTexture" id="AtlasTexture_h6jlb"]
 atlas = ExtResource("3_7j8lp")
 region = Rect2(128, 0, 32, 32)
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
 >>>>>>> Stashed changes
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_420f1"]
@@ -44,9 +38,6 @@ packaged_texture = SubResource("AtlasTexture_fcdox")
 =======
 texture = ExtResource("2_rs86c")
 offset = Vector2(0, 12)
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
 >>>>>>> Stashed changes
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

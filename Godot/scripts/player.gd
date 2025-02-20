@@ -125,11 +125,8 @@ func attempt_interaction():
 				held_ingredient.pick_up()
 				add_child(held_ingredient)  # Attach to player
 <<<<<<< Updated upstream
-<<<<<<< Updated upstream
 				print("Picked up", held_ingredient.ingredient_name)
 				
-=======
->>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 			# Chopping at chopping board
