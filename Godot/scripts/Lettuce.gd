@@ -26,13 +26,7 @@ var chop_req = 6  # Number of presses needed
 func _ready():
 	packaging_bar.value = 0
 	packaging_timer.timeout.connect(_on_packaging_timer_timeout)  # Connect only once
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream:Godot/scripts/ingredient.gd
 	print(ingredient_name, " spawned!")
-=======
->>>>>>> Stashed changes:Godot/scripts/Lettuce.gd
-=======
->>>>>>> Stashed changes
 	update_sprite()  # Set initial sprite
 func _process(delta):
 	if packaging_timer.time_left > 0:
