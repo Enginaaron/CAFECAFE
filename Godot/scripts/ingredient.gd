@@ -19,17 +19,11 @@ var is_held: bool = false
 var is_chopped: bool = false
 var is_packaged: bool = false
 
-var chop_progress = 0
-var chop_req = 6  # Number of presses needed
-
 # Called when the ingredient spawns
 func _ready():
 	packaging_bar.value = 0
 	packaging_timer.timeout.connect(_on_packaging_timer_timeout)  # Connect only once
-<<<<<<< Updated upstream:Godot/scripts/ingredient.gd
 	print(ingredient_name, " spawned!")
-=======
->>>>>>> Stashed changes:Godot/scripts/Lettuce.gd
 	update_sprite()  # Set initial sprite
 func _process(delta):
 	if packaging_timer.time_left > 0:
@@ -51,31 +45,9 @@ func drop():
 
 # Chop the ingredient
 func chop():
-	if is_chopped == true:
-		return
 	if state == State.WHOLE:
-		var player = get_parent()  # Get the player (assumes the ingredient is a child of the player)
-		if player.has_method("get_facing_direction"):  # Ensure player has the method
-			var facing_tile = player.tileMap.map_to_local(
-				player.get_facing_direction() + player.tileMap.local_to_map(player.global_position)
-			)
-			global_position = facing_tile  # Move ingredient to the chopping board position
-			reparent(player.tileMap)  # Attach to TileMap instead of player
-			packaging_bar.visible = true  # Show progress bar
-
-	# Increment chop progress
-	chop_progress += 1
-	packaging_bar.value = (chop_progress / chop_req) * 100  # Update progress bar
-
-	print("Chop progress:", chop_progress, "/", chop_req)
-
-	if chop_progress >= chop_req:
-		# Finish chopping
 		state = State.CHOPPED
-		is_chopped = true
-		packaging_bar.visible = false  # Hide progress bar
 		update_sprite()
-		print("Chopping complete!")
 		print("Chopped ingredient:", ingredient_name)
 
 func package():
