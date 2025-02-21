@@ -4,7 +4,7 @@ extends Area2D
 @onready var packaging_bar = $PackagingBar
 
 # Ingredient states
-enum State { WHOLE, CHOPPED, PACKAGED }
+enum State { WHOLE, CHOPPED, PACKAGED,}
 var state = State.WHOLE
 
 # Sprites for each state (set these in the editor)
@@ -13,6 +13,7 @@ var state = State.WHOLE
 @export var packaged_texture: Texture
 
 @onready var sprite = $Sprite2D  # Reference to sprite
+@onready var heldItemTexture = get_node("/root/Node2D/UI/heldItemDisplay/heldItemTexture")
 
 @export var ingredient_name: String = "LETTUCE"
 var is_held: bool = false
@@ -23,8 +24,8 @@ var is_packaged: bool = false
 func _ready():
 	packaging_bar.value = 0
 	packaging_timer.timeout.connect(_on_packaging_timer_timeout)  # Connect only once
-	print(ingredient_name, " spawned!")
-	update_sprite()  # Set initial sprite
+	update_sprite()
+
 func _process(delta):
 	if packaging_timer.time_left > 0:
 		var progress = 100 * (1 - (packaging_timer.time_left / packaging_timer.wait_time))
@@ -42,6 +43,7 @@ func drop():
 	if is_held:
 		is_held = false
 		print(ingredient_name, " dropped!")
+		heldItemTexture.clear_box_sprite()
 
 # Chop the ingredient
 func chop():
@@ -64,12 +66,16 @@ func _on_packaging_timer_timeout():
 	print("Packaged ingredient:", ingredient_name)
 	var player = get_parent()  # Assuming the player is a direct parent
 	player.is_busy = false  # Re-enable player movement
-	
+
 func update_sprite():
 	match state:
 		State.WHOLE:
 			sprite.texture = whole_texture
+			sprite.modulate = Color(1,1,1)
 		State.CHOPPED:
 			sprite.texture = chopped_texture
+			sprite.modulate = Color(1,0,0)
 		State.PACKAGED:
 			sprite.texture = packaged_texture
+			sprite.modulate = Color(0,0,1)
+	heldItemTexture.update_box_sprite(sprite.texture, state)

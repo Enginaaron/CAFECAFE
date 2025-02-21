@@ -124,7 +124,7 @@ func attempt_interaction():
 				held_ingredient = load("res://scenes/Lettuce.tscn").instantiate()
 				held_ingredient.pick_up()
 				add_child(held_ingredient)  # Attach to player
-				print("Picked up", held_ingredient.ingredient_name)
+				print("Picked up ", held_ingredient.ingredient_name)
 				
 			# Chopping at chopping board
 		elif tile_data and tile_data.get_custom_data("chopping board"):

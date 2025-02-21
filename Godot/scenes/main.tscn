@@ -242,6 +242,12 @@ rendering_quadrant_size = 32
 
 [node name="UI" parent="." instance=ExtResource("3_cur7g")]
 
+[node name="heldItemTexture" parent="UI/heldItemDisplay" index="0"]
+stretch_mode = 3
+
+[node name="heldItemBox" parent="UI/heldItemDisplay" index="1"]
+show_behind_parent = true
+
 [node name="MoneyLabel" parent="UI/moneyCounter" index="0"]
 offset_right = 45.0
 
