@@ -4,8 +4,8 @@ extends CharacterBody2D
 @onready var tileMap = $"../TileMapLayer"
 @onready var sprite2D = $Chef
 @onready var UI = $"../UI"
-@onready var moneyLabel = get_node("../UI/moneyCounter/MoneyLabel")
-
+@onready var table = $"../Tables"
+@onready var main = $".."
 var held_ingredient = null  # Store reference to held ingredient
 
 # Variable to track if the player is moving
@@ -69,27 +69,28 @@ func _process(delta: float) -> void:
 func move(direction: Vector2):
 	if is_busy:
 		return
-	# Get the current tile position as a Vector2i
+
+	# Get the current and target tile positions
 	var currentTile: Vector2i = tileMap.local_to_map(global_position)
-	# Get the target tile position as a Vector2i
-	var targetTile: Vector2i = Vector2i(
-		currentTile.x + int(round(direction.x)),  # Use round() to ensure movement in both directions
-		currentTile.y + int(round(direction.y))
+	var targetTile: Vector2i = currentTile + Vector2i(
+		int(round(direction.x)),
+		int(round(direction.y))
 	)
-	
-	# Get custom data from the target tile to check if it's walkable
+
+	# Check if the tile is walkable
 	var tileData: TileData = tileMap.get_cell_tile_data(targetTile)
-	if tileData.get_custom_data("walkable") == false:
-		return
-	
+	if tileData and tileData.get_custom_data("walkable") == false:
+		return  # Prevent movement if tile isn't walkable
+
+	# Check if a table is blocking movement
+	var table_at_target = main.get_table_at_tile(targetTile)
+	if table_at_target:
+		return  # Block movement if a table is there
+
 	# Execute player movement
 	isMoving = true
 	global_position = tileMap.map_to_local(targetTile)
 	sprite2D.global_position = tileMap.map_to_local(currentTile)
-	
-	# Print the current and target tiles
-#	prints("currently at", currentTile, " -----  next is", targetTile)
-
 
 
 # Function to determine which direction the player is facing
@@ -97,58 +98,47 @@ func get_facing_direction() -> Vector2i:
 	return last_direction
 	
 func get_order_money():
-	return 5
+	return 5 # will dynamically change according to customer waittime
 
 func attempt_interaction():
+	
+	var direction = get_facing_direction()
 	# Get the player's current tile position
 	var current_tile: Vector2i = tileMap.local_to_map(global_position)
+	print("")
 	print("Current tile: ", current_tile)
 	
-	# Get the direction the player is facing
-	var direction = get_facing_direction()
-#	print("Facing direction: ", direction)
-	
-	# Calculate the adjacent tile in that direction
 	var facing_tile: Vector2i = current_tile + direction
-#	print("Target tile: ", facing_tile)
-	
-	# Get the tile data from the TileMap (make sure layer is correct)
-	var tile_data = tileMap.get_cell_tile_data(facing_tile)  
 
-#	print("Tile data: ", tile_data)
-	
-	if tile_data and tile_data.get_custom_data("interactable"):
-	# Picking up from spawn tile
-		if tile_data and tile_data.get_custom_data("lettuce"):
-			if held_ingredient == null:
-				held_ingredient = load("res://scenes/Lettuce.tscn").instantiate()
-				held_ingredient.pick_up()
-				add_child(held_ingredient)  # Attach to player
-				print("Picked up ", held_ingredient.ingredient_name)
-				
-			# Chopping at chopping board
-		elif tile_data and tile_data.get_custom_data("chopping board"):
-			if held_ingredient and not held_ingredient.is_chopped:
-				held_ingredient.chop()
+	var table = main.get_table_at_tile(facing_tile)
+	if table:
+		table.serve("lettuce") # lettuce for now to test
 
-			# Packaging at packaging tile
-		elif tile_data and tile_data.get_custom_data("package"):
-
-			if held_ingredient and held_ingredient.state == held_ingredient.State.CHOPPED:
-				is_busy = true
-				print("Packaging tile detected")
-				held_ingredient.package()
-
-		# Dropping the ingredient (optional)
-		elif tile_data and tile_data.get_custom_data("serve"):
-			if held_ingredient and held_ingredient.state == held_ingredient.State.PACKAGED:
-				held_ingredient.drop()
-				held_ingredient.queue_free()  # Remove from player
-				held_ingredient = null
-				moneyLabel.update_money(5)
 	else:
-		print("No interactable tile at: ", facing_tile)
-		
+		var tile_data = tileMap.get_cell_tile_data(facing_tile)  
+		if tile_data and tile_data.get_custom_data("interactable"):
+		# Picking up from spawn tile
+			if tile_data and tile_data.get_custom_data("lettuce"):
+				if held_ingredient == null:
+					held_ingredient = load("res://scenes/Lettuce.tscn").instantiate()
+					held_ingredient.pick_up()
+					add_child(held_ingredient)  # Attach to player
+					
+				# Chopping at chopping board
+			elif tile_data and tile_data.get_custom_data("chopping board"):
+				if held_ingredient and not held_ingredient.is_chopped:
+					held_ingredient.chop()
+
+				# Packaging at packaging tile
+			elif tile_data and tile_data.get_custom_data("package"):
+
+				if held_ingredient and held_ingredient.state == held_ingredient.State.CHOPPED:
+					is_busy = true
+					print("Packaging tile detected")
+					held_ingredient.package()
+
+		else:
+			print("No interactable tile at: ", facing_tile)
 
 func _input(event):
 	if event.is_action_pressed("interact"):  # "E" key by default
