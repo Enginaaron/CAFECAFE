@@ -52,14 +52,14 @@ func serve(ingredient_name):
 	print(current_dish)
 	# Compare the served dish with the current dish
 	if dish_texture == current_dish:
-		print("Table served correctly!")
+		print("hooray table served correctly!")
 		player.held_ingredient.drop()
 		player.held_ingredient.queue_free()  # Remove from player
 		player.held_ingredient = null
-		moneyLabel.update_money(5)
+		moneyLabel.update_money(player.get_order_money())
 		clear_order()
 		
 		# Possibly award money, increment score, etc.
 	else:
-		print("Wrong dish served! Wanted ",current_dish,", got ",dish_texture)
+		print("wrong dish served! wanted ",current_dish,", got ",dish_texture)
 		# You can decide what happens on wrong serve

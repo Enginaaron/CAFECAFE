@@ -25,7 +25,6 @@ func get_table_at_tile(tile_pos: Vector2i) -> Node:
 			var table_tile = tilemap.local_to_map(child.position)
 			if table_tile == tile_pos:
 				return child
-	print("No table found at: ", tile_pos)
 	return null
 
 func place_tables_from_tilemap(tilemap: TileMap):
