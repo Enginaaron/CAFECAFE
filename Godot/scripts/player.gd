@@ -122,7 +122,7 @@ func attempt_interaction():
 				if held_ingredient == null:
 					held_ingredient = load("res://scenes/Lettuce.tscn").instantiate()
 					held_ingredient.pick_up()
-					add_child(held_ingredient)  # Attach to player
+					$Chef.add_child(held_ingredient)  # Attach to player
 					
 				# Chopping at chopping board
 			elif tile_data and tile_data.get_custom_data("chopping board"):
