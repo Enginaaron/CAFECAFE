@@ -14,6 +14,7 @@ var state = State.WHOLE
 
 @onready var sprite = $Sprite2D  # Reference to sprite
 @onready var heldItemTexture = get_node("/root/Node2D/UI/heldItemDisplay/heldItemTexture")
+@onready var player = get_node("/root/Node2D/player")
 
 @export var ingredient_name: String = "LETTUCE"
 var is_held: bool = false
@@ -64,7 +65,6 @@ func _on_packaging_timer_timeout():
 	packaging_bar.visible = false  # Hide bar when packaging is done
 	update_sprite()
 	print("Packaged ingredient:", ingredient_name)
-	var player = get_parent()  # Assuming the player is a direct parent
 	player.is_busy = false  # Re-enable player movement
 
 func update_sprite():

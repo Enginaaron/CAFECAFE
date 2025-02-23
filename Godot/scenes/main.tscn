@@ -265,9 +265,11 @@ sprite_frames = SubResource("SpriteFrames_keh6y")
 script = SubResource("GDScript_cu6fa")
 
 [node name="Tables" parent="." instance=ExtResource("5_c23om")]
+visible = false
 position = Vector2(-208, 0)
 
 [node name="Tables2" parent="." instance=ExtResource("5_c23om")]
+visible = false
 position = Vector2(-208, 96)
 
 [editable path="UI"]

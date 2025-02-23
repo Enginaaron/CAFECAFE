@@ -49,9 +49,7 @@ func serve(ingredient_name):
 	var dish_texture
 	if ingredient_name == "lettuce":
 		dish_texture = possible_dishes[0]
-	print(current_dish)
-	# Compare the served dish with the current dish
-	if dish_texture == current_dish:
+	if dish_texture == current_dish and player.held_ingredient != null: # compare ordered-dish and holding-dish
 		print("hooray table served correctly!")
 		player.held_ingredient.drop()
 		player.held_ingredient.queue_free()  # Remove from player
@@ -61,5 +59,5 @@ func serve(ingredient_name):
 		
 		# Possibly award money, increment score, etc.
 	else:
-		print("wrong dish served! wanted ",current_dish,", got ",dish_texture)
+		print("wrong dish served!")
 		# You can decide what happens on wrong serve
