@@ -54,7 +54,7 @@ func serve(ingredient_name):
 		player.held_ingredient.drop()
 		player.held_ingredient.queue_free()  # Remove from player
 		player.held_ingredient = null
-		moneyLabel.update_money(player.get_order_money())
+		moneyLabel.update_money(5)
 		clear_order()
 		
 		# Possibly award money, increment score, etc.
