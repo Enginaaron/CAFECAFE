@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=4 uid="uid://dnu8810y125pi"]
+[gd_scene load_steps=11 format=4 uid="uid://dnu8810y125pi"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_oodj8"]
 [ext_resource type="Texture2D" uid="uid://v2kg034w0wq0" path="res://textures/tilemap_pack.png" id="2_i1cnr"]
@@ -200,20 +200,6 @@ custom_data_layer_6/name = "lettuce"
 custom_data_layer_6/type = 1
 sources/0 = SubResource("TileSetAtlasSource_b1u6i")
 
-[sub_resource type="GDScript" id="GDScript_cu6fa"]
-script/source = "extends Node2D
-
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-"
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_wk504"]
 atlas = ExtResource("2_i1cnr")
 region = Rect2(160, 0, 32, 64)
@@ -241,9 +227,6 @@ show_behind_parent = true
 
 [node name="MoneyLabel" parent="UI/moneyCounter" index="0"]
 offset_right = 45.0
-
-[node name="Ingredients" type="Node2D" parent="."]
-script = SubResource("GDScript_cu6fa")
 
 [node name="Tables" parent="." instance=ExtResource("5_c23om")]
 position = Vector2(-224, 0)
