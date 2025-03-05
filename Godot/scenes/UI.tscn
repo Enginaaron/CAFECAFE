@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://5g7828xotp1y"]
+[gd_scene load_steps=6 format=3 uid="uid://5g7828xotp1y"]
 
 [ext_resource type="Texture2D" uid="uid://dwnsxnisyn7xe" path="res://textures/heldItemBox.png" id="1_j2yqk"]
-[ext_resource type="Script" path="res://scripts/heldItemTexture.gd" id="1_mfjsr"]
+[ext_resource type="Script" path="res://scripts/UI/heldItemTexture.gd" id="1_mfjsr"]
 [ext_resource type="FontFile" uid="uid://b0kv3mlkqmckt" path="res://textures/8-bit-hud.ttf" id="1_uue7a"]
-[ext_resource type="Script" path="res://scripts/moneylabel.gd" id="2_64wfr"]
+[ext_resource type="Script" path="res://scripts/UI/moneylabel.gd" id="2_64wfr"]
+[ext_resource type="Script" path="res://scripts/UI/dayLabel.gd" id="5_qpv6a"]
 
 [node name="UI" type="CanvasLayer"]
 
@@ -42,6 +43,26 @@ offset_right = 40.0
 offset_bottom = 23.0
 theme_override_fonts/font = ExtResource("1_uue7a")
 theme_override_font_sizes/font_size = 0
+text = "$$$"
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("2_64wfr")
+
+[node name="dayCounter" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="dayLabel" type="Label" parent="dayCounter"]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 41.0
+offset_bottom = 32.0
+scale = Vector2(0.5, 0.5)
+theme_override_fonts/font = ExtResource("1_uue7a")
+text = "day"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("5_qpv6a")

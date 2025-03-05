@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://cxmtwh086bhfx"]
 
-[ext_resource type="Script" path="res://scripts/table.gd" id="1_t44fp"]
+[ext_resource type="Script" path="res://scripts/MapObjects/table.gd" id="1_t44fp"]
 [ext_resource type="Texture2D" uid="uid://v2kg034w0wq0" path="res://textures/tilemap_pack.png" id="2_s4goe"]
 [ext_resource type="Texture2D" uid="uid://dchw4qlkuaaof" path="res://textures/speechBubble.png" id="3_oh44t"]
 

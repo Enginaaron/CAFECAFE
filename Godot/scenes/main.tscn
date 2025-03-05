@@ -233,18 +233,20 @@ position = Vector2(-224, 0)
 
 [node name="Tables2" parent="." instance=ExtResource("5_c23om")]
 position = Vector2(-224, 96)
-scale = Vector2(1, 0.984049)
 
 [node name="player" type="CharacterBody2D" parent="."]
 position = Vector2(16, 16)
 script = ExtResource("3_4rs1u")
 
+[node name="Camera2D" type="Camera2D" parent="player"]
+position = Vector2(0, -16)
+zoom = Vector2(0.5, 0.5)
+position_smoothing_enabled = true
+position_smoothing_speed = 10.0
+
 [node name="Chef" type="Sprite2D" parent="player"]
 position = Vector2(0, -16)
 texture = SubResource("AtlasTexture_wk504")
-
-[node name="Camera2D" type="Camera2D" parent="player/Chef"]
-zoom = Vector2(0.5, 0.5)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="player"]
 shape = SubResource("RectangleShape2D_nlpgy")
