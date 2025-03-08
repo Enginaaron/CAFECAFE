@@ -233,9 +233,6 @@ show_behind_parent = true
 [node name="MoneyLabel" parent="UI/moneyCounter" index="0"]
 offset_right = 45.0
 
-[node name="dayLabel" parent="UI/dayCounter" index="0" node_paths=PackedStringArray("store")]
-store = NodePath("../../../Store")
-
 [node name="Tables" parent="." instance=ExtResource("5_c23om")]
 position = Vector2(-224, 0)
 

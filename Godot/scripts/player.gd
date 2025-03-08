@@ -5,6 +5,7 @@ extends CharacterBody2D
 @onready var UI = $"../UI"
 @onready var table = $"../Tables"
 @onready var main = $".."
+@onready var store = $"../Store"
 
 var held_ingredient = null
 var isMoving = false
@@ -12,7 +13,7 @@ var last_direction = Vector2i(0, 0)
 var is_busy = false
 var target_position: Vector2  
 
-const MOVE_SPEED = 200  
+const MOVE_SPEED = 200
 
 func _physics_process(delta):
 	if is_busy or not isMoving:
@@ -101,6 +102,8 @@ func attempt_interaction():
 	elif tile_data.get_custom_data("package") and held_ingredient and held_ingredient.state == held_ingredient.State.CHOPPED:
 		is_busy = true
 		held_ingredient.package()
+	elif tile_data.get_custom_data("store"):
+		store.open_store()
 
 func pick_up_ingredient(scene_path: String):
 	if held_ingredient == null:
