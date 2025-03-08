@@ -86,15 +86,22 @@ func attempt_interaction():
 		return
 
 	var facing_tile: Vector2i = tileMap.local_to_map(global_position) + get_facing_direction()
-	var table = main.get_table_at_tile(facing_tile)
-	if table:
-		table.serve("lettuce")
-		return
 
 	var tile_data = tileMap.get_cell_tile_data(facing_tile)
+	if not tile_data:
+		return
+		
 	if not tile_data or not tile_data.get_custom_data("interactable"):
 		return
-
+		
+	# Handle serving specifically
+	if tile_data.get_custom_data("serve") and held_ingredient and held_ingredient.state == held_ingredient.State.PACKAGED:
+		var table = main.get_table_at_tile(facing_tile)
+		if table:
+			table.serve("lettuce")
+		return
+		
+	# Other interactions
 	if tile_data.get_custom_data("lettuce"):
 		pick_up_ingredient("res://scenes/Lettuce.tscn")
 	elif tile_data.get_custom_data("chopping board") and held_ingredient and not held_ingredient.is_chopped:
