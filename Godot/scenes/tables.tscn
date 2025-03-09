@@ -1,9 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://bu7bl37cuyruy"]
+[gd_scene load_steps=6 format=3 uid="uid://bu7bl37cuyruy"]
 
-[ext_resource type="Script" path="res://scripts/MapObjects/table.gd" id="1_t44fp"]
+[ext_resource type="Script" uid="uid://cbiqvn2e5txac" path="res://scripts/MapObjects/table.gd" id="1_t44fp"]
 [ext_resource type="Texture2D" uid="uid://v2kg034w0wq0" path="res://textures/tilemap_pack.png" id="2_s4goe"]
 [ext_resource type="Texture2D" uid="uid://dchw4qlkuaaof" path="res://textures/speechBubble.png" id="3_oh44t"]
-[ext_resource type="Texture2D" uid="uid://dg8337odcjb41" path="res://textures/FoodSprites/wholeLettuce.tres" id="4_ip886"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_s5bv6"]
 atlas = ExtResource("2_s4goe")
@@ -11,7 +10,7 @@ region = Rect2(139, 6, 12, 12)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_l28xm"]
 atlas = ExtResource("2_s4goe")
-region = Rect2(96, 32, 32, 32)
+region = Rect2(32, 0, 32, 32)
 
 [node name="Tables" type="Node2D"]
 visibility_layer = 3
@@ -19,10 +18,8 @@ script = ExtResource("1_t44fp")
 possible_dishes = Array[Texture]([SubResource("AtlasTexture_s5bv6")])
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-show_behind_parent = true
 position = Vector2(16, 16)
 texture = SubResource("AtlasTexture_l28xm")
-offset = Vector2(32, 0)
 
 [node name="OrderBubble" type="Node2D" parent="."]
 visible = false
@@ -33,7 +30,15 @@ scale = Vector2(0.1, 0.1)
 texture = ExtResource("3_oh44t")
 
 [node name="DishSprite" type="Sprite2D" parent="OrderBubble"]
-texture = ExtResource("4_ip886")
+
+[node name="OrderProgressBar" type="ProgressBar" parent="OrderBubble"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -15.0
+offset_right = 15.0
+offset_bottom = 27.0
+grow_horizontal = 2
 
 [node name="OrderTimer" type="Timer" parent="."]
 one_shot = true
