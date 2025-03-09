@@ -1,6 +1,11 @@
 extends Label
 
+<<<<<<< Updated upstream
 @onready var store = $"../Store"
+=======
+@export var store: Node2D
+signal dayChange()
+>>>>>>> Stashed changes
 
 func _ready() -> void:
 	self.text = "Day 1"
@@ -15,6 +20,7 @@ func update_day() -> void:
 		dayCount += 1
 		self.text = "Day " + str(dayCount)
 		orderCount = 0
+<<<<<<< Updated upstream
 		
 		# Safely call update_store
 		if store != null:
@@ -23,3 +29,6 @@ func update_day() -> void:
 			store = get_node_or_null("../Store")
 			if store != null:
 				store.update_store()
+=======
+		dayChange.emit()
+>>>>>>> Stashed changes

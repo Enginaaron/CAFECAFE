@@ -1,15 +1,11 @@
-[gd_scene load_steps=14 format=4 uid="uid://dnu8810y125pi"]
+[gd_scene load_steps=12 format=4 uid="uid://dnu8810y125pi"]
 
-[ext_resource type="Script" uid="uid://doe8s373571xr" path="res://scripts/main.gd" id="1_oodj8"]
+[ext_resource type="Script" uid="uid://cel2fmgws0eew" path="res://scripts/main.gd" id="1_oodj8"]
 [ext_resource type="Texture2D" uid="uid://v2kg034w0wq0" path="res://textures/tilemap_pack.png" id="2_i1cnr"]
 [ext_resource type="Script" uid="uid://dcgd7rl4glb8s" path="res://scripts/player.gd" id="3_4rs1u"]
 [ext_resource type="PackedScene" uid="uid://5g7828xotp1y" path="res://scenes/UI.tscn" id="3_cur7g"]
-<<<<<<< Updated upstream
-=======
-[ext_resource type="PackedScene" uid="uid://bu7bl37cuyruy" path="res://scenes/tables.tscn" id="5_c23om"]
+[ext_resource type="PackedScene" uid="uid://cxmtwh086bhfx" path="res://scenes/tables.tscn" id="5_c23om"]
 [ext_resource type="PackedScene" uid="uid://dn7t8dgy5eiuf" path="res://scenes/store.tscn" id="6_s2kwj"]
-[ext_resource type="PackedScene" uid="uid://dmcf1b01vdbie" path="res://scenes/storeUI.tscn" id="8_tipki"]
->>>>>>> Stashed changes
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_b1u6i"]
 texture = ExtResource("2_i1cnr")
@@ -19,18 +15,20 @@ texture_region_size = Vector2i(32, 32)
 0:0/0/custom_data_4 = true
 1:0/0 = 0
 1:0/0/custom_data_1 = true
+1:0/0/custom_data_5 = true
 2:0/0 = 0
 2:0/0/custom_data_1 = true
 2:0/0/custom_data_3 = true
 3:0/0 = 0
 3:0/0/custom_data_1 = true
 3:0/0/custom_data_2 = true
-3:0/0/custom_data_5 = true
 4:0/0 = 0
 4:0/0/custom_data_1 = true
 4:0/0/custom_data_6 = true
 5:0/0 = 0
 6:0/0 = 0
+6:0/0/custom_data_1 = true
+6:0/0/custom_data_7 = true
 7:0/0 = 0
 8:0/0 = 0
 9:0/0 = 0
@@ -112,7 +110,6 @@ texture_region_size = Vector2i(32, 32)
 5:5/0 = 0
 6:5/0 = 0
 6:5/0/custom_data_1 = true
-6:5/0/custom_data_5 = true
 7:5/0 = 0
 8:5/0 = 0
 9:5/0 = 0
@@ -204,9 +201,9 @@ custom_data_layer_5/name = "serve"
 custom_data_layer_5/type = 1
 custom_data_layer_6/name = "lettuce"
 custom_data_layer_6/type = 1
+custom_data_layer_7/name = "store"
+custom_data_layer_7/type = 1
 sources/0 = SubResource("TileSetAtlasSource_b1u6i")
-
-[sub_resource type="ImageTexture" id="ImageTexture_o6xl0"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wk504"]
 atlas = ExtResource("2_i1cnr")
@@ -217,63 +214,44 @@ size = Vector2(32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_keh6y"]
 
-[sub_resource type="GDScript" id="GDScript_cu6fa"]
-script/source = "extends Node2D
-
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-"
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_hxbx3"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_rjw0x"]
-atlas = SubResource("CompressedTexture2D_hxbx3")
-region = Rect2(80, 48, 16, 16)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_mknww"]
-
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_oodj8")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
-position = Vector2(0, 16)
-tile_map_data = PackedByteArray("AAD9//7/AAAAAAAAAAD9////AAAAAAEAAAD9/wAAAAAAAAEAAAD9/wEAAAAAAAEAAAD9/wIAAAAAAAEAAAD9/wMAAAAAAAEAAAD+//7/AAABAAAAAAD+////AAAAAAEAAAD+/wAAAAAAAAEAAAD+/wEAAAABAAAAAAD+/wIAAAAAAAEAAAD+/wMAAAAAAAEAAAD///7/AAACAAAAAAD/////AAAAAAEAAAD//wAAAAAAAAEAAAD//wEAAAAAAAEAAAD//wIAAAAAAAEAAAD//wMAAAAAAAEAAAAAAP//AAAAAAEAAAAAAAAAAAAAAAEAAAAAAAEAAAAAAAEAAAAAAAIAAAAAAAEAAAAAAAMAAAAAAAEAAAABAP7/AAABAAAAAAABAP//AAAAAAEAAAABAAAAAAAAAAEAAAABAAEAAAAEAAAAAAABAAIAAAAAAAEAAAABAAMAAAAAAAEAAAACAP7/AAACAAAAAAACAP//AAAAAAEAAAACAAAAAAAAAAEAAAACAAEAAAAAAAEAAAACAAIAAAAAAAEAAAACAAMAAAAAAAEAAAADAP7/AAABAAAAAAADAP//AAAAAAEAAAADAAAAAAAAAAEAAAADAAEAAAABAAAAAAADAAIAAAAAAAEAAAADAAMAAAAAAAEAAAAEAP7/AAAAAAAAAAAEAP//AAABAAAAAAAEAAAAAAAAAAEAAAAEAAEAAAAAAAEAAAAEAAIAAAAAAAEAAAAEAAMAAAAAAAEAAAD9//3/AAABAAEAAAD+//3/AAABAAEAAAD///3/AAABAAEAAAAAAP3/AAABAAEAAAABAP3/AAABAAEAAAACAP3/AAABAAEAAAADAP3/AAABAAEAAAAEAP3/AAABAAEAAAAFAP3/AAABAAEAAAAFAP7/AAABAAEAAAAFAP//AAABAAEAAAAFAAAAAAABAAEAAAAFAAEAAAABAAEAAAAFAAIAAAABAAEAAAAFAAMAAAABAAEAAAAFAAQAAAABAAEAAAD8/wQAAAABAAEAAAD9/wQAAAABAAEAAAD+/wQAAAABAAEAAAD//wQAAAABAAEAAAAAAAQAAAABAAEAAAABAAQAAAABAAEAAAACAAQAAAABAAEAAAADAAQAAAABAAEAAAAEAAQAAAABAAEAAAD8//3/AAABAAEAAAD8//7/AAABAAEAAAD8////AAABAAEAAAD8/wAAAAABAAEAAAD8/wEAAAABAAEAAAD8/wIAAAABAAEAAAD8/wMAAAABAAEAAAAAAP7/AAADAAAAAAA=")
+tile_map_data = PackedByteArray("AAD9//7/AAAAAAEAAAD9////AAAAAAEAAAD9/wAAAAAAAAEAAAD9/wEAAAAAAAEAAAD9/wIAAAAAAAEAAAD9/wMAAAAAAAEAAAD+//7/AAAAAAEAAAD+////AAAAAAEAAAD+/wAAAAAAAAEAAAD+/wEAAAAAAAEAAAD+/wIAAAAAAAEAAAD+/wMAAAAAAAEAAAD///7/AAABAAEAAAD/////AAABAAEAAAD//wAAAAABAAEAAAD//wEAAAABAAEAAAD//wIAAAAAAAEAAAD//wMAAAAAAAEAAAAAAP7/AAAAAAAAAAAAAP//AAAAAAEAAAAAAAAAAAAAAAEAAAAAAAEAAAAAAAEAAAAAAAIAAAAAAAEAAAAAAAMAAAAAAAEAAAABAP7/AAACAAAAAAABAP//AAAAAAEAAAABAAAAAAAAAAEAAAABAAEAAAAEAAAAAAABAAIAAAAAAAEAAAABAAMAAAAAAAEAAAACAP7/AAADAAAAAAACAP//AAAAAAEAAAACAAAAAAAAAAEAAAACAAEAAAAAAAEAAAACAAIAAAAAAAEAAAACAAMAAAAAAAEAAAADAP7/AAAGAAAAAAADAP//AAAAAAEAAAADAAAAAAAAAAEAAAADAAEAAAAAAAEAAAADAAIAAAAAAAEAAAADAAMAAAAAAAEAAAAEAP7/AAAAAAEAAAAEAP//AAAAAAEAAAAEAAAAAAAAAAEAAAAEAAEAAAAAAAEAAAAEAAIAAAAAAAEAAAAEAAMAAAAAAAEAAAD9//3/AAABAAEAAAD+//3/AAABAAEAAAD///3/AAABAAEAAAAAAP3/AAABAAEAAAABAP3/AAABAAEAAAACAP3/AAABAAEAAAADAP3/AAABAAEAAAAEAP3/AAABAAEAAAAFAP3/AAABAAEAAAD8//3/AAABAAEAAAD8//7/AAAAAAEAAAD8////AAAAAAEAAAD8/wAAAAAAAAEAAAD8/wEAAAAAAAEAAAD8/wIAAAAAAAEAAAD8/wMAAAAAAAEAAAD7/wMAAAAAAAEAAAD6/wMAAAAAAAEAAAD7/wIAAAAAAAEAAAD7/wEAAAAAAAEAAAD7/wAAAAAAAAEAAAD7////AAAAAAEAAAD7//7/AAAAAAEAAAD6//7/AAAAAAEAAAD6////AAAAAAEAAAD6/wAAAAAAAAEAAAD6/wEAAAAAAAEAAAD6/wIAAAAAAAEAAAD5/wIAAAAAAAEAAAD5/wMAAAABAAAAAAD5/wEAAAAAAAEAAAD5/wAAAAABAAAAAAD5////AAAAAAEAAAD5//7/AAAAAAEAAAD4//7/AAAAAAEAAAD4////AAAAAAEAAAD4/wAAAAAAAAEAAAD4/wEAAAAAAAEAAAD4/wIAAAAAAAEAAAD4/wMAAAAAAAEAAAD4/wQAAAAAAAEAAAD5/wQAAAAAAAEAAAD6/wQAAAAAAAEAAAD7/wQAAAAAAAEAAAD8/wQAAAAAAAEAAAD9/wQAAAAAAAEAAAD+/wQAAAAAAAEAAAD//wQAAAABAAEAAAAAAAQAAAAAAAEAAAABAAQAAAAAAAEAAAACAAQAAAAAAAEAAAADAAQAAAAAAAEAAAAEAAQAAAAAAAEAAAD7//3/AAABAAEAAAD6//3/AAABAAEAAAD5//3/AAABAAEAAAD4//3/AAABAAEAAAD3//3/AAABAAEAAAD3//7/AAABAAEAAAD3////AAABAAEAAAD3/wAAAAABAAEAAAD3/wEAAAABAAEAAAD3/wIAAAABAAEAAAD3/wMAAAABAAEAAAD3/wQAAAABAAEAAAD3/wUAAAABAAEAAAD4/wUAAAAAAAEAAAD5/wUAAAAAAAEAAAD6/wUAAAAAAAEAAAD7/wUAAAAAAAEAAAD8/wUAAAAAAAEAAAD9/wUAAAAAAAEAAAD+/wUAAAAAAAEAAAD//wUAAAABAAEAAAAAAAUAAAAAAAEAAAABAAUAAAAAAAEAAAACAAUAAAAAAAEAAAADAAUAAAAAAAEAAAAEAAUAAAAAAAEAAAAFAAUAAAABAAEAAAAFAAQAAAABAAEAAAAFAAMAAAABAAEAAAAFAAIAAAABAAEAAAAFAAEAAAABAAEAAAAFAAAAAAABAAEAAAAFAP//AAABAAEAAAAFAP7/AAABAAEAAAD3/wYAAAABAAEAAAD4/wYAAAABAAEAAAD5/wYAAAABAAEAAAD6/wYAAAABAAEAAAD7/wYAAAABAAEAAAD8/wYAAAABAAEAAAD9/wYAAAABAAEAAAD+/wYAAAABAAEAAAD//wYAAAABAAEAAAAAAAYAAAABAAEAAAABAAYAAAABAAEAAAACAAYAAAABAAEAAAADAAYAAAABAAEAAAAEAAYAAAABAAEAAAAFAAYAAAABAAEAAAA=")
 tile_set = SubResource("TileSet_pm61e")
 rendering_quadrant_size = 32
 
 [node name="UI" parent="." instance=ExtResource("3_cur7g")]
 
-<<<<<<< Updated upstream
-=======
 [node name="heldItemTexture" parent="UI/heldItemDisplay" index="0"]
-texture = SubResource("ImageTexture_o6xl0")
 stretch_mode = 3
 
 [node name="heldItemBox" parent="UI/heldItemDisplay" index="1"]
 show_behind_parent = true
 
->>>>>>> Stashed changes
 [node name="MoneyLabel" parent="UI/moneyCounter" index="0"]
 offset_right = 45.0
+
+[node name="Tables" parent="." instance=ExtResource("5_c23om")]
+position = Vector2(-224, 0)
+
+[node name="Tables2" parent="." instance=ExtResource("5_c23om")]
+position = Vector2(-224, 96)
 
 [node name="player" type="CharacterBody2D" parent="."]
 position = Vector2(16, 16)
 script = ExtResource("3_4rs1u")
 
+[node name="Camera2D" type="Camera2D" parent="player"]
+position = Vector2(0, -16)
+zoom = Vector2(0.5, 0.5)
+position_smoothing_enabled = true
+position_smoothing_speed = 10.0
+
 [node name="Chef" type="Sprite2D" parent="player"]
 position = Vector2(0, -16)
 texture = SubResource("AtlasTexture_wk504")
-offset = Vector2(0, 16)
-
-[node name="Camera2D" type="Camera2D" parent="player/Chef"]
-zoom = Vector2(0.5, 0.5)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="player"]
 shape = SubResource("RectangleShape2D_nlpgy")
@@ -281,46 +259,7 @@ shape = SubResource("RectangleShape2D_nlpgy")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="player"]
 sprite_frames = SubResource("SpriteFrames_keh6y")
 
-<<<<<<< Updated upstream
-[node name="Ingredients" type="Node2D" parent="."]
-script = SubResource("GDScript_cu6fa")
-
-[node name="Appliances" type="Node2D" parent="."]
-
-[node name="ChoppingBoard" type="StaticBody2D" parent="Appliances"]
-visible = false
-
-[node name="ChoppingBoard" type="Sprite2D" parent="Appliances/ChoppingBoard"]
-position = Vector2(88, 56)
-texture = SubResource("AtlasTexture_rjw0x")
-
-[node name="Chop" type="CollisionShape2D" parent="Appliances/ChoppingBoard"]
-position = Vector2(88, 56)
-scale = Vector2(0.8, 0.8)
-shape = SubResource("RectangleShape2D_mknww")
-=======
-[node name="Store" parent="." node_paths=PackedStringArray("option1", "option2", "option3") instance=ExtResource("6_s2kwj")]
+[node name="Store" parent="." instance=ExtResource("6_s2kwj")]
 position = Vector2(112, -48)
-option1 = NodePath("../StoreUI/Option 1")
-option2 = NodePath("../StoreUI/Option 2")
-option3 = NodePath("../StoreUI/Option 3")
-
-[node name="StoreUI" parent="." instance=ExtResource("8_tipki")]
-
-[node name="Option 1" parent="StoreUI" index="0" node_paths=PackedStringArray("store")]
-store = NodePath("../../Store")
-
-[node name="optionLabel" parent="StoreUI/Option 2" index="1"]
-layout_mode = 0
-
-[node name="Option 3" parent="StoreUI" index="2" node_paths=PackedStringArray("store")]
-store = NodePath("../../Store")
-
-[node name="optionLabel" parent="StoreUI/Option 3" index="1"]
-layout_mode = 0
-
-[connection signal="dayChange" from="UI/dayCounter/dayLabel" to="StoreUI/Option 1" method="_on_day_label_day_change"]
->>>>>>> Stashed changes
 
 [editable path="UI"]
-[editable path="StoreUI"]

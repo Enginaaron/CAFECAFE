@@ -13,7 +13,7 @@ var last_direction = Vector2i(0, 0)
 var is_busy = false
 var target_position: Vector2  
 
-const MOVE_SPEED = 200
+var MOVE_SPEED = 200
 
 func _physics_process(delta):
 	if is_busy or not isMoving:

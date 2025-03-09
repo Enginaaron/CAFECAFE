@@ -1,7 +1,24 @@
 [gd_scene load_steps=4 format=3 uid="uid://byir7igr1absj"]
 
+<<<<<<< Updated upstream
 [ext_resource type="Script" path="res://scripts/ingredient.gd" id="1_x7qoh"]
 [ext_resource type="Texture2D" uid="uid://dg8337odcjb41" path="res://textures/FoodSprites/wholeLettuce.tres" id="2_wbnoa"]
+=======
+[ext_resource type="Script" uid="uid://cpbkw6giogsf1" path="res://scripts/ingredient.gd" id="1_x7qoh"]
+[ext_resource type="Texture2D" uid="uid://v2kg034w0wq0" path="res://textures/tilemap_pack.png" id="2_kueys"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5ra4e"]
+atlas = ExtResource("2_kueys")
+region = Rect2(139, 6, 12, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_420f1"]
+atlas = ExtResource("2_kueys")
+region = Rect2(139, 6, 12, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fcdox"]
+atlas = ExtResource("2_kueys")
+region = Rect2(139, 6, 12, 12)
+>>>>>>> Stashed changes
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xayox"]
 
