@@ -6,9 +6,9 @@ extends Node2D
 @onready var bubble_sprite = $OrderBubble/BubbleSprite
 @onready var dish_sprite   = $OrderBubble/DishSprite
 @onready var orderTimer = $OrderTimer
-@onready var moneyLabel = get_node_or_null("../UI/moneyCounter/MoneyLabel")
-@onready var dayLabel = get_node_or_null("../UI/dayCounter/dayLabel")
-@onready var player = get_node_or_null("../player")
+@onready var moneyLabel = get_node("../UI/moneyCounter/MoneyLabel")
+@onready var dayLabel = get_node("../UI/dayCounter/dayLabel")
+@onready var player = $"../player"
 
 var current_dish: Texture = null
 var has_order: bool = false
@@ -47,30 +47,19 @@ func clear_order():
 	has_order = false
 
 func serve(ingredient_name):
-	var dish_texture = null
-	
-	# Map ingredient names to their corresponding dish textures
-	match ingredient_name.to_lower():
-		"lettuce":
-			dish_texture = possible_dishes[0]
-		_:
-			return
-	
-	# Check if we have an order and the player is holding something
-	if not has_order or player.held_ingredient == null:
-		return
-	
-	# Compare the served dish with the ordered dish
-	if dish_texture == current_dish:
-		# Handle successful serving
+	var dish_texture
+	if ingredient_name == "lettuce":
+		dish_texture = possible_dishes[0]
+	if dish_texture == current_dish and player.held_ingredient != null: # compare ordered-dish and holding-dish
+		print("hooray table served correctly!")
 		player.held_ingredient.drop()
-		player.held_ingredient.queue_free()
+		player.held_ingredient.queue_free()  # Remove from player
 		player.held_ingredient = null
-		
-		# Update money and day safely
-		if moneyLabel != null:
-			moneyLabel.update_money(5)
-		if dayLabel != null:
-			dayLabel.update_day()
-		
+		moneyLabel.update_money(5)
+		dayLabel.update_day()
 		clear_order()
+		
+		# Possibly award money, increment score, etc.
+	else:
+		print("wrong dish served!")
+		# You can decide what happens on wrong serve
