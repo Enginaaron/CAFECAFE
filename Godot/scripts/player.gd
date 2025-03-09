@@ -8,6 +8,7 @@ extends CharacterBody2D
 @onready var store = $"../Store"
 @export var storeInterface: CanvasLayer
 
+
 var held_ingredient = null
 var isMoving = false
 var last_direction = Vector2i(0, 0)

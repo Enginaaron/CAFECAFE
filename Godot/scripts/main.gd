@@ -35,6 +35,7 @@ func get_tables(tilemap: TileMapLayer):
 		for y in range(tilemap.get_used_rect().position.y, tilemap.get_used_rect().end.y):
 			var tile_data = tilemap.get_cell_tile_data(Vector2i(x,y))
 			if tile_data and tile_data.get_custom_data("serve"):
+				####
 				var new_table = table_scene.instantiate()
 				add_child(new_table)
 				new_table.position = tilemap.map_to_local(Vector2i(x,y)) - Vector2(tilemap.rendering_quadrant_size/2,tilemap.rendering_quadrant_size/2)

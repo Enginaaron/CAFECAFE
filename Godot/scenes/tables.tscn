@@ -31,5 +31,14 @@ texture = ExtResource("3_oh44t")
 
 [node name="DishSprite" type="Sprite2D" parent="OrderBubble"]
 
+[node name="OrderProgressBar" type="ProgressBar" parent="OrderBubble"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -15.0
+offset_right = 15.0
+offset_bottom = 27.0
+grow_horizontal = 2
+
 [node name="OrderTimer" type="Timer" parent="."]
 one_shot = true

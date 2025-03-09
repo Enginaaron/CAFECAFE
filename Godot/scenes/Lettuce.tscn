@@ -30,11 +30,11 @@ packaged_texture = SubResource("AtlasTexture_fcdox")
 scale = Vector2(0.8, 0.8)
 shape = SubResource("RectangleShape2D_xayox")
 
-[node name="PackagingTimer" type="Timer" parent="."]
+[node name="LettuceTimer" type="Timer" parent="."]
 wait_time = 5.0
 one_shot = true
 
-[node name="PackagingBar" type="ProgressBar" parent="."]
+[node name="LettuceBar" type="ProgressBar" parent="."]
 visible = false
 anchors_preset = 8
 anchor_left = 0.5
