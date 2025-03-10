@@ -36,7 +36,7 @@ func refresh_stock():
 	# Create item cards for each stock item
 	for item in stock:
 		var card = option_card_scene.instantiate()
-		card.setup_card(item.sprite, item.cost)  # A function in your item card script
+		card.setup_card(item.sprite, item.cost)
 		card.connect("item_selected", Callable(self, "_on_item_selected"))
 		cards_container.add_child(card)
 
@@ -50,8 +50,9 @@ func _on_item_selected(cost, stat_bonus):
 		money -= cost
 		# Apply stat bonus to the player (will do later)
 		has_purchased = true
-		# Optionally, give feedback to the player (e.g., disable remaining cards)
 		_disable_remaining_cards()
+		self.hide()
+		print("Item purchased!")
 	else:
 		# Optionally, show a "Not enough money" message
 		print("Not enough money to purchase that item.")

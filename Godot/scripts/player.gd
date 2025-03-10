@@ -6,6 +6,7 @@ extends CharacterBody2D
 @onready var table = $"../Tables"
 @onready var main = $".."
 @onready var store = $"../Store"
+@export var storeInterface: CanvasLayer
 
 var held_ingredient = null
 var isMoving = false
@@ -16,7 +17,7 @@ var target_position: Vector2
 const MOVE_SPEED = 200
 
 func _physics_process(delta):
-	if is_busy or not isMoving:
+	if is_busy or not isMoving or storeInterface.visible==true:
 		return
 	
 	# moves sprite smoothly toward the target position
@@ -26,7 +27,7 @@ func _physics_process(delta):
 		isMoving = false
 
 func _process(delta: float):
-	if is_busy or isMoving:
+	if is_busy or isMoving or storeInterface.visible==true:
 		return
 	
 	var direction = Vector2.ZERO

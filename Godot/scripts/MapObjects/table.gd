@@ -32,7 +32,6 @@ func generate_random_order():
 	if has_order == true:
 		return
 	# Pick a random dish
-	print("generating random order...")
 	current_dish = possible_dishes[randi() % possible_dishes.size()]
 	dish_sprite.texture = current_dish
 	

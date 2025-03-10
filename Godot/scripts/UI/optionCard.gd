@@ -1,4 +1,4 @@
-extends Button  # Or Panel if you want to manage click detection differently
+extends Button
 
 signal item_selected(cost, stat_bonus)
 
@@ -7,7 +7,7 @@ var bonus = {}
 
 func setup_card(item_sprite: Texture, cost: int):
 	item_cost = cost
-	$optionSprite.texture = item_sprite  # Adjust node path accordingly
+	$optionSprite.texture = item_sprite
 	$optionCost.text = str(cost)
 
 func _pressed():

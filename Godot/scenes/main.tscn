@@ -250,9 +250,10 @@ position = Vector2(-224, 96)
 position = Vector2(112, -48)
 storeInterface = NodePath("../UI/storeInterface")
 
-[node name="player" type="CharacterBody2D" parent="."]
+[node name="player" type="CharacterBody2D" parent="." node_paths=PackedStringArray("storeInterface")]
 position = Vector2(16, 16)
 script = ExtResource("3_4rs1u")
+storeInterface = NodePath("../UI/storeInterface")
 
 [node name="Camera2D" type="Camera2D" parent="player"]
 position = Vector2(0, -16)
