@@ -1,14 +1,15 @@
 extends Node2D
 
-@export var possible_upgrades: Array[Texture]
+@export var storeInterface: CanvasLayer
 
-func open_store():
-	print("open store")
-	return
-	
-func update_store():
-	var upgrade1 = possible_upgrades[randi() % possible_upgrades.size()]
-	var upgrade2 = possible_upgrades[randi() % possible_upgrades.size()]
-	var upgrade3 = possible_upgrades[randi() % possible_upgrades.size()]
-	print("update store")
-	return
+var toggleStatus = ""
+
+func toggle_store():
+	print("toggle store")
+	if toggleStatus == "":
+		storeInterface.show()
+		toggleStatus = null
+	elif toggleStatus == null:
+		# Open the shop: add it to a dedicated UI CanvasLayer (assumes a global UI node exists)
+		storeInterface.hide()
+		toggleStatus = ""

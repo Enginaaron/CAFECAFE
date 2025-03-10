@@ -103,7 +103,7 @@ func attempt_interaction():
 		is_busy = true
 		held_ingredient.package()
 	elif tile_data.get_custom_data("store"):
-		store.open_store()
+		store.toggle_store()
 
 func pick_up_ingredient(scene_path: String):
 	if held_ingredient == null:
