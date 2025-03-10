@@ -1,0 +1,51 @@
+[gd_scene format=3 uid="uid://mgaxh2nqvgsn"]
+
+[node name="UpgradeMenu" type="CanvasLayer"]
+
+[node name="Option 1" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="optionSprite" type="TextureRect" parent="Option 1"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="optionCost" type="Label" parent="Option 1"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="Option 2" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="optionSprite" type="TextureRect" parent="Option 2"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="optionCost" type="Label" parent="Option 2"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="Option 3" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="optionSprite" type="TextureRect" parent="Option 3"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="optionCost" type="Label" parent="Option 3"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
