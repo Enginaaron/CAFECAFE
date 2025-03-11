@@ -5,9 +5,9 @@ extends CanvasLayer
 
 # Dictionary with keys "sprite", "cost", and "stat_bonus"
 var all_items = [
-	{ "sprite": preload("res://textures/boots.png"), "cost": 2, "stat_bonus": {"speed": 5} },
-	{ "sprite": preload("res://textures/boots.png"), "cost": 5, "stat_bonus": {"ovenSpeed": 10} },
-	{ "sprite": preload("res://textures/boots.png"), "cost": 8, "stat_bonus": {"chopSpeed": 3} },
+	{ "sprite": preload("res://textures/boots.png"), "cost": 2, "stat_bonus": {"moveSpeed": 5} },
+	{ "sprite": preload("res://textures/mittens.png"), "cost": 5, "stat_bonus": {"packageSpeed": 10} },
+	{ "sprite": preload("res://textures/knife.png"), "cost": 8, "stat_bonus": {"chopSpeed": 3} },
 	# Remember to add more items later
 ]
 
@@ -45,9 +45,8 @@ func _on_item_selected(cost, stat_bonus):
 		return  # Only allow one purchase per shop visit
 	
 	# Purchase logic
-	var money = moneyLabel.get_money()
-	if money >= cost:
-		money -= cost
+	if moneyLabel.money >= cost:
+		moneyLabel.update_money(-cost)
 		# Apply stat bonus to the player (will do later)
 		has_purchased = true
 		_disable_remaining_cards()
