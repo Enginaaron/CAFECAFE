@@ -213,7 +213,7 @@ region = Rect2(160, 0, 32, 64)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nlpgy"]
 size = Vector2(32, 32)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_keh6y"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_o6xl0"]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_oodj8")
@@ -237,8 +237,9 @@ offset_right = 45.0
 [node name="dayLabel" parent="UI/dayCounter" index="0" node_paths=PackedStringArray("storeInterface")]
 storeInterface = NodePath("../../storeInterface")
 
-[node name="storeInterface" parent="UI" instance=ExtResource("7_o6xl0")]
+[node name="storeInterface" parent="UI" node_paths=PackedStringArray("player") instance=ExtResource("7_o6xl0")]
 visible = false
+player = NodePath("../../player")
 
 [node name="Tables" parent="." instance=ExtResource("5_c23om")]
 position = Vector2(-224, 0)
@@ -269,7 +270,7 @@ texture = SubResource("AtlasTexture_wk504")
 shape = SubResource("RectangleShape2D_nlpgy")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="player"]
-sprite_frames = SubResource("SpriteFrames_keh6y")
+sprite_frames = SubResource("SpriteFrames_o6xl0")
 
 [editable path="UI"]
 [editable path="UI/storeInterface"]

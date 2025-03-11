@@ -14,7 +14,10 @@ var last_direction = Vector2i(0, 0)
 var is_busy = false
 var target_position: Vector2  
 
-const MOVE_SPEED = 200
+# default player stats
+var MOVE_SPEED = 200
+var CHOP_SPEED = 10
+var PACKAGE_SPEED = 5
 
 func _physics_process(delta):
 	if is_busy or not isMoving or storeInterface.visible==true:
@@ -115,3 +118,15 @@ func pick_up_ingredient(scene_path: String):
 func _input(event):
 	if event.is_action_pressed("interact"):
 		attempt_interaction()
+
+func apply_bonus(stat_bonus) -> void:
+	for stat in stat_bonus.keys():
+		if stat == "moveSpeed":
+			MOVE_SPEED += stat_bonus["moveSpeed"]
+			print("item purchased! movement increased to "+str(MOVE_SPEED))
+		elif stat == "packageSpeed":
+			PACKAGE_SPEED += stat_bonus["packageSpeed"]
+			print("item purchased! packaging speed increased to "+str(PACKAGE_SPEED))
+		elif stat == "chopSpeed":
+			CHOP_SPEED += stat_bonus["chopSpeed"]
+			print("item purchased! chopping speed increased to "+str(CHOP_SPEED))

@@ -2,10 +2,11 @@ extends CanvasLayer
 
 @export var option_card_scene: PackedScene  # Assign your ItemCard.tscn here
 @onready var moneyLabel = get_tree().get_root().get_node("Node2D/UI/moneyCounter/MoneyLabel")
+@export var player: CharacterBody2D
 
 # Dictionary with keys "sprite", "cost", and "stat_bonus"
 var all_items = [
-	{ "sprite": preload("res://textures/boots.png"), "cost": 2, "stat_bonus": {"moveSpeed": 5} },
+	{ "sprite": preload("res://textures/boots.png"), "cost": 2, "stat_bonus": {"moveSpeed": 50} },
 	{ "sprite": preload("res://textures/mittens.png"), "cost": 5, "stat_bonus": {"packageSpeed": 10} },
 	{ "sprite": preload("res://textures/knife.png"), "cost": 8, "stat_bonus": {"chopSpeed": 3} },
 	# Remember to add more items later
@@ -20,7 +21,6 @@ func _ready():
 	refresh_stock()
 
 func refresh_stock():
-	print("refreshed")
 	stock.clear()
 	has_purchased = false
 	# Clear any previous cards
@@ -36,7 +36,7 @@ func refresh_stock():
 	# Create item cards for each stock item
 	for item in stock:
 		var card = option_card_scene.instantiate()
-		card.setup_card(item.sprite, item.cost)
+		card.setup_card(item.sprite, item.cost, item.stat_bonus)
 		card.connect("item_selected", Callable(self, "_on_item_selected"))
 		cards_container.add_child(card)
 
@@ -47,11 +47,10 @@ func _on_item_selected(cost, stat_bonus):
 	# Purchase logic
 	if moneyLabel.money >= cost:
 		moneyLabel.update_money(-cost)
-		# Apply stat bonus to the player (will do later)
+		player.apply_bonus(stat_bonus)
 		has_purchased = true
 		_disable_remaining_cards()
 		self.hide()
-		print("Item purchased!")
 	else:
 		# Optionally, show a "Not enough money" message
 		print("Not enough money to purchase that item.")

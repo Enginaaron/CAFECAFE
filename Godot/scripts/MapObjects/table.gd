@@ -50,7 +50,7 @@ func serve(ingredient_name):
 	if ingredient_name == "lettuce":
 		dish_texture = possible_dishes[0]
 	if dish_texture == current_dish and player.held_ingredient != null: # compare ordered-dish and holding-dish
-		print("hooray table served correctly!")
+		print("table served correctly!")
 		player.held_ingredient.drop()
 		player.held_ingredient.queue_free()  # Remove from player
 		player.held_ingredient = null
