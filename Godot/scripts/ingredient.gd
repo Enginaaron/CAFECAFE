@@ -1,7 +1,7 @@
 extends Area2D
 
-@onready var packaging_timer = $PackagingTimer
-@onready var packaging_bar = $PackagingBar
+@onready var packaging_timer = $LettuceTimer
+@onready var packaging_bar = $LettuceBar
 
 # Ingredient states
 enum State { WHOLE, CHOPPED, PACKAGED,}
