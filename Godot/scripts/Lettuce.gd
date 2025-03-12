@@ -53,6 +53,7 @@ func chop():
 
 		player.remove_child(self)  # Detach the lettuce from the player
 		print("After detachment: ", is_held, " Parent: ", get_parent())
+		print get_children(player)
 
 		# Get the player's facing direction
 		var facing_direction = player.get_facing_direction()
