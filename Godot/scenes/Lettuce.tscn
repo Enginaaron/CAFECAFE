@@ -23,7 +23,6 @@ script = ExtResource("1_x7qoh")
 whole_texture = SubResource("AtlasTexture_5ra4e")
 chopped_texture = SubResource("AtlasTexture_420f1")
 packaged_texture = SubResource("AtlasTexture_fcdox")
-ingredient_name = null
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 
