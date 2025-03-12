@@ -1,11 +1,10 @@
 extends Label
 
+var money: int = 5
+
 func _ready():
-	self.text = "$0"
+	self.text = "$"+str(money)
 
-var money: int = 0
-
-# Correct update function
 func update_money(amount: int):
 	money += amount
 	self.text = "$" + str(money)
