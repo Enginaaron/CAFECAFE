@@ -92,6 +92,14 @@ func attempt_interaction():
 		table.serve("lettuce")
 		return
 
+	# Check for ingredients on the facing tile
+	for node in get_tree().get_nodes_in_group("ingredients"):
+		var ingredient_tile = tileMap.local_to_map(node.global_position)
+		if ingredient_tile == facing_tile and node.on_chopping_board and node.state == node.State.WHOLE:
+			# Interact with ingredient on chopping board
+			node.chop()
+			return
+
 	var tile_data = tileMap.get_cell_tile_data(facing_tile)
 	if not tile_data or not tile_data.get_custom_data("interactable"):
 		return

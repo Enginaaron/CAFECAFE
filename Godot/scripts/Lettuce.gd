@@ -21,11 +21,19 @@ var is_held: bool = false
 var is_chopped: bool = false
 var is_packaged: bool = false
 
+# Add variables for chopping progress
+var chop_progress = 0
+var chop_required = 6  # Number of interactions needed
+var on_chopping_board = false
+
 # Called when the ingredient spawns
 func _ready():
 	LettuceBar.value = 0
 	LettuceTimer.timeout.connect(_on_LettuceTimer_timeout)  # Connect only once
 	update_sprite()
+	
+	# Add this ingredient to the "ingredients" group for easy reference
+	add_to_group("ingredients")
 
 func _process(delta):
 	if LettuceTimer.time_left > 0:
@@ -49,26 +57,68 @@ func drop():
 # Chop the ingredient
 func chop():
 	if state == State.WHOLE:
-		print("Before detachment: ", is_held, " Parent: ", get_parent())
-
-		player.remove_child(self)  # Detach the lettuce from the player
-		print("After detachment: ", is_held, " Parent: ", get_parent())
-
-		# Get the player's facing direction
-		var facing_direction = player.get_facing_direction()
+		# If not on chopping board yet, place it there
+		if not on_chopping_board:
+			print("Before detachment: ", is_held, " Parent: ", get_parent())
 		
-		# Calculate the target position for the chopping board
-		var current_tile: Vector2i = player.tileMap.local_to_map(player.global_position)
-		var target_tile: Vector2i = current_tile + facing_direction
-		var chopping_board_position = player.tileMap.map_to_local(target_tile)
+			# Get the player's facing direction
+			var facing_direction = player.get_facing_direction()
+			
+			# Calculate the target position for the chopping board
+			var current_tile: Vector2i = player.tileMap.local_to_map(player.global_position)
+			var target_tile: Vector2i = current_tile + facing_direction
+			var chopping_board_position = player.tileMap.map_to_local(target_tile)
 
-		# Move the lettuce to the chopping board
-		global_position = chopping_board_position
+			# Get the current parent and remove from it
+			var current_parent = get_parent()
+			if current_parent:
+				current_parent.remove_child(self)
+				# Add to the main scene to keep it in the scene tree
+				player.get_parent().add_child(self)
 
-		# Update the state to CHOPPED
-		state = State.CHOPPED
-		update_sprite()
-		print("Chopped ingredient:", ingredient_name)
+			# Move the lettuce to the chopping board
+			global_position = chopping_board_position
+			
+			is_held = false
+			on_chopping_board = true
+			
+			# Show the progress bar
+			LettuceBar.visible = true
+			LettuceBar.value = 0
+			
+			# Update player's reference to held ingredient
+			player.held_ingredient = null
+			
+			print("Lettuce placed on chopping board")
+			return
+		
+		# If already on chopping board, increment chopping progress
+		chop_progress += 1
+		print("Chopping progress: ", chop_progress, "/", chop_required)
+		
+		# Update progress bar
+		LettuceBar.value = (chop_progress / float(chop_required)) * 100
+		
+		# Check if chopping is complete
+		if chop_progress >= chop_required:
+			# Chopping is done
+			state = State.CHOPPED
+			on_chopping_board = false
+			LettuceBar.visible = false
+			
+			# Return to the chef/player
+			var parent = get_parent()
+			if parent:
+				parent.remove_child(self)
+			
+			player.held_ingredient = self
+			player.get_node("Chef").add_child(self)
+			is_held = true
+			position = Vector2(0, 16)  # Set LOCAL position relative to Chef, 16 pixels lower
+			
+			update_sprite()
+			print("Chopped ingredient:", ingredient_name)
+			print("Lettuce returned to player")
 
 func package():
 	if state == State.CHOPPED:
