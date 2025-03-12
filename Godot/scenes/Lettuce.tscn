@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://byir7igr1absj"]
 
-[ext_resource type="Script" uid="uid://cpbkw6giogsf1" path="res://scripts/ingredient.gd" id="1_x7qoh"]
+[ext_resource type="Script" uid="uid://bplyfbue8s3q3" path="res://scripts/Lettuce.gd" id="1_x7qoh"]
 [ext_resource type="Texture2D" uid="uid://v2kg034w0wq0" path="res://textures/tilemap_pack.png" id="2_kueys"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5ra4e"]

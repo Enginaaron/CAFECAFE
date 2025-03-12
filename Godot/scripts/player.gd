@@ -6,7 +6,7 @@ extends CharacterBody2D
 @onready var table = $"../Tables"
 @onready var main = $".."
 @onready var store = $"../Store"
-@export var storeInterface: CanvasLayer
+
 
 
 var held_ingredient = null
@@ -15,13 +15,10 @@ var last_direction = Vector2i(0, 0)
 var is_busy = false
 var target_position: Vector2  
 
-# default player stats
-var MOVE_SPEED = 200
-var CHOP_SPEED = 10
-var PACKAGE_SPEED = 5
+const MOVE_SPEED = 160
 
 func _physics_process(delta):
-	if is_busy or not isMoving or storeInterface.visible==true:
+	if is_busy or not isMoving:
 		return
 	
 	# moves sprite smoothly toward the target position
@@ -31,7 +28,7 @@ func _physics_process(delta):
 		isMoving = false
 
 func _process(delta: float):
-	if is_busy or isMoving or storeInterface.visible==true:
+	if is_busy or isMoving:
 		return
 	
 	var direction = Vector2.ZERO
@@ -108,7 +105,7 @@ func attempt_interaction():
 		is_busy = true
 		held_ingredient.package()
 	elif tile_data.get_custom_data("store"):
-		store.toggle_store()
+		store.open_store()
 
 func pick_up_ingredient(scene_path: String):
 	if held_ingredient == null:
@@ -119,15 +116,3 @@ func pick_up_ingredient(scene_path: String):
 func _input(event):
 	if event.is_action_pressed("interact"):
 		attempt_interaction()
-
-func apply_bonus(stat_bonus) -> void:
-	for stat in stat_bonus.keys():
-		if stat == "moveSpeed":
-			MOVE_SPEED += stat_bonus["moveSpeed"]
-			print("item purchased! movement increased to "+str(MOVE_SPEED))
-		elif stat == "packageSpeed":
-			PACKAGE_SPEED += stat_bonus["packageSpeed"]
-			print("item purchased! packaging speed increased to "+str(PACKAGE_SPEED))
-		elif stat == "chopSpeed":
-			CHOP_SPEED += stat_bonus["chopSpeed"]
-			print("item purchased! chopping speed increased to "+str(CHOP_SPEED))
