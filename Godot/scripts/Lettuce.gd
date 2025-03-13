@@ -23,7 +23,7 @@ var is_packaged: bool = false
 
 # Add variables for chopping progress
 var chop_progress = 0
-var chop_required = 6  # Base number of interactions needed
+var chop_required = 6  # Number of interactions needed
 var on_chopping_board = false
 
 # Called when the ingredient spawns
