@@ -76,16 +76,10 @@ func generate_random_order():
 		orderProgressBar.value = 0
 		orderProgressBar.visible = true
 	
-	# Calculate order time based on day
-	var currentDay = dayLabel.dayCount
-	var dayFactor = pow(0.98, currentDay - 1)  # 2% reduction per day
-	var newOrderTime = ORDER_TIME * dayFactor
-	
 	# Start timer
 	if orderTimer:
-		orderTimer.wait_time = newOrderTime
+		orderTimer.wait_time = ORDER_TIME
 		orderTimer.start()
-		print("Day ", currentDay, ": Order time is ", newOrderTime, " seconds")
 	
 	has_order = true
 	print("New order created")

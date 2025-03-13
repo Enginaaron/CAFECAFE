@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://c4x35rcupnpgr"]
+[gd_scene load_steps=4 format=3 uid="uid://8vgyom3lk6rl"]
 
 [ext_resource type="Script" uid="uid://3ow7uwafbo2f" path="res://scripts/MapObjects/store.gd" id="1_fosne"]
 [ext_resource type="Texture2D" uid="uid://v2kg034w0wq0" path="res://textures/tilemap_pack.png" id="1_tq5cj"]
