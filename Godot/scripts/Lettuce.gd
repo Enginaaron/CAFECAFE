@@ -32,6 +32,15 @@ func _ready():
 	LettuceTimer.timeout.connect(_on_LettuceTimer_timeout)  # Connect only once
 	update_sprite()
 	
+	# Calculate the required chops based on current day
+	var dayLabel = get_node("/root/Node2D/UI/dayCounter/dayLabel")
+	var currentDay = dayLabel.dayCount
+	
+	# Reduce chops by 2% per day, but ensure minimum of 3 chops
+	var dayFactor = pow(0.98, currentDay - 1)  # 2% reduction per day
+	chop_required = max(3, round(6 * dayFactor))
+	print("Day ", currentDay, ": Required chops: ", chop_required)
+	
 	# Add this ingredient to the "ingredients" group for easy reference
 	add_to_group("ingredients")
 
@@ -92,6 +101,11 @@ func chop():
 			print("Lettuce placed on chopping board")
 			return
 		
+		# Verify that player's hands are empty before allowing chopping
+		if player.held_ingredient != null:
+			print("Hands must be empty to chop the lettuce!")
+			return
+			
 		# If already on chopping board, increment chopping progress
 		chop_progress += 1
 		print("Chopping progress: ", chop_progress, "/", chop_required)
