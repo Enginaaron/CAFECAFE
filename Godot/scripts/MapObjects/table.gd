@@ -11,6 +11,8 @@ extends Node2D
 @onready var dayLabel = get_node("../UI/dayCounter/dayLabel")
 @onready var player = $"../player"
 
+var customer_scene = preload("res://scenes/customer.tscn")
+
 const ORDER_TIME = 30.0  # Set order time to 30 seconds
 
 var current_dish: Texture = null
@@ -54,6 +56,7 @@ func _on_orderTimer_timeout():
 	
 	# Generate a new order
 	generate_random_order()
+	
 
 func generate_random_order():
 	if has_order:
@@ -89,6 +92,10 @@ func generate_random_order():
 	
 	has_order = true
 	print("New order created")
+	spawn_customer()
+
+func spawn_customer():
+	customer_scene.instantiate()
 
 func clear_order():
 	# Hide the bubble and progress bar

@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://cn8clbgco4ldf"]
+
+[ext_resource type="Texture2D" uid="uid://v2kg034w0wq0" path="res://textures/tilemap_pack.png" id="1_ktfjk"]
+[ext_resource type="Script" uid="uid://cc4y6luulrvsi" path="res://scripts/Entities/customer.gd" id="1_xss0h"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xss0h"]
+size = Vector2(25, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fx2s6"]
+atlas = ExtResource("1_ktfjk")
+region = Rect2(192, 32, 32, 32)
+
+[node name="Customer" type="CharacterBody2D"]
+script = ExtResource("1_xss0h")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.5, -3)
+shape = SubResource("RectangleShape2D_xss0h")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_fx2s6")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.1
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
