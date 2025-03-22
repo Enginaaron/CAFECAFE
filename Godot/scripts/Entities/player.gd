@@ -22,7 +22,7 @@ func _ready():
 	collision_mask = 3
 	self.position = Vector2(16,16)
 	
-func _physics_process(delta):
+func _physics_process(_delta):
 	if is_busy or storeInterface.visible:
 		velocity = Vector2.ZERO
 		return

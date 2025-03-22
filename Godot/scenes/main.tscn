@@ -68,7 +68,6 @@ texture_region_size = Vector2i(32, 32)
 4:2/0 = 0
 5:2/0 = 0
 6:2/0 = 0
-6:2/0/custom_data_0 = true
 7:2/0 = 0
 8:2/0 = 0
 9:2/0 = 0
@@ -248,9 +247,6 @@ show_behind_parent = true
 [node name="MoneyLabel" parent="UI/moneyCounter" index="0"]
 offset_right = 45.0
 
-[node name="dayLabel" parent="UI/dayCounter" index="0" node_paths=PackedStringArray("storeInterface")]
-storeInterface = NodePath("../../storeInterface")
-
 [node name="storeInterface" parent="UI" node_paths=PackedStringArray("player") instance=ExtResource("7_o6xl0")]
 visible = false
 player = NodePath("../../player")
@@ -279,12 +275,6 @@ script = ExtResource("3_4rs1u")
 storeInterface = NodePath("../UI/storeInterface")
 
 [node name="Camera2D" type="Camera2D" parent="player"]
-position = Vector2(0, -16)
-zoom = Vector2(0.5, 0.5)
-position_smoothing_enabled = true
-position_smoothing_speed = 10.0
-
-[node name="Camera2D2" type="Camera2D" parent="player"]
 position = Vector2(0, -16)
 zoom = Vector2(0.5, 0.5)
 position_smoothing_enabled = true

@@ -44,7 +44,7 @@ func _ready():
 	# Add this ingredient to the "ingredients" group for easy reference
 	add_to_group("ingredients")
 
-func _process(delta):
+func _process(_delta):
 	if LettuceTimer.time_left > 0:
 		var progress = 100 * (1 - (LettuceTimer.time_left / LettuceTimer.wait_time))
 		LettuceBar.value = progress
@@ -140,7 +140,7 @@ func package():
 		LettuceBar.value = 0  # Reset progress
 		LettuceBar.visible = true  # Show progress bar
 		LettuceTimer.start()  # Start the timer
-		LettuceTimer.timeout.connect(_on_LettuceTimer_timeout)  # Connect the signal
+
 func _on_LettuceTimer_timeout():
 	state = State.PACKAGED
 	LettuceBar.visible = false  # Hide bar when packaging is done

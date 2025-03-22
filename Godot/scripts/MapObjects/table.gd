@@ -11,6 +11,7 @@ signal order_generated
 @onready var orderProgressBar = $OrderBubble/OrderProgressBar if has_node("OrderBubble/OrderProgressBar") else null
 @onready var moneyLabel = get_node("../../UI/moneyCounter/MoneyLabel")
 @onready var dayLabel = get_node("../../UI/dayCounter/dayLabel")
+@onready var lifeBar = get_node("../../UI/lifeBar")
 @onready var player = $"../../player"
 @onready var main = $".."
 
@@ -41,7 +42,7 @@ func _ready():
 	# Hide order bubble initially
 	$OrderBubble.visible = false
 
-func _process(delta):
+func _process(_delta):
 	# Update progress bar exactly like in the ingredient scripts
 	if has_order and orderTimer.time_left > 0:
 		var progress = 100 * (1 - (orderTimer.time_left / orderTimer.wait_time))
@@ -56,6 +57,9 @@ func _on_orderTimer_timeout():
 		if current_customer:
 			current_customer.queue_free()
 			current_customer = null
+		# Deduct a life
+		if lifeBar:
+			lifeBar.lose_life()
 
 func generate_random_order():
 	if has_order:

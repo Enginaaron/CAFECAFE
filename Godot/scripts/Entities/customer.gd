@@ -6,7 +6,6 @@ const WAYPOINT_DISTANCE = 32.0
 
 @onready var main = $".."
 @onready var tilemap = $"../TileMapLayer"
-@onready var ingredients_container = $"../Ingredients"
 
 var current_state = State.IDLE
 var target_table: Node = null
