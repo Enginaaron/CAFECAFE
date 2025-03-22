@@ -77,7 +77,9 @@ func attempt_interaction():
 	if not tile_data:
 		return
 
-	if tile_data.get_custom_data("lettuce"):
+	if tile_data.get_custom_data("trash"):
+		drop_ingredient()
+	elif tile_data.get_custom_data("lettuce"):
 		pick_up_ingredient("res://scenes/Lettuce.tscn")
 	elif tile_data.get_custom_data("chopping board") and held_ingredient and not held_ingredient.is_chopped:
 		held_ingredient.chop()
@@ -92,6 +94,12 @@ func pick_up_ingredient(scene_path: String):
 		held_ingredient = load(scene_path).instantiate()
 		held_ingredient.pick_up()
 		$Chef.add_child(held_ingredient)
+func drop_ingredient():
+	if held_ingredient:
+		$Chef.remove_child(held_ingredient)
+		held_ingredient.drop()
+		held_ingredient = null
+		print("Dropped item")
 
 # interact is [E]
 func _input(event):
