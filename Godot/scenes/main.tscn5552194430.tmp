@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://v2kg034w0wq0" path="res://textures/tilemap_pack.png" id="2_i1cnr"]
 [ext_resource type="Script" uid="uid://c4tbqeh80t1cg" path="res://scripts/Entities/player.gd" id="3_4rs1u"]
 [ext_resource type="PackedScene" uid="uid://5g7828xotp1y" path="res://scenes/UI.tscn" id="3_cur7g"]
-[ext_resource type="PackedScene" uid="uid://cxmtwh086bhfx" path="res://scenes/table.tscn" id="5_c23om"]
+[ext_resource type="PackedScene" uid="uid://cxmtwh086bhfx" path="res://scenes/tables.tscn" id="5_c23om"]
 [ext_resource type="PackedScene" uid="uid://mgaxh2nqvgsn" path="res://scenes/shop/storeInterface.tscn" id="7_o6xl0"]
 [ext_resource type="PackedScene" uid="uid://8vgyom3lk6rl" path="res://scenes/shop/store.tscn" id="7_tipki"]
 
@@ -255,28 +255,24 @@ storeInterface = NodePath("../../storeInterface")
 visible = false
 player = NodePath("../../player")
 
-[node name="Store" parent="." node_paths=PackedStringArray("storeInterface") instance=ExtResource("7_tipki")]
+[node name="Store" parent="." instance=ExtResource("7_tipki")]
 position = Vector2(176, -16)
-storeInterface = NodePath("../UI/storeInterface")
 
-[node name="Tables" type="Node2D" parent="."]
-
-[node name="table" parent="Tables" instance=ExtResource("5_c23om")]
+[node name="Tables" parent="." instance=ExtResource("5_c23om")]
 position = Vector2(32, 96)
 
-[node name="table2" parent="Tables" instance=ExtResource("5_c23om")]
+[node name="Tables2" parent="." instance=ExtResource("5_c23om")]
 position = Vector2(96, 96)
 
-[node name="table3" parent="Tables" instance=ExtResource("5_c23om")]
+[node name="Tables3" parent="." instance=ExtResource("5_c23om")]
 position = Vector2(160, 96)
 
-[node name="table4" parent="Tables" instance=ExtResource("5_c23om")]
+[node name="Tables4" parent="." instance=ExtResource("5_c23om")]
 position = Vector2(224, 96)
 
-[node name="player" type="CharacterBody2D" parent="." node_paths=PackedStringArray("storeInterface")]
+[node name="player" type="CharacterBody2D" parent="."]
 position = Vector2(16, 16)
 script = ExtResource("3_4rs1u")
-storeInterface = NodePath("../UI/storeInterface")
 
 [node name="Camera2D" type="Camera2D" parent="player"]
 position = Vector2(0, -16)

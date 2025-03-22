@@ -1,22 +1,24 @@
 extends Node2D
 # or extends Area2D if you're using collision
 
+signal order_generated
+
 @export var possible_dishes: Array[Texture]
 
 @onready var bubble_sprite = $OrderBubble/BubbleSprite
 @onready var dish_sprite   = $OrderBubble/DishSprite
 @onready var orderTimer = $OrderTimer
 @onready var orderProgressBar = $OrderBubble/OrderProgressBar if has_node("OrderBubble/OrderProgressBar") else null
-@onready var moneyLabel = get_node("../UI/moneyCounter/MoneyLabel")
-@onready var dayLabel = get_node("../UI/dayCounter/dayLabel")
-@onready var player = $"../player"
-
-var customer_scene = preload("res://scenes/customer.tscn")
+@onready var moneyLabel = get_node("../../UI/moneyCounter/MoneyLabel")
+@onready var dayLabel = get_node("../../UI/dayCounter/dayLabel")
+@onready var player = $"../../player"
+@onready var main = $".."
 
 const ORDER_TIME = 30.0  # Set order time to 30 seconds
 
 var current_dish: Texture = null
 var has_order: bool = false
+var current_customer: Node = null
 
 func _ready():
 	# Initialize timer
@@ -38,9 +40,6 @@ func _ready():
 	
 	# Hide order bubble initially
 	$OrderBubble.visible = false
-	
-	# Generate first order
-	call_deferred("generate_random_order")
 
 func _process(delta):
 	# Update progress bar exactly like in the ingredient scripts
@@ -53,10 +52,10 @@ func _on_orderTimer_timeout():
 	if has_order:
 		print("Order timed out!")
 		clear_order()
-	
-	# Generate a new order
-	generate_random_order()
-	
+		# Remove the customer if they exist
+		if current_customer:
+			current_customer.queue_free()
+			current_customer = null
 
 func generate_random_order():
 	if has_order:
@@ -88,14 +87,12 @@ func generate_random_order():
 	if orderTimer:
 		orderTimer.wait_time = newOrderTime
 		orderTimer.start()
-		print("Day ", currentDay, ": Order time is ", newOrderTime, " seconds")
+		print("day ", currentDay, ": order time is ", newOrderTime, " secs")
 	
 	has_order = true
-	print("New order created")
-	spawn_customer()
-
-func spawn_customer():
-	customer_scene.instantiate()
+	print("order created")
+	# Emit the signal when a new order is generated
+	order_generated.emit()
 
 func clear_order():
 	# Hide the bubble and progress bar
@@ -105,6 +102,9 @@ func clear_order():
 	
 	current_dish = null
 	has_order = false
+
+func set_customer(customer: Node) -> void:
+	current_customer = customer
 
 func serve(ingredient_name):
 	var dish_texture = null
@@ -132,7 +132,11 @@ func serve(ingredient_name):
 		player.held_ingredient.queue_free()  # Remove from player
 		player.held_ingredient = null
 		moneyLabel.update_money(5)
-		dayLabel.update_day()
+		dayLabel.order_done()
 		clear_order()
+		# Remove the customer after successful serve
+		if current_customer:
+			current_customer.queue_free()
+			current_customer = null
 	else:
 		print("Wrong dish served!")

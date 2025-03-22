@@ -8,32 +8,26 @@ extends CharacterBody2D
 @onready var store = $"../Store"
 @export var storeInterface: CanvasLayer
 
-
 var held_ingredient = null
-var isMoving = false
-var last_direction = Vector2i(0, 0)
 var is_busy = false
-var target_position: Vector2  
+var last_direction = Vector2i(0, 0)
 
 # default player stats
 var MOVE_SPEED = 200
 var CHOP_SPEED = 10
 var PACKAGE_SPEED = 5
 
+func _ready():
+	# walls (layer 1) and customers (layer 2)
+	collision_mask = 3
+	self.position = Vector2(16,16)
+	
 func _physics_process(delta):
-	if is_busy or not isMoving or storeInterface.visible==true:
+	if is_busy or storeInterface.visible:
+		velocity = Vector2.ZERO
 		return
 	
-	# moves sprite smoothly toward the target position
-	global_position = global_position.move_toward(target_position, MOVE_SPEED * delta)
-	
-	if global_position == target_position:
-		isMoving = false
-
-func _process(delta: float):
-	if is_busy or isMoving or storeInterface.visible==true:
-		return
-	
+	# input direction
 	var direction = Vector2.ZERO
 	if Input.is_action_pressed("up"):
 		direction.y -= 1
@@ -44,44 +38,15 @@ func _process(delta: float):
 	if Input.is_action_pressed("right"):
 		direction.x += 1
 	
+	# normalizing direction for consistent speed
 	if direction != Vector2.ZERO:
-		last_direction = Vector2i(direction.normalized())
-		move(direction)
-
-func move(direction: Vector2):
-	if is_busy:
-		return
-
-	var current_tile: Vector2i = tileMap.local_to_map(global_position)
-	var target_tile: Vector2i = current_tile + Vector2i(direction.x, direction.y)
-
-	var horizontal_tile = current_tile + Vector2i(direction.x, 0)
-	var vertical_tile = current_tile + Vector2i(0, direction.y)
-
-	var horizontal_valid = is_tile_walkable(horizontal_tile)
-	var vertical_valid = is_tile_walkable(vertical_tile)
-	var diagonal_valid = is_tile_walkable(target_tile)
-
-	# determining movement direction
-	if diagonal_valid:
-		target_tile = target_tile
-	elif horizontal_valid and direction.x != 0:
-		target_tile = horizontal_tile
-	elif vertical_valid and direction.y != 0:
-		target_tile = vertical_tile
+		direction = direction.normalized()
+		last_direction = Vector2i(direction)
+		velocity = direction * MOVE_SPEED
 	else:
-		return  # no movement possible
-
-	isMoving = true
-	target_position = tileMap.map_to_local(target_tile)
-
-func is_tile_walkable(tile: Vector2i) -> bool:
-	var tile_data = tileMap.get_cell_tile_data(tile)
-	if tile_data and not tile_data.get_custom_data("walkable"):
-		return false
-	if main.get_table_at_tile(tile):
-		return false
-	return true
+		velocity = Vector2.ZERO
+	
+	move_and_slide()
 
 func get_facing_direction() -> Vector2i:
 	return last_direction
@@ -90,22 +55,26 @@ func attempt_interaction():
 	if is_busy:
 		return
 
+	# get tile player is facing
 	var facing_tile: Vector2i = tileMap.local_to_map(global_position) + get_facing_direction()
+	
+	# check for table interaction
 	var table = main.get_table_at_tile(facing_tile)
 	if table:
 		table.serve("lettuce")
 		return
 
-	# Check for ingredients on the facing tile
+	# check for ingredients on the facing tile
 	for node in get_tree().get_nodes_in_group("ingredients"):
 		var ingredient_tile = tileMap.local_to_map(node.global_position)
 		if ingredient_tile == facing_tile and node.on_chopping_board and node.state == node.State.WHOLE:
-			# Interact with ingredient on chopping board
+			# interact with ingredient on chopping board
 			node.chop()
 			return
 
+	# check for other interactions
 	var tile_data = tileMap.get_cell_tile_data(facing_tile)
-	if not tile_data or not tile_data.get_custom_data("interactable"):
+	if not tile_data:
 		return
 
 	if tile_data.get_custom_data("lettuce"):
@@ -124,6 +93,7 @@ func pick_up_ingredient(scene_path: String):
 		held_ingredient.pick_up()
 		$Chef.add_child(held_ingredient)
 
+# interact is [E]
 func _input(event):
 	if event.is_action_pressed("interact"):
 		attempt_interaction()
