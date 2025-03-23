@@ -2,7 +2,6 @@ extends CanvasLayer
 
 @export var option_card_scene: PackedScene  # Assign your ItemCard.tscn here
 @onready var moneyLabel = get_tree().get_root().get_node("Node2D/UI/moneyCounter/MoneyLabel")
-@export var player: CharacterBody2D
 
 # Dictionary with keys "sprite", "cost", and "stat_bonus"
 var all_items = [
@@ -40,14 +39,33 @@ func refresh_stock():
 		card.connect("item_selected", Callable(self, "_on_item_selected"))
 		cards_container.add_child(card)
 
+func get_active_player() -> Node:
+	# Get all players in the scene
+	var players = get_tree().get_nodes_in_group("players")
+	
+	# Find the player that's near the store
+	for player in players:
+		# Check if the player is facing a store tile
+		var facing_tile = player.tileMap.local_to_map(player.global_position) + player.get_facing_direction()
+		var tile_data = player.tileMap.get_cell_tile_data(facing_tile)
+		if tile_data and tile_data.get_custom_data("store"):
+			return player
+	
+	return null
+
 func _on_item_selected(cost, stat_bonus):
 	if has_purchased:
 		return  # Only allow one purchase per shop visit
 	
+	var active_player = get_active_player()
+	if not active_player:
+		print("No player found at store!")
+		return
+	
 	# Purchase logic
 	if moneyLabel.money >= cost:
 		moneyLabel.update_money(-cost)
-		player.apply_bonus(stat_bonus)
+		active_player.apply_bonus(stat_bonus)
 		has_purchased = true
 		_disable_remaining_cards()
 		self.hide()

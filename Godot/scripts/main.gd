@@ -3,6 +3,7 @@ extends Node2D
 @onready var ingredients_container = $Ingredients
 @onready var tilemap = $TileMapLayer
 @onready var dayLabel = $UI/dayCounter/dayLabel
+@onready var player_scene = preload("res://scenes/player.tscn")
 
 var ingredient_scenes = {
 	"Lettuce": preload("res://scenes/Lettuce.tscn"),
@@ -24,6 +25,68 @@ func _ready():
 	add_child(spawn_timer)
 	
 	dayLabel.update_day()
+	
+	# Get player count from GameData
+	var game_data = get_node("/root/GameData")
+	if game_data:
+		setup_players(game_data.player_count)
+
+func setup_players(count: int):
+	# Remove existing player if any
+	var existing_player = $player
+	if existing_player:
+		existing_player.queue_free()
+	
+	# Disable all cameras first
+	$MultiplayerCamera.visible = false
+	$MultiplayerCamera.enabled = false
+	
+	# Handle held item displays
+	var held_display2 = $UI/heldItemDisplay2
+	if held_display2:
+		held_display2.visible = (count == 2)
+	
+	# Create player 1
+	var player1 = player_scene.instantiate()
+	player1.name = "player1"
+	player1.player_number = 1
+	player1.storeInterface = $UI/storeInterface
+	add_child(player1)
+	
+	if count == 2:
+		# Create player 2
+		var player2 = player_scene.instantiate()
+		player2.name = "player2"
+		player2.player_number = 2
+		player2.storeInterface = $UI/storeInterface
+		add_child(player2)
+		
+		# Setup multiplayer camera
+		var camera = $MultiplayerCamera
+		camera.player1 = player1
+		camera.player2 = player2
+		camera.enabled = true
+		camera.visible = true
+		camera.make_current()
+		
+		# Disable individual player cameras
+		player1.get_node("Camera2D").enabled = false
+		player2.get_node("Camera2D").enabled = false
+	else:
+		# Single player camera setup
+		var player_camera = player1.get_node("Camera2D")
+		player_camera.enabled = true
+		player_camera.visible = true
+		player_camera.make_current()
+		
+		# Set appropriate zoom for single player - more zoomed out
+		player_camera.zoom = Vector2(0.6, 0.6)
+		
+		# Remove camera limits to allow full level visibility
+		player_camera.limit_left = -10000000
+		player_camera.limit_top = -10000000
+		player_camera.limit_right = 10000000
+		player_camera.limit_bottom = 10000000
 
 # finds tables in scene
 func init_tables():
@@ -31,8 +94,8 @@ func init_tables():
 		if child.name.begins_with("Tables"):
 			for table in child.get_children():
 				table_customers[table] = []
-				table.order_generated.connect(_on_table_order_generated.bind(table))
-				print("table init successful at ", table.position)
+				#table.order_generated.connect(_on_table_order_generated.bind(table))
+				#print("table init successful at ", table.position)
 
 func get_table_at_tile(tile_pos: Vector2i) -> Node:
 	# checks for tables in scene
@@ -89,8 +152,8 @@ func remove_customer_from_table(customer, table):
 	if table_customers.has(table):
 		table_customers[table].erase(customer)
 
-func _on_table_order_generated(table: Node):
-	print("order generated at ", table.position)
+#func _on_table_order_generated(table: Node):
+	#print("order generated at ", table.position)
 
 func _on_day_label_day_changed() -> void:
 	print("day changed, customers spawning")

@@ -6,36 +6,62 @@ extends CharacterBody2D
 @onready var table = $"../Tables"
 @onready var main = $".."
 @onready var store = $"../Store"
-@export var storeInterface: CanvasLayer
+@export var storeInterface: CanvasLayer = null  # Make it optional with default null value
+@export var player_number: int = 1  # Default to player 1
 
 var held_ingredient = null
 var is_busy = false
 var last_direction = Vector2i(0, 0)
 
-# default player stats
-var MOVE_SPEED = 200
-var CHOP_SPEED = 6
-var PACKAGE_SPEED = 5
+# player stats
+var MOVE_SPEED: int
+var CHOP_SPEED: int
+var PACKAGE_SPEED: int
 
 func _ready():
+	# Initialize stats from GameData
+	var game_data = get_node("/root/GameData")
+	if game_data:
+		var stats = game_data.get_player_stats(player_number)
+		MOVE_SPEED = stats["MOVE_SPEED"]
+		CHOP_SPEED = stats["CHOP_SPEED"]
+		PACKAGE_SPEED = stats["PACKAGE_SPEED"]
+	else:
+		# Fallback default values if GameData is not available
+		MOVE_SPEED = 200
+		CHOP_SPEED = 6
+		PACKAGE_SPEED = 5
+	
+	# Add to players group for easy reference
+	add_to_group("players")
+	
 	# walls (layer 1) and customers (layer 2)
 	collision_mask = 3
-	self.position = Vector2(16,16)
+	if player_number == 1:
+		self.position = Vector2(16,16)
+	else:
+		self.position = Vector2(48,16)
+		sprite2D.modulate = Color(0.2, 0.8, 1.0)  # Blue tint for player 2
 	
 func _physics_process(_delta):
-	if is_busy or storeInterface.visible:
+	if is_busy or (storeInterface and storeInterface.visible):
 		velocity = Vector2.ZERO
 		return
 	
 	# input direction
 	var direction = Vector2.ZERO
-	if Input.is_action_pressed("up"):
+	var up_action = "up" if player_number == 1 else "up_p2"
+	var down_action = "down" if player_number == 1 else "down_p2"
+	var left_action = "left" if player_number == 1 else "left_p2"
+	var right_action = "right" if player_number == 1 else "right_p2"
+	
+	if Input.is_action_pressed(up_action):
 		direction.y -= 1
-	if Input.is_action_pressed("down"):
+	if Input.is_action_pressed(down_action):
 		direction.y += 1
-	if Input.is_action_pressed("left"):
+	if Input.is_action_pressed(left_action):
 		direction.x -= 1
-	if Input.is_action_pressed("right"):
+	if Input.is_action_pressed(right_action):
 		direction.x += 1
 	
 	# normalizing direction for consistent speed
@@ -68,8 +94,12 @@ func attempt_interaction():
 	for node in get_tree().get_nodes_in_group("ingredients"):
 		var ingredient_tile = tileMap.local_to_map(node.global_position)
 		if ingredient_tile == facing_tile and node.on_chopping_board and node.state == node.State.WHOLE:
-			# interact with ingredient on chopping board
-			node.chop()
+			# Only allow chopping if hands are empty
+			if held_ingredient == null:
+				# interact with ingredient on chopping board
+				node.chop()
+			else:
+				print("Cannot chop with item in hands!")
 			return
 
 	# check for other interactions
@@ -101,9 +131,10 @@ func drop_ingredient():
 		held_ingredient = null
 		print("Dropped item")
 
-# interact is [E]
+# interact is [E] for P1, Right Shift for P2
 func _input(event):
-	if event.is_action_pressed("interact"):
+	var interact_action = "interact" if player_number == 1 else "interact_p2"
+	if event.is_action_pressed(interact_action):
 		attempt_interaction()
 
 func apply_bonus(stat_bonus) -> void:
@@ -117,3 +148,14 @@ func apply_bonus(stat_bonus) -> void:
 		elif stat == "chopSpeed":
 			CHOP_SPEED += stat_bonus["chopSpeed"]
 			print("item purchased! chopping speed increased to "+str(CHOP_SPEED))
+
+func is_facing_position(target_pos: Vector2) -> bool:
+	# Get the tile the player is on and the tile they're facing
+	var player_tile = tileMap.local_to_map(global_position)
+	var facing_tile = player_tile + get_facing_direction()
+	
+	# Get the tile of the target position
+	var target_tile = tileMap.local_to_map(target_pos)
+	
+	# Return true if the player is facing the target tile
+	return facing_tile == target_tile

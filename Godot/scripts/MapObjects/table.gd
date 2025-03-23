@@ -12,7 +12,6 @@ signal order_generated
 @onready var moneyLabel = get_node("../../UI/moneyCounter/MoneyLabel")
 @onready var dayLabel = get_node("../../UI/dayCounter/dayLabel")
 @onready var lifeBar = get_node("../../UI/lifeBar")
-@onready var player = $"../../player"
 @onready var main = $".."
 
 const ORDER_TIME = 30.0  # Set order time to 30 seconds
@@ -70,7 +69,7 @@ func generate_random_order():
 		print("ERROR: No dishes in possible_dishes array")
 		return
 		
-	print("Generating random order...")
+	#print("Generating random order...")
 	current_dish = possible_dishes[randi() % possible_dishes.size()]
 	dish_sprite.texture = current_dish
 	
@@ -91,7 +90,7 @@ func generate_random_order():
 	if orderTimer:
 		orderTimer.wait_time = newOrderTime
 		orderTimer.start()
-		print("day ", currentDay, ": order time is ", newOrderTime, " secs")
+		#print("day ", currentDay, ": order time is ", newOrderTime, " secs")
 	
 	has_order = true
 	print("order created")
@@ -110,8 +109,35 @@ func clear_order():
 func set_customer(customer: Node) -> void:
 	current_customer = customer
 
+func get_serving_player() -> Node:
+	# Get all players in the scene
+	var players = get_tree().get_nodes_in_group("players")
+	
+	# Find the closest player that is facing this table
+	var closest_player = null
+	var min_distance = INF
+	
+	for player in players:
+		# Check if the player is facing this table
+		var facing_tile = player.tileMap.local_to_map(player.global_position) + player.get_facing_direction()
+		var table_tile = player.tileMap.local_to_map(global_position)
+		
+		if facing_tile == table_tile:
+			var distance = player.global_position.distance_to(global_position)
+			if distance < min_distance:
+				min_distance = distance
+				closest_player = player
+	
+	return closest_player
+
 func serve(ingredient_name):
 	var dish_texture = null
+	
+	# Get the player that's trying to serve
+	var serving_player = get_serving_player()
+	if not serving_player:
+		print("No player found trying to serve!")
+		return
 	
 	# Map ingredient names to their corresponding dish textures
 	match ingredient_name.to_lower():
@@ -121,20 +147,19 @@ func serve(ingredient_name):
 			return
 	
 	# Check if we have an order, the player is holding something, and it's packaged
-	if not has_order or player.held_ingredient == null:
+	if not has_order or serving_player.held_ingredient == null:
 		return
 		
 	# Ensure the ingredient is in its packaged state
-	if player.held_ingredient.state != player.held_ingredient.State.PACKAGED:
+	if serving_player.held_ingredient.state != serving_player.held_ingredient.State.PACKAGED:
 		print("Cannot serve unpackaged ingredient!")
 		return
 	
 	# Compare the served dish with the ordered dish
 	if dish_texture == current_dish:
 		# Handle successful serving
-		player.held_ingredient.drop()
-		player.held_ingredient.queue_free()  # Remove from player
-		player.held_ingredient = null
+		serving_player.held_ingredient.queue_free()  # Remove from scene
+		serving_player.held_ingredient = null  # Clear reference
 		moneyLabel.update_money(5)
 		dayLabel.order_done()
 		clear_order()
