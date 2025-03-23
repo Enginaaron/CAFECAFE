@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://v2kg034w0wq0" path="res://textures/tilemap_pack.png" id="2_i1cnr"]
 [ext_resource type="Script" uid="uid://c4tbqeh80t1cg" path="res://scripts/Entities/player.gd" id="3_4rs1u"]
 [ext_resource type="PackedScene" uid="uid://5g7828xotp1y" path="res://scenes/UI.tscn" id="3_cur7g"]
-[ext_resource type="PackedScene" uid="uid://cxmtwh086bhfx" path="res://scenes/table.tscn" id="5_o6xl0"]
+[ext_resource type="PackedScene" uid="uid://dhlvl4ujcbv4i" path="res://scenes/table.tscn" id="7_85g3d"]
 [ext_resource type="PackedScene" uid="uid://mgaxh2nqvgsn" path="res://scenes/shop/storeInterface.tscn" id="7_o6xl0"]
 [ext_resource type="PackedScene" uid="uid://8vgyom3lk6rl" path="res://scenes/shop/store.tscn" id="7_tipki"]
 
@@ -254,17 +254,17 @@ player = NodePath("../../player")
 
 [node name="Tables" type="Node2D" parent="."]
 
-[node name="table" parent="Tables" instance=ExtResource("5_o6xl0")]
-position = Vector2(32, 96)
+[node name="table" parent="Tables" instance=ExtResource("7_85g3d")]
+position = Vector2(48, 112)
 
-[node name="table2" parent="Tables" instance=ExtResource("5_o6xl0")]
-position = Vector2(96, 96)
+[node name="table2" parent="Tables" instance=ExtResource("7_85g3d")]
+position = Vector2(112, 112)
 
-[node name="table3" parent="Tables" instance=ExtResource("5_o6xl0")]
-position = Vector2(160, 96)
+[node name="table3" parent="Tables" instance=ExtResource("7_85g3d")]
+position = Vector2(176, 112)
 
-[node name="table4" parent="Tables" instance=ExtResource("5_o6xl0")]
-position = Vector2(224, 96)
+[node name="table4" parent="Tables" instance=ExtResource("7_85g3d")]
+position = Vector2(240, 112)
 
 [node name="player" type="CharacterBody2D" parent="." node_paths=PackedStringArray("storeInterface")]
 position = Vector2(16, 16)

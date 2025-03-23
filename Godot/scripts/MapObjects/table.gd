@@ -36,7 +36,8 @@ func _ready():
 		orderProgressBar.min_value = 0
 		orderProgressBar.max_value = 100
 		orderProgressBar.value = 0
-		orderProgressBar.custom_minimum_size = Vector2(100, 10)
+		orderProgressBar.custom_minimum_size = Vector2(50, 10)
+		orderProgressBar.position -= Vector2(24, 24)
 		orderProgressBar.visible = false
 		$OrderBubble.add_child(orderProgressBar)
 	
