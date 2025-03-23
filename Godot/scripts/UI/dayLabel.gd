@@ -9,9 +9,7 @@ var dayCount: int = 0
 
 func _ready() -> void:
 	self.text = "Day "+str(dayCount)
-	# Get the main node reference
 	main = get_node("/root/Node2D")
-	# Get the storeInterface reference
 	storeInterface = get_node("/root/Node2D/UI/storeInterface")
 
 func order_done() -> void:

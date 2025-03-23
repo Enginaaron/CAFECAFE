@@ -69,20 +69,24 @@ horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("5_qpv6a")
 
+[node name="sprite" type="TextureRect" parent="dayCounter"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
 [node name="lifeBar" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
-offset_left = 156.0
-offset_top = 128.0
-offset_right = 196.0
-offset_bottom = 168.0
-scale = Vector2(0.75, 0.75)
+offset_left = 176.0
+offset_top = 138.0
+offset_right = 176.0
+offset_bottom = 138.0
 script = ExtResource("6_xpksx")
 
 [node name="HeartContainer" type="HBoxContainer" parent="lifeBar"]
 layout_mode = 0
-offset_right = 107.0
-offset_bottom = 40.0
+offset_right = 56.0
+offset_bottom = 16.0
 alignment = 2
 
 [node name="Heart1" type="TextureRect" parent="lifeBar/HeartContainer"]
