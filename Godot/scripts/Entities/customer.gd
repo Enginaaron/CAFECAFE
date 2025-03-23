@@ -63,7 +63,7 @@ func create_path() -> void:
 		
 	waypoints.clear()
 	var start_pos = position
-	var end_pos = target_table.position-Vector2(-16,-48)
+	var end_pos = target_table.position-Vector2(0,-16)
 	
 	# starting waypoint
 	waypoints.append(start_pos)
