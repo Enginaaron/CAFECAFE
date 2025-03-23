@@ -19,7 +19,6 @@ texture = ExtResource("2_i1cnr")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
-0:0/0/custom_data_0 = true
 0:0/0/custom_data_1 = true
 0:0/0/custom_data_4 = true
 1:0/0 = 0
@@ -247,12 +246,6 @@ show_behind_parent = true
 
 [node name="MoneyLabel" parent="UI/moneyCounter" index="0"]
 offset_right = 45.0
-
-[node name="HeartContainer" parent="UI/lifeBar" index="0"]
-offset_left = -100.0
-offset_top = -160.0
-offset_right = 4.0
-offset_bottom = -128.0
 
 [node name="storeInterface" parent="UI" node_paths=PackedStringArray("player") instance=ExtResource("7_o6xl0")]
 visible = false
