@@ -1,4 +1,5 @@
 extends Node2D
+# or extends Area2D if you're using collision
 
 signal order_generated
 
@@ -14,13 +15,11 @@ signal order_generated
 @onready var player = $"../../player"
 @onready var main = $".."
 
-const ORDER_TIME = 30.0 
+const ORDER_TIME = 30.0  # Set order time to 30 seconds
 
-var current_dishes: Array[Texture] = []
+var current_dish: Texture = null
 var has_order: bool = false
 var current_customer: Node = null
-var is_boss_table: bool = false
-var completed_orders: int = 0
 
 func _ready():
 	# Initialize timer
@@ -72,21 +71,8 @@ func generate_random_order():
 		return
 		
 	print("Generating random order...")
-	
-	# Clear previous orders
-	current_dishes.clear()
-	completed_orders = 0
-	
-	# Generate orders based on whether this is a boss table
-	if is_boss_table:
-		# Generate 3 random orders for boss
-		for i in range(3):
-			current_dishes.append(possible_dishes[randi() % possible_dishes.size()])
-		dish_sprite.texture = current_dishes[0]  # Show first order
-	else:
-		# Generate single order for regular customer
-		current_dishes.append(possible_dishes[randi() % possible_dishes.size()])
-		dish_sprite.texture = current_dishes[0]
+	current_dish = possible_dishes[randi() % possible_dishes.size()]
+	dish_sprite.texture = current_dish
 	
 	# Show the bubble
 	$OrderBubble.visible = true
@@ -118,14 +104,11 @@ func clear_order():
 	if orderProgressBar:
 		orderProgressBar.visible = false
 	
-	current_dishes.clear()
+	current_dish = null
 	has_order = false
-	completed_orders = 0
 
 func set_customer(customer: Node) -> void:
 	current_customer = customer
-	# Check if this is a boss customer
-	is_boss_table = customer.name.begins_with("BossCustomer")
 
 func serve(ingredient_name):
 	var dish_texture = null
@@ -146,35 +129,18 @@ func serve(ingredient_name):
 		print("Cannot serve unpackaged ingredient!")
 		return
 	
-	# Check if the served dish matches any of the current orders
-	var order_index = current_dishes.find(dish_texture)
-	if order_index != -1:
+	# Compare the served dish with the ordered dish
+	if dish_texture == current_dish:
 		# Handle successful serving
 		player.held_ingredient.drop()
 		player.held_ingredient.queue_free()  # Remove from player
 		player.held_ingredient = null
-		
-		# Remove the completed order
-		current_dishes.remove_at(order_index)
-		completed_orders += 1
-		
-		# Update money based on whether it's a boss order
-		if is_boss_table:
-			moneyLabel.update_money(10)  # More money for boss orders
-		else:
-			moneyLabel.update_money(5)
-		
+		moneyLabel.update_money(5)
 		dayLabel.order_done()
-		
-		# Update the displayed order
-		if current_dishes.size() > 0:
-			dish_sprite.texture = current_dishes[0]
-		else:
-			# All orders completed
-			clear_order()
-			# Remove the customer after successful serve
-			if current_customer:
-				current_customer.queue_free()
-				current_customer = null
+		clear_order()
+		# Remove the customer after successful serve
+		if current_customer:
+			current_customer.queue_free()
+			current_customer = null
 	else:
 		print("Wrong dish served!")
