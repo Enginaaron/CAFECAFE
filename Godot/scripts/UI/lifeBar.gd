@@ -13,7 +13,7 @@ func lose_life():
 		current_lives -= 1
 		dayLabel.order_done()
 		update_hearts()
-		if current_lives <= -10:
+		if current_lives <= 0:
 			# Game over logic here
 			print("Game Over!")
 			get_tree().reload_current_scene()
