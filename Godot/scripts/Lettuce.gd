@@ -135,6 +135,14 @@ func package():
 		print("Packaging started...")
 		LettuceBar.value = 0  # Reset progress
 		LettuceBar.visible = true  # Show progress bar
+		
+		# Calculate packaging time based on player's package speed
+		# Base time is 5 seconds, reduced by 10% for each point of PACKAGE_SPEED above base (5)
+		var baseTime = 5.0
+		var basetime = player.PACKAGE_SPEED  # Base speed is 5
+		LettuceTimer.wait_time = max(1.0, basetime)  # Minimum 1 second
+		print("Packaging time: ", LettuceTimer.wait_time, " seconds (Package Speed: ", player.PACKAGE_SPEED, ")")
+		
 		LettuceTimer.start()  # Start the timer
 
 func _on_LettuceTimer_timeout():
