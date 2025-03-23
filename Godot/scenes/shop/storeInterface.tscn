@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://mgaxh2nqvgsn"]
 
-[ext_resource type="Script" path="res://scripts/UI/storeInterface.gd" id="1_7j2gb"]
+[ext_resource type="Script" uid="uid://b5it23m744gq0" path="res://scripts/UI/storeInterface.gd" id="1_7j2gb"]
 [ext_resource type="PackedScene" uid="uid://c6xminfcryldc" path="res://scenes/shop/optionCard1.tscn" id="2_2nvnq"]
 
 [node name="storeInterface" type="CanvasLayer"]

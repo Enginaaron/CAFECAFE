@@ -14,7 +14,7 @@ var last_direction = Vector2i(0, 0)
 
 # default player stats
 var MOVE_SPEED = 200
-var CHOP_SPEED = 10
+var CHOP_SPEED = 6
 var PACKAGE_SPEED = 5
 
 func _ready():

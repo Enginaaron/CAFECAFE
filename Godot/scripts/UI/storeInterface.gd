@@ -8,7 +8,7 @@ extends CanvasLayer
 var all_items = [
 	{ "sprite": preload("res://textures/boots.png"), "cost": 2, "stat_bonus": {"moveSpeed": 50} },
 	{ "sprite": preload("res://textures/mittens.png"), "cost": 5, "stat_bonus": {"packageSpeed": 10} },
-	{ "sprite": preload("res://textures/knife.png"), "cost": 8, "stat_bonus": {"chopSpeed": 3} },
+	{ "sprite": preload("res://textures/knife.png"), "cost": 8, "stat_bonus": {"chopSpeed": -1} },
 	# Remember to add more items later
 ]
 

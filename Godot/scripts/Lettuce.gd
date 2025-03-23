@@ -32,14 +32,10 @@ func _ready():
 	LettuceTimer.timeout.connect(_on_LettuceTimer_timeout)  # Connect only once
 	update_sprite()
 	
-	# Calculate the required chops based on current day
-	var dayLabel = get_node("/root/Node2D/UI/dayCounter/dayLabel")
-	var currentDay = dayLabel.dayCount
-	
-	# Reduce chops by 2% per day, but ensure minimum of 3 chops
-	var dayFactor = pow(0.98, currentDay - 1)  # 2% reduction per day
-	chop_required = max(3, round(6 * dayFactor))
-	print("Day ", currentDay, ": Required chops: ", chop_required)
+	# Calculate the required chops based on player's chop speed
+	var playerChopSpeed = player.CHOP_SPEED
+	chop_required = max(1, playerChopSpeed)  # Reduce by 1 for each upgrade point, minimum 3 chops
+	print("Required chops: ", chop_required, " (Chop Speed: ", playerChopSpeed, ")")
 	
 	# Add this ingredient to the "ingredients" group for easy reference
 	add_to_group("ingredients")
