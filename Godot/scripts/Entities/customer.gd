@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-const SPEED = 100.0
+var SPEED = 100.0
 const ARRIVAL_THRESHOLD = 4.0
 const WAYPOINT_DISTANCE = 32.0
 
@@ -12,6 +12,7 @@ var target_table: Node = null
 var waypoints: Array[Vector2] = []
 var current_waypoint_index = 0
 var has_reached_destination = false
+var is_boss: bool = false
 
 # three possible states of customer
 enum State {
@@ -21,7 +22,9 @@ enum State {
 }
 
 func _ready():
-	position = Vector2i(176, 252)
+	position = Vector2i(144, 252)
+	# Check if this is a boss customer
+	is_boss = name.begins_with("BossCustomer")
 
 func _physics_process(_delta: float) -> void:
 	match current_state:
@@ -63,7 +66,7 @@ func create_path() -> void:
 		
 	waypoints.clear()
 	var start_pos = position
-	var end_pos = target_table.position-Vector2(-16,-48)
+	var end_pos = target_table.position-Vector2(-16,-32)
 	
 	# starting waypoint
 	waypoints.append(start_pos)

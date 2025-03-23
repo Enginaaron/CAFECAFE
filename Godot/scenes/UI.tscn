@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://5g7828xotp1y"]
+[gd_scene load_steps=9 format=3 uid="uid://5g7828xotp1y"]
 
 [ext_resource type="Texture2D" uid="uid://dwnsxnisyn7xe" path="res://textures/heldItemBox.png" id="1_j2yqk"]
 [ext_resource type="Script" uid="uid://posv1qnxbe4t" path="res://scripts/UI/heldItemTexture.gd" id="1_mfjsr"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://8buqd2juhwa7" path="res://scripts/UI/moneylabel.gd" id="2_64wfr"]
 [ext_resource type="Script" uid="uid://d1w0syxmpxqmx" path="res://scripts/UI/dayLabel.gd" id="5_qpv6a"]
 [ext_resource type="Texture2D" uid="uid://7at6pmi3evq7" path="res://textures/Heart.png" id="6_3wlde"]
+[ext_resource type="Texture2D" uid="uid://coxu7sk1un7ah" path="res://textures/Sun.png" id="6_24e4x"]
 [ext_resource type="Script" uid="uid://cqyr0t8ukjari" path="res://scripts/UI/lifeBar.gd" id="6_xpksx"]
 
 [node name="UI" type="CanvasLayer"]
@@ -58,9 +59,9 @@ offset_bottom = 40.0
 
 [node name="dayLabel" type="Label" parent="dayCounter"]
 layout_mode = 0
-offset_left = 5.0
+offset_left = 18.0
 offset_top = 5.0
-offset_right = 41.0
+offset_right = 73.0
 offset_bottom = 32.0
 scale = Vector2(0.5, 0.5)
 theme_override_fonts/font = ExtResource("1_uue7a")
@@ -68,21 +69,29 @@ text = "day"
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("5_qpv6a")
+sun = ExtResource("6_24e4x")
+
+[node name="sprite" type="TextureRect" parent="dayCounter"]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 2.0
+offset_right = 46.0
+offset_bottom = 42.0
+scale = Vector2(0.5, 0.5)
 
 [node name="lifeBar" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
-offset_left = 156.0
-offset_top = 128.0
-offset_right = 196.0
-offset_bottom = 168.0
-scale = Vector2(0.75, 0.75)
+offset_left = 176.0
+offset_top = 138.0
+offset_right = 176.0
+offset_bottom = 138.0
 script = ExtResource("6_xpksx")
 
 [node name="HeartContainer" type="HBoxContainer" parent="lifeBar"]
 layout_mode = 0
-offset_right = 107.0
-offset_bottom = 40.0
+offset_right = 56.0
+offset_bottom = 16.0
 alignment = 2
 
 [node name="Heart1" type="TextureRect" parent="lifeBar/HeartContainer"]
