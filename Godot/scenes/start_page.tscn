@@ -1,0 +1,43 @@
+[gd_scene load_steps=2 format=3 uid="uid://23km1kfv27um"]
+
+[ext_resource type="Script" uid="uid://dte0v0tdlgrp6" path="res://scripts/start_page.gd" id="1_script"]
+
+[node name="StartPage" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 2
+offset_left = -44.0
+offset_top = -2.5
+offset_right = 285.0
+offset_bottom = 64.5
+theme_override_font_sizes/font_size = 28
+text = "Cooking Craze"
+horizontal_alignment = 1
+
+[node name="OnePlayerButton" type="Button" parent="."]
+custom_minimum_size = Vector2(100, 30)
+layout_mode = 2
+offset_left = 61.5
+offset_top = 50.0
+offset_right = 207.5
+offset_bottom = 103.0
+scale = Vector2(0.8, 0.8)
+theme_override_font_sizes/font_size = 32
+text = "1 Player"
+
+[node name="TwoPlayersButton" type="Button" parent="."]
+layout_mode = 2
+offset_left = 61.5
+offset_top = 93.0
+offset_right = 207.5
+offset_bottom = 146.0
+scale = Vector2(0.8, 0.8)
+theme_override_font_sizes/font_size = 32
+text = "2 Players"
