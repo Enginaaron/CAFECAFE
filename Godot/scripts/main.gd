@@ -10,10 +10,13 @@ var ingredient_scenes = {
 }
 
 var customer_scene = preload("res://scenes/customer.tscn")
+var boss_customer_scene = preload("res://scenes/bossCustomer.tscn")
 
 var table_customers = {} # dictionary tracking table and its customer
 var spawn_timer: Timer = null
 const SPAWN_INTERVAL = 2.0  # time between customer spawns in seconds
+var bossDays = [5,10,15,20,25,30]
+var has_spawned_boss = false
 
 func _ready():
 	init_tables()
@@ -94,8 +97,8 @@ func init_tables():
 		if child.name.begins_with("Tables"):
 			for table in child.get_children():
 				table_customers[table] = []
-				#table.order_generated.connect(_on_table_order_generated.bind(table))
-				#print("table init successful at ", table.position)
+				table.order_generated.connect(_on_table_order_generated.bind(table))
+				print("table init successful at ", table.position)
 
 func get_table_at_tile(tile_pos: Vector2i) -> Node:
 	# checks for tables in scene
@@ -113,13 +116,21 @@ func spawn_customers_for_empty_tables():
 	spawn_customer_for_table(empty_tables[0])
 
 func spawn_customer_for_table(table: Node):
-	var customer = customer_scene.instantiate()
+	var customer
+	# Only spawn boss if it's a boss day and we haven't spawned one yet
+	if dayLabel.dayCount in bossDays and not has_spawned_boss:
+		customer = boss_customer_scene.instantiate()
+		print("Spawning boss customer!")
+		has_spawned_boss = true
+	else:
+		customer = customer_scene.instantiate()
+	
 	customer.global_position = Vector2i(-112,-48)
 	add_child(customer)
 	
-	# assiging customer to table
+	# assigning customer to table
 	customer.set_target_table(table)
-	table_customers[table].append(customer)	
+	table_customers[table].append(customer)
 	
 	var empty_tables = get_empty_tables()
 	if not empty_tables.is_empty():
@@ -152,12 +163,15 @@ func remove_customer_from_table(customer, table):
 	if table_customers.has(table):
 		table_customers[table].erase(customer)
 
-#func _on_table_order_generated(table: Node):
-	#print("order generated at ", table.position)
+func _on_table_order_generated(table: Node):
+	print("order generated at ", table.position)
 
 func _on_day_label_day_changed() -> void:
-	print("day changed, customers spawning")
+	# Reset boss spawn flag for new day
+	has_spawned_boss = false
+	
 	# clear all customers if they exist
+	print("regular customers spawning")
 	for table in table_customers.keys():
 		for customer in table_customers[table]:
 			customer.queue_free()
