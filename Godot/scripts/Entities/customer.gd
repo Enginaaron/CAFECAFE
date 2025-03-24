@@ -21,7 +21,7 @@ enum State {
 }
 
 func _ready():
-	position = Vector2i(176, 252)
+	position = Vector2i(144, 252)
 
 func _physics_process(_delta: float) -> void:
 	match current_state:
