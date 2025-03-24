@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://b4uy8jvvxoqm3"]
 
-[ext_resource type="Script" path="res://scripts/Entities/player.gd" id="1_aqxvr"]
-[ext_resource type="Texture2D" uid="uid://c8mq2oi4iqxvt" path="res://textures/tilemap_pack.png" id="2_aqxvr"]
+[ext_resource type="Script" uid="uid://c4tbqeh80t1cg" path="res://scripts/Entities/player.gd" id="1_aqxvr"]
+[ext_resource type="Texture2D" uid="uid://v2kg034w0wq0" path="res://textures/tilemap_pack.png" id="2_aqxvr"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wk504"]
 atlas = ExtResource("2_aqxvr")
@@ -16,7 +16,6 @@ script = ExtResource("1_aqxvr")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(0, -16)
-enabled = true
 position_smoothing_enabled = true
 position_smoothing_speed = 10.0
 drag_horizontal_enabled = true
@@ -27,4 +26,4 @@ position = Vector2(0, -16)
 texture = SubResource("AtlasTexture_wk504")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_1") 
+shape = SubResource("CircleShape2D_1")
