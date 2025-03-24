@@ -1,5 +1,4 @@
 extends Node2D
-# or extends Area2D if you're using collision
 
 signal order_generated
 
@@ -12,13 +11,34 @@ signal order_generated
 @onready var moneyLabel = get_node("../../UI/moneyCounter/MoneyLabel")
 @onready var dayLabel = get_node("../../UI/dayCounter/dayLabel")
 @onready var lifeBar = get_node("../../UI/lifeBar")
-@onready var main = $".."
+@onready var tilemap = get_node("../../TileMapLayer")
 
-const ORDER_TIME = 30.0  # Set order time to 30 seconds
+const ORDER_TIME = 30.0 
 
-var current_dish: Texture = null
+var current_dishes: Array[Texture] = []
 var has_order: bool = false
 var current_customer: Node = null
+var is_boss_table: bool = false
+var completed_orders: int = 0
+
+# Get the active player that's interacting with this table
+func get_active_player() -> Node:
+	# Get all players in the scene
+	var players = get_tree().get_nodes_in_group("players")
+	
+	# Get the table's tile position
+	var table_tile = tilemap.local_to_map(global_position)
+	
+	# Find the player that's facing this table
+	for player in players:
+		var player_tile = tilemap.local_to_map(player.global_position)
+		var facing_tile = player_tile + player.get_facing_direction()
+		
+		# Check if the player is facing this table
+		if facing_tile == table_tile:
+			return player
+	
+	return null
 
 func _ready():
 	# Initialize timer
@@ -34,8 +54,8 @@ func _ready():
 		orderProgressBar.min_value = 0
 		orderProgressBar.max_value = 100
 		orderProgressBar.value = 0
-		orderProgressBar.custom_minimum_size = Vector2(50, 10)
-		orderProgressBar.position -= Vector2(24, 24)
+		orderProgressBar.custom_minimum_size = Vector2(24, 10)
+		orderProgressBar.position -= Vector2(12,24)
 		orderProgressBar.visible = false
 		$OrderBubble.add_child(orderProgressBar)
 	
@@ -70,9 +90,22 @@ func generate_random_order():
 		print("ERROR: No dishes in possible_dishes array")
 		return
 		
-	#print("Generating random order...")
-	current_dish = possible_dishes[randi() % possible_dishes.size()]
-	dish_sprite.texture = current_dish
+	print("Generating random order...")
+	
+	# Clear previous orders
+	current_dishes.clear()
+	completed_orders = 0
+	
+	# Generate orders based on whether this is a boss table
+	if is_boss_table:
+		# Generate 3 random orders for boss
+		for i in range(3):
+			current_dishes.append(possible_dishes[randi() % possible_dishes.size()])
+		dish_sprite.texture = current_dishes[0]  # Show first order
+	else:
+		# Generate single order for regular customer
+		current_dishes.append(possible_dishes[randi() % possible_dishes.size()])
+		dish_sprite.texture = current_dishes[0]
 	
 	# Show the bubble
 	$OrderBubble.visible = true
@@ -91,7 +124,7 @@ func generate_random_order():
 	if orderTimer:
 		orderTimer.wait_time = newOrderTime
 		orderTimer.start()
-		#print("day ", currentDay, ": order time is ", newOrderTime, " secs")
+		print("day ", currentDay, ": order time is ", newOrderTime, " secs")
 	
 	has_order = true
 	print("order created")
@@ -104,41 +137,17 @@ func clear_order():
 	if orderProgressBar:
 		orderProgressBar.visible = false
 	
-	current_dish = null
+	current_dishes.clear()
 	has_order = false
+	completed_orders = 0
 
 func set_customer(customer: Node) -> void:
 	current_customer = customer
-
-func get_serving_player() -> Node:
-	# Get all players in the scene
-	var players = get_tree().get_nodes_in_group("players")
-	
-	# Find the closest player that is facing this table
-	var closest_player = null
-	var min_distance = INF
-	
-	for player in players:
-		# Check if the player is facing this table
-		var facing_tile = player.tileMap.local_to_map(player.global_position) + player.get_facing_direction()
-		var table_tile = player.tileMap.local_to_map(global_position)
-		
-		if facing_tile == table_tile:
-			var distance = player.global_position.distance_to(global_position)
-			if distance < min_distance:
-				min_distance = distance
-				closest_player = player
-	
-	return closest_player
+	# Check if this is a boss customer
+	is_boss_table = customer.name.begins_with("BossCustomer")
 
 func serve(ingredient_name):
 	var dish_texture = null
-	
-	# Get the player that's trying to serve
-	var serving_player = get_serving_player()
-	if not serving_player:
-		print("No player found trying to serve!")
-		return
 	
 	# Map ingredient names to their corresponding dish textures
 	match ingredient_name.to_lower():
@@ -147,26 +156,50 @@ func serve(ingredient_name):
 		_:
 			return
 	
+	# Get the active player
+	var player = get_active_player()
+	if not player:
+		print("No player at table!")
+		return
+	
 	# Check if we have an order, the player is holding something, and it's packaged
-	if not has_order or serving_player.held_ingredient == null:
+	if not has_order or player.held_ingredient == null:
 		return
 		
 	# Ensure the ingredient is in its packaged state
-	if serving_player.held_ingredient.state != serving_player.held_ingredient.State.PACKAGED:
+	if player.held_ingredient.state != player.held_ingredient.State.PACKAGED:
 		print("Cannot serve unpackaged ingredient!")
 		return
 	
-	# Compare the served dish with the ordered dish
-	if dish_texture == current_dish:
+	# Check if the served dish matches any of the current orders
+	var order_index = current_dishes.find(dish_texture)
+	if order_index != -1:
 		# Handle successful serving
-		serving_player.held_ingredient.queue_free()  # Remove from scene
-		serving_player.held_ingredient = null  # Clear reference
-		moneyLabel.update_money(5)
+		player.held_ingredient.drop()
+		player.held_ingredient.queue_free()  # Remove from player
+		player.held_ingredient = null
+		
+		# Remove the completed order
+		current_dishes.remove_at(order_index)
+		completed_orders += 1
+		
+		# Update money based on whether it's a boss order
+		if is_boss_table:
+			moneyLabel.update_money(10)  # More money for boss orders
+		else:
+			moneyLabel.update_money(5)
+		
 		dayLabel.order_done()
-		clear_order()
-		# Remove the customer after successful serve
-		if current_customer:
-			current_customer.queue_free()
-			current_customer = null
+		
+		# Update the displayed order
+		if current_dishes.size() > 0:
+			dish_sprite.texture = current_dishes[0]
+		else:
+			# All orders completed
+			clear_order()
+			# Remove the customer after successful serve
+			if current_customer:
+				current_customer.queue_free()
+				current_customer = null
 	else:
 		print("Wrong dish served!")
