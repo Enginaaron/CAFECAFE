@@ -22,3 +22,10 @@ func update_hearts():
 	for i in range(heartContainer.get_child_count()):
 		var heart = heartContainer.get_child(i)
 		heart.visible = i < current_lives 
+
+func add_bonus_life():
+	# Increase current lives
+	current_lives += 1
+	# Update the visibility of hearts
+	update_hearts()
+	print("Added bonus life! Current lives: ", current_lives) 

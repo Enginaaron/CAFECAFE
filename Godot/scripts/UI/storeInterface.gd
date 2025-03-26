@@ -8,6 +8,7 @@ var all_items = [
 	{ "sprite": preload("res://textures/boots.png"), "cost": 2, "stat_bonus": {"moveSpeed": 50} },
 	{ "sprite": preload("res://textures/mittens.png"), "cost": 8, "stat_bonus": {"packageSpeed": -.75} },
 	{ "sprite": preload("res://textures/knife.png"), "cost": 5, "stat_bonus": {"chopSpeed": -1} },
+	{ "sprite": preload("res://textures/Heart.png"), "cost": 15, "stat_bonus": {"bonuslife": 1} },
 	# Remember to add more items later
 ]
 
@@ -72,7 +73,16 @@ func _on_item_selected(cost, stat_bonus):
 	# Purchase logic
 	if moneyLabel.money >= cost:
 		moneyLabel.update_money(-cost)
-		active_player.apply_bonus(stat_bonus)
+		
+		# Handle bonus life upgrade
+		if stat_bonus.has("bonuslife"):
+			var life_bar = get_tree().get_root().get_node("Node2D/UI/lifeBar")
+			if life_bar:
+				life_bar.add_bonus_life()
+		else:
+			# Handle other upgrades
+			active_player.apply_bonus(stat_bonus)
+		
 		has_purchased = true
 		_disable_remaining_cards()
 		
