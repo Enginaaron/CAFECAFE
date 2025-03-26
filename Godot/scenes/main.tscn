@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://couhiyx3qcnv4" path="res://scripts/main.gd" id="1_oodj8"]
 [ext_resource type="Texture2D" uid="uid://dgsbriafynrsa" path="res://textures/map.png" id="2_choun"]
 [ext_resource type="PackedScene" uid="uid://5g7828xotp1y" path="res://scenes/UI.tscn" id="3_cur7g"]
-[ext_resource type="Script" uid="uid://posv1qnxbe4t" path="res://scripts/UI/heldItemTexture.gd" id="4_choun"]
+[ext_resource type="Script" uid="uid://dg5eco17dfd62" path="res://scripts/UI/heldItemTexture.gd" id="4_choun"]
 [ext_resource type="Texture2D" uid="uid://dwnsxnisyn7xe" path="res://textures/heldItemBox.png" id="5_ya4ey"]
 [ext_resource type="PackedScene" uid="uid://5f30vvb22fft" path="res://scenes/table.tscn" id="7_85g3d"]
 [ext_resource type="PackedScene" uid="uid://mgaxh2nqvgsn" path="res://scenes/shop/storeInterface.tscn" id="7_o6xl0"]
@@ -231,6 +231,7 @@ texture_region_size = Vector2i(64, 64)
 12:8/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
 11:8/0 = 0
 11:8/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+11:8/0/custom_data_2 = true
 10:8/0 = 0
 9:8/0 = 0
 9:8/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
@@ -344,6 +345,7 @@ texture_region_size = Vector2i(64, 64)
 11:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
 12:2/0 = 0
 12:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+12:2/0/custom_data_0 = true
 13:2/0 = 0
 13:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
 10:2/0 = 0
@@ -356,7 +358,7 @@ texture_region_size = Vector2i(64, 64)
 7:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
 6:2/0 = 0
 6:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-6:2/0/custom_data_0 = true
+6:2/0/custom_data_4 = true
 5:2/0 = 0
 5:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
 5:2/0/custom_data_1 = true
@@ -1271,7 +1273,7 @@ texture_region_size = Vector2i(64, 64)
 [sub_resource type="TileSet" id="TileSet_eb6dy"]
 tile_size = Vector2i(64, 64)
 physics_layer_0/collision_layer = 1
-custom_data_layer_0/name = "lettuce"
+custom_data_layer_0/name = "chicken"
 custom_data_layer_0/type = 1
 custom_data_layer_1/name = "chopping board"
 custom_data_layer_1/type = 1
@@ -1279,8 +1281,8 @@ custom_data_layer_2/name = "bowl"
 custom_data_layer_2/type = 1
 custom_data_layer_3/name = "store"
 custom_data_layer_3/type = 1
-custom_data_layer_0/name = "chicken"
-custom_data_layer_0/type = 1
+custom_data_layer_4/name = "lettuce"
+custom_data_layer_4/type = 1
 sources/0 = SubResource("TileSetAtlasSource_ya4ey")
 
 [node name="Node2D" type="Node2D"]
