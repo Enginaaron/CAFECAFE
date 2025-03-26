@@ -11,12 +11,14 @@ var ingredient_scenes = {
 
 var customer_scene = preload("res://scenes/customer.tscn")
 var boss_customer_scene = preload("res://scenes/bossCustomer.tscn")
+var tutorial_manager_scene = preload("res://scenes/tutorial/tutorial_manager.tscn")
 
 var table_customers = {} # dictionary tracking table and its customer
 var spawn_timer: Timer = null
 const SPAWN_INTERVAL = 2.0  # time between customer spawns in seconds
 var bossDays = [5,10,15,20,25,30]
 var has_spawned_boss = false
+var tutorial_manager = null  # Reference to the tutorial manager
 
 func _ready():
 	init_tables()
@@ -33,6 +35,14 @@ func _ready():
 	var game_data = get_node("/root/GameData")
 	if game_data:
 		setup_players(game_data.player_count)
+		
+		# Only spawn customers if not in tutorial mode
+		if not game_data.tutorial_mode:
+			spawn_customers_for_empty_tables()
+		else:
+			print("Tutorial mode active - no customers will spawn")
+			# Initialize tutorial manager
+			setup_tutorial()
 
 func setup_players(count: int):
 	# Remove existing player if any
@@ -132,11 +142,14 @@ func spawn_customer_for_table(table: Node):
 	customer.set_target_table(table)
 	table_customers[table].append(customer)
 	
-	var empty_tables = get_empty_tables()
-	if not empty_tables.is_empty():
-		# spawning schedule
-		spawn_timer.wait_time = SPAWN_INTERVAL
-		spawn_timer.start()
+	# Only schedule next spawn if not in tutorial mode
+	var game_data = get_node("/root/GameData")
+	if not game_data or not game_data.tutorial_mode:
+		var empty_tables = get_empty_tables()
+		if not empty_tables.is_empty():
+			# spawning schedule
+			spawn_timer.wait_time = SPAWN_INTERVAL
+			spawn_timer.start()
 
 func _on_spawn_timer_timeout():
 	var empty_tables = get_empty_tables()
@@ -176,4 +189,43 @@ func _on_day_label_day_changed() -> void:
 		for customer in table_customers[table]:
 			customer.queue_free()
 		table_customers[table].clear()
-	spawn_customers_for_empty_tables()
+	
+	# Only spawn customers if not in tutorial mode
+	var game_data = get_node("/root/GameData")
+	if game_data and not game_data.tutorial_mode:
+		spawn_customers_for_empty_tables()
+
+func setup_tutorial():
+	# Create tutorial manager instance
+	tutorial_manager = tutorial_manager_scene.instantiate()
+	add_child(tutorial_manager)
+	
+	# Force set visibility
+	tutorial_manager.visible = true
+	
+	# Initialize tutorial with reference to player 1
+	var player1 = get_node_or_null("player1")
+	if player1:
+		print("Found player1, initializing tutorial")
+		tutorial_manager.initialize(player1)
+		
+		# Spawn one customer immediately for the tutorial
+		var empty_tables = get_empty_tables()
+		if not empty_tables.is_empty():
+			spawn_customer_for_table(empty_tables[0])
+	else:
+		print("WARNING: Could not find player1 for tutorial")
+		# Try to find any player node
+		player1 = find_player_node()
+		if player1:
+			print("Found alternative player node: " + player1.name)
+			tutorial_manager.initialize(player1)
+		else:
+			print("ERROR: Cannot initialize tutorial - no player found")
+
+# Find the first player node in the scene
+func find_player_node():
+	for child in get_children():
+		if child.name.begins_with("player"):
+			return child
+	return null

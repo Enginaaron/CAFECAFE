@@ -2,6 +2,7 @@ extends Node
 
 # Game configuration
 var player_count: int = 1  # Default to 1 player
+var tutorial_mode: bool = false  # Flag for tutorial mode
 
 # Default player stats
 var default_stats = {
@@ -25,6 +26,7 @@ var player2_stats = {
 
 func reset_game():
 	player_count = 1
+	tutorial_mode = false
 	player1_stats = default_stats.duplicate()
 	player2_stats = default_stats.duplicate()
 
