@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://dshimdj74mvyq"]
+
+[ext_resource type="Script" uid="uid://w8xn316rnywx" path="res://scripts/tutorial/key_icon.gd" id="1_script"]
+
+[node name="KeyIcon" type="Sprite2D"]
+scale = Vector2(0.8, 0.8)
+script = ExtResource("1_script")
