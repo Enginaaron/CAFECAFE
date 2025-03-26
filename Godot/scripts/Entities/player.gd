@@ -113,9 +113,8 @@ func attempt_interaction():
 		pick_up_ingredient("res://scenes/Lettuce.tscn")
 	elif tile_data.get_custom_data("chopping board") and held_ingredient and not held_ingredient.is_chopped:
 		held_ingredient.chop()
-	elif tile_data.get_custom_data("package") and held_ingredient and held_ingredient.state == held_ingredient.State.CHOPPED:
-		is_busy = true
-		held_ingredient.package()
+	elif tile_data.get_custom_data("bowl") and held_ingredient and held_ingredient.state == held_ingredient.State.CHOPPED:
+		held_ingredient.bowl()
 	elif tile_data.get_custom_data("store"):
 		store.toggle_store()
 

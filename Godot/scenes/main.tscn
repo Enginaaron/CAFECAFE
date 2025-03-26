@@ -254,6 +254,7 @@ texture_region_size = Vector2i(64, 64)
 4:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
 3:5/0 = 0
 3:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+3:5/0/custom_data_2 = true
 2:5/0 = 0
 1:5/0 = 0
 0:5/0 = 0
@@ -295,10 +296,13 @@ texture_region_size = Vector2i(64, 64)
 7:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
 6:2/0 = 0
 6:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+6:2/0/custom_data_0 = true
 5:2/0 = 0
 5:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+5:2/0/custom_data_1 = true
 4:2/0 = 0
 4:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+4:2/0/custom_data_1 = true
 3:2/0 = 0
 3:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
 2:2/0 = 0
@@ -1178,6 +1182,14 @@ texture_region_size = Vector2i(64, 64)
 [sub_resource type="TileSet" id="TileSet_eb6dy"]
 tile_size = Vector2i(64, 64)
 physics_layer_0/collision_layer = 1
+custom_data_layer_0/name = "lettuce"
+custom_data_layer_0/type = 1
+custom_data_layer_1/name = "chopping board"
+custom_data_layer_1/type = 1
+custom_data_layer_2/name = "bowl"
+custom_data_layer_2/type = 1
+custom_data_layer_3/name = "store"
+custom_data_layer_3/type = 1
 sources/0 = SubResource("TileSetAtlasSource_ya4ey")
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wk504"]
