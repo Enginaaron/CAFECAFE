@@ -120,7 +120,9 @@ func spawn_customer_for_table(table: Node):
 	# Only spawn boss if it's a boss day and we haven't spawned one yet
 	if dayLabel.dayCount in bossDays and not has_spawned_boss:
 		customer = boss_customer_scene.instantiate()
-		print("Spawning boss customer!")
+		print("SPAWNING BOSS!")
+		print("SPAWNING BOSS!")
+		print("SPAWNING BOSS!")
 		has_spawned_boss = true
 	else:
 		customer = customer_scene.instantiate()
