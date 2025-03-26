@@ -1,11 +1,13 @@
-[gd_scene load_steps=8 format=3 uid="uid://5g7828xotp1y"]
+[gd_scene load_steps=10 format=3 uid="uid://5g7828xotp1y"]
 
 [ext_resource type="Texture2D" uid="uid://dwnsxnisyn7xe" path="res://textures/heldItemBox.png" id="1_j2yqk"]
-[ext_resource type="Script" uid="uid://dg5eco17dfd62" path="res://scripts/UI/heldItemTexture.gd" id="1_mfjsr"]
+[ext_resource type="Script" uid="uid://posv1qnxbe4t" path="res://scripts/UI/heldItemTexture.gd" id="1_mfjsr"]
 [ext_resource type="FontFile" uid="uid://b0kv3mlkqmckt" path="res://textures/8-bit-hud.ttf" id="1_uue7a"]
 [ext_resource type="Script" uid="uid://8buqd2juhwa7" path="res://scripts/UI/moneylabel.gd" id="2_64wfr"]
 [ext_resource type="Script" uid="uid://d1w0syxmpxqmx" path="res://scripts/UI/dayLabel.gd" id="5_qpv6a"]
+[ext_resource type="Texture2D" uid="uid://c5i1n4xesrowg" path="res://textures/coin.png" id="5_ukj8e"]
 [ext_resource type="Texture2D" uid="uid://7at6pmi3evq7" path="res://textures/Heart.png" id="6_3wlde"]
+[ext_resource type="Texture2D" uid="uid://d2phsq7kek6rq" path="res://textures/Sun.png" id="6_24e4x"]
 [ext_resource type="Script" uid="uid://cqyr0t8ukjari" path="res://scripts/UI/lifeBar.gd" id="6_xpksx"]
 
 [node name="UI" type="CanvasLayer"]
@@ -49,6 +51,14 @@ text = "$$$"
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("2_64wfr")
+coin = ExtResource("5_ukj8e")
+
+[node name="sprite" type="TextureRect" parent="moneyCounter"]
+layout_mode = 0
+offset_left = -34.0
+offset_top = -8.0
+offset_right = 6.0
+offset_bottom = 32.0
 
 [node name="dayCounter" type="Control" parent="."]
 layout_mode = 3
@@ -58,16 +68,25 @@ offset_bottom = 40.0
 
 [node name="dayLabel" type="Label" parent="dayCounter"]
 layout_mode = 0
-offset_left = 5.0
-offset_top = 5.0
-offset_right = 41.0
-offset_bottom = 32.0
+offset_left = 17.0
+offset_top = 10.0
+offset_right = 72.0
+offset_bottom = 37.0
 scale = Vector2(0.5, 0.5)
 theme_override_fonts/font = ExtResource("1_uue7a")
 text = "day"
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("5_qpv6a")
+sun = ExtResource("6_24e4x")
+
+[node name="sprite" type="TextureRect" parent="dayCounter"]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 6.0
+offset_right = 45.0
+offset_bottom = 46.0
+scale = Vector2(0.5, 0.5)
 
 [node name="lifeBar" type="Control" parent="."]
 layout_mode = 3
