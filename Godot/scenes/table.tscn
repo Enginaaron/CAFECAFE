@@ -25,6 +25,6 @@ scale = Vector2(0.2, 0.2)
 texture = ExtResource("2_x8522")
 
 [node name="DishSprite" type="Sprite2D" parent="OrderBubble"]
-position = Vector2(0, -24)
+position = Vector2(0, -48)
 
 [node name="OrderTimer" type="Timer" parent="."]

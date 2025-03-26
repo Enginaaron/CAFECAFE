@@ -18,6 +18,7 @@ var has_purchased = false
 @onready var cards_container = $CardsContainer
 
 func _ready():
+	visible = false
 	refresh_stock()
 
 func refresh_stock():

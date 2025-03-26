@@ -229,6 +229,7 @@ texture_region_size = Vector2i(64, 64)
 13:8/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
 12:8/0 = 0
 12:8/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+12:8/0/custom_data_3 = true
 11:8/0 = 0
 11:8/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
 11:8/0/custom_data_2 = true
@@ -1366,6 +1367,8 @@ zoom = Vector2(0.5, 0.5)
 position_smoothing_enabled = true
 position_smoothing_speed = 10.0
 script = ExtResource("8_camera")
+
+[node name="storeInterface" parent="." instance=ExtResource("7_o6xl0")]
 
 [connection signal="day_changed" from="UI/dayCounter/dayLabel" to="." method="_on_day_label_day_changed"]
 

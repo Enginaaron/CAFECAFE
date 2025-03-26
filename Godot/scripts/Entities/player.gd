@@ -116,7 +116,7 @@ func attempt_interaction():
 	elif tile_data.get_custom_data("bowl") and held_ingredient and held_ingredient.state == held_ingredient.State.CHOPPED:
 		held_ingredient.bowl()
 	elif tile_data.get_custom_data("store"):
-		store.toggle_store()
+		main.toggle_store()
 
 func pick_up_ingredient(scene_path: String):
 	if held_ingredient == null:

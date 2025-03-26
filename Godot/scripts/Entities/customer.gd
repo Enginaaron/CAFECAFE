@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 const SPEED = 100.0
-const ARRIVAL_THRESHOLD = 1
+const ARRIVAL_THRESHOLD = 14
 const WAYPOINT_DISTANCE = 32.0
 
 @onready var main = $".."
@@ -21,7 +21,7 @@ enum State {
 }
 
 func _ready():
-	position = Vector2i(144, 252)
+	position = Vector2i(320, -64)
 
 func _physics_process(_delta: float) -> void:
 	match current_state:
