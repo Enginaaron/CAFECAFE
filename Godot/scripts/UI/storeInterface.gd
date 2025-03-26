@@ -6,8 +6,8 @@ extends CanvasLayer
 # Dictionary with keys "sprite", "cost", and "stat_bonus"
 var all_items = [
 	{ "sprite": preload("res://textures/boots.png"), "cost": 2, "stat_bonus": {"moveSpeed": 50} },
-	{ "sprite": preload("res://textures/mittens.png"), "cost": 5, "stat_bonus": {"packageSpeed": -.75} },
-	{ "sprite": preload("res://textures/knife.png"), "cost": 8, "stat_bonus": {"chopSpeed": -1} },
+	{ "sprite": preload("res://textures/mittens.png"), "cost": 8, "stat_bonus": {"packageSpeed": -.75} },
+	{ "sprite": preload("res://textures/knife.png"), "cost": 5, "stat_bonus": {"chopSpeed": -1} },
 	# Remember to add more items later
 ]
 
@@ -27,10 +27,17 @@ func refresh_stock():
 		cards_container.remove_child(n)  
 		n.queue_free() 
 	
-	# Randomly pick three items (might complicate it by adding difficulty scaling later)
-	var items_pool = all_items.duplicate()
-	items_pool.shuffle()
-	stock = items_pool.slice(0, 3)
+	# Check if we're in tutorial mode
+	var game_data = get_node("/root/GameData")
+	if game_data and game_data.tutorial_mode:
+		# In tutorial mode, only show the chopping card
+		var chop_item = { "sprite": preload("res://textures/knife.png"), "cost": 5, "stat_bonus": {"chopSpeed": -1} }
+		stock.append(chop_item)
+	else:
+		# Normal mode: randomly pick three items
+		var items_pool = all_items.duplicate()
+		items_pool.shuffle()
+		stock = items_pool.slice(0, 3)
 	
 	# Create item cards for each stock item
 	for item in stock:
@@ -68,6 +75,15 @@ func _on_item_selected(cost, stat_bonus):
 		active_player.apply_bonus(stat_bonus)
 		has_purchased = true
 		_disable_remaining_cards()
+		
+		# Check if we're in tutorial mode and this was the chop upgrade
+		var game_data = get_node("/root/GameData")
+		if game_data and game_data.tutorial_mode and stat_bonus.has("chopSpeed"):
+			# Get tutorial manager and notify it of the purchase
+			var tutorial_manager = get_node("/root/Node2D/tutorial_manager")
+			if tutorial_manager:
+				tutorial_manager.on_chop_upgrade_purchased()
+		
 		self.hide()
 	else:
 		# Optionally, show a "Not enough money" message

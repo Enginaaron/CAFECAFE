@@ -110,7 +110,18 @@ func generate_random_order():
 	# Show the bubble
 	$OrderBubble.visible = true
 	
-	# Reset and show progress bar
+	# Check if we're in tutorial mode
+	var game_data = get_node("/root/GameData")
+	if game_data and game_data.tutorial_mode:
+		# In tutorial mode, don't show timer or progress bar
+		print("Tutorial mode - no timer for order")
+		if orderProgressBar:
+			orderProgressBar.visible = false
+		has_order = true
+		order_generated.emit()
+		return
+	
+	# Reset and show progress bar for non-tutorial mode
 	if orderProgressBar:
 		orderProgressBar.value = 0
 		orderProgressBar.visible = true
