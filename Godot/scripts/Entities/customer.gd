@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 const SPEED = 100.0
-const ARRIVAL_THRESHOLD = 4.0
+const ARRIVAL_THRESHOLD = 1
 const WAYPOINT_DISTANCE = 32.0
 
 @onready var main = $".."
