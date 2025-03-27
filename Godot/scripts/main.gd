@@ -17,7 +17,6 @@ var tutorial_manager_scene = preload("res://scenes/tutorial/tutorial_manager.tsc
 var table_customers = {} # dictionary tracking table and its customer
 var spawn_timer: Timer = null
 const SPAWN_INTERVAL = 2.0  # time between customer spawns in seconds
-var bossDays = [5,10,15,20,25,30]
 var has_spawned_boss = false
 var tutorial_manager = null  # Reference to the tutorial manager
 
@@ -129,7 +128,7 @@ func spawn_customers_for_empty_tables():
 func spawn_customer_for_table(table: Node):
 	var customer
 	# Only spawn boss if it's a boss day and we haven't spawned one yet
-	if dayLabel.dayCount in bossDays and not has_spawned_boss:
+	if dayLabel.dayCount % 5 == 0 and not has_spawned_boss:
 		customer = boss_customer_scene.instantiate()
 		print("SPAWNING BOSS!")
 		print("SPAWNING BOSS!")
