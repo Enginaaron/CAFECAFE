@@ -31,6 +31,7 @@ var on_chopping_board = false
 # Called when the ingredient spawns
 func _ready():
 	LettuceBar.value = 0
+	LettuceTimer.timeout.connect(_on_LettuceTimer_timeout)  # Connect only once
 	update_sprite()
 	
 	# Add this ingredient to the "ingredients" group for easy reference
@@ -229,7 +230,7 @@ func chop():
 			print("Chopped ingredient:", ingredient_name)
 			print("Lettuce attached to player ", player.player_number if player else "unknown")
 
-func bowl():
+func package():
 	# Ensure we have a valid player reference
 	player = get_current_player()
 	if not player:
@@ -238,10 +239,26 @@ func bowl():
 		
 	if state == State.CHOPPED:
 		print("Packaging started...")
+		LettuceBar.value = 0  # Reset progress
+		LettuceBar.visible = true  # Show progress bar
+		
+		# Calculate packaging time based on player's package speed
+		var baseTime = 5.0
+		var basetime = player.PACKAGE_SPEED  # Base speed is 5
+		LettuceTimer.wait_time = max(1.0, basetime)  # Minimum 1 second
+		print("Packaging time: ", LettuceTimer.wait_time, " seconds (Package Speed: ", player.PACKAGE_SPEED, ")")
+		
+		LettuceTimer.start()  # Start the timer
+
+func _on_LettuceTimer_timeout():
+	# Ensure we have a valid player reference
+	player = get_current_player()
+	if is_instance_valid(player):
 		state = State.PACKAGED
 		LettuceBar.visible = false  # Hide bar when packaging is done
 		update_sprite()
 		print("Packaged ingredient:", ingredient_name)
+		player.is_busy = false  # Re-enable player movement
 
 func update_sprite():
 	match state:

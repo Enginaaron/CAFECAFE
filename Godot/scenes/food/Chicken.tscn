@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://bffsghe6bs5bu"]
+
+[ext_resource type="Script" uid="uid://c53f53m2e7fje" path="res://scripts/Food/Chicken.gd" id="1_ddhwp"]
+
+[node name="Chicken" type="Node2D"]
+script = ExtResource("1_ddhwp")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="ChickenTimer" type="Timer" parent="."]
+
+[node name="ChickenBar" type="ProgressBar" parent="."]
+visible = false
+offset_right = 4.0
+offset_bottom = 27.0

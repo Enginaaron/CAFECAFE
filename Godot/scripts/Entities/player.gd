@@ -111,6 +111,8 @@ func attempt_interaction():
 		drop_ingredient()
 	elif tile_data.get_custom_data("lettuce"):
 		pick_up_ingredient("res://scenes/Lettuce.tscn")
+	elif tile_data.get_custom_data("chicken"):
+		pick_up_ingredient("res://scenes/Chicken.tscn")
 	elif tile_data.get_custom_data("chopping board") and held_ingredient and not held_ingredient.is_chopped:
 		held_ingredient.chop()
 	elif tile_data.get_custom_data("bowl") and held_ingredient and held_ingredient.state == held_ingredient.State.CHOPPED:
@@ -151,7 +153,7 @@ func apply_bonus(stat_bonus) -> void:
 func is_facing_position(target_pos: Vector2) -> bool:
 	# Get the tile the player is on and the tile they're facing
 	var player_tile = tileMap.local_to_map(global_position)
-	var facing_tile = player_tile + get_facing_direction()
+	var facing_tile = player_tile + get_facing_direction ()
 	
 	# Get the tile of the target position
 	var target_tile = tileMap.local_to_map(target_pos)

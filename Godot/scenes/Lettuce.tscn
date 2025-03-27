@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://byir7igr1absj"]
 
-[ext_resource type="Script" uid="uid://b4c0lhrbnapvk" path="res://scripts/Lettuce.gd" id="1_x7qoh"]
+[ext_resource type="Script" uid="uid://b4c0lhrbnapvk" path="res://scripts/Food/Lettuce.gd" id="1_x7qoh"]
 [ext_resource type="Texture2D" uid="uid://dg8337odcjb41" path="res://textures/FoodSprites/wholeLettuce.tres" id="2_kx7oe"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xayox"]

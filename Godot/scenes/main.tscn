@@ -1348,10 +1348,11 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -20.0
-offset_top = 0.0
+offset_top = 7.0
 offset_right = 20.0
-offset_bottom = 40.0
+offset_bottom = 47.0
 grow_horizontal = 2
+scale = Vector2(0.485, 0.485)
 
 [node name="HeartContainer" parent="UI/lifeBar" index="0"]
 offset_left = -24.9999
