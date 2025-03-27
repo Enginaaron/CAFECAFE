@@ -1,7 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://5g7828xotp1y"]
+[gd_scene load_steps=11 format=3 uid="uid://5g7828xotp1y"]
 
 [ext_resource type="Texture2D" uid="uid://dwnsxnisyn7xe" path="res://textures/heldItemBox.png" id="1_j2yqk"]
-[ext_resource type="Script" uid="uid://dg5eco17dfd62" path="res://scripts/UI/heldItemTexture.gd" id="1_mfjsr"]
+[ext_resource type="Script" uid="uid://posv1qnxbe4t" path="res://scripts/UI/heldItemTexture.gd" id="1_mfjsr"]
 [ext_resource type="FontFile" uid="uid://b0kv3mlkqmckt" path="res://textures/8-bit-hud.ttf" id="1_uue7a"]
 [ext_resource type="Script" uid="uid://8buqd2juhwa7" path="res://scripts/UI/moneylabel.gd" id="2_64wfr"]
 [ext_resource type="Script" uid="uid://d1w0syxmpxqmx" path="res://scripts/UI/dayLabel.gd" id="5_qpv6a"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://7at6pmi3evq7" path="res://textures/Heart.png" id="6_3wlde"]
 [ext_resource type="Texture2D" uid="uid://d2phsq7kek6rq" path="res://textures/Sun.png" id="6_24e4x"]
 [ext_resource type="Script" uid="uid://cqyr0t8ukjari" path="res://scripts/UI/lifeBar.gd" id="6_xpksx"]
+[ext_resource type="Script" uid="uid://dkk8nuqcoljmr" path="res://scripts/UI/exit.gd" id="10_w7enk"]
 
 [node name="UI" type="CanvasLayer"]
 
@@ -91,17 +92,15 @@ scale = Vector2(0.5, 0.5)
 [node name="lifeBar" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
-offset_left = 156.0
-offset_top = 128.0
-offset_right = 196.0
-offset_bottom = 168.0
-scale = Vector2(0.75, 0.75)
+offset_right = 40.0
+offset_bottom = 40.0
+scale = Vector2(0.485, 0.485)
 script = ExtResource("6_xpksx")
 
 [node name="HeartContainer" type="HBoxContainer" parent="lifeBar"]
 layout_mode = 0
-offset_right = 107.0
-offset_bottom = 40.0
+offset_right = 104.0
+offset_bottom = 32.0
 alignment = 2
 
 [node name="Heart1" type="TextureRect" parent="lifeBar/HeartContainer"]
@@ -115,3 +114,26 @@ texture = ExtResource("6_3wlde")
 [node name="Heart3" type="TextureRect" parent="lifeBar/HeartContainer"]
 layout_mode = 2
 texture = ExtResource("6_3wlde")
+
+[node name="Exit" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 195.0
+offset_top = 25.0
+offset_right = 195.0
+offset_bottom = 25.0
+scale = Vector2(0.5, 0.5)
+script = ExtResource("10_w7enk")
+
+[node name="TextureRect" type="TextureRect" parent="Exit"]
+layout_mode = 0
+offset_right = 42.0
+offset_bottom = 42.0
+texture = ExtResource("6_24e4x")
+
+[node name="Button" type="Button" parent="Exit"]
+layout_mode = 0
+offset_right = 42.0
+offset_bottom = 41.0
+
+[connection signal="pressed" from="Exit/Button" to="Exit" method="_on_button_pressed"]

@@ -230,7 +230,7 @@ func chop():
 			print("Chopped ingredient:", ingredient_name)
 			print("Lettuce attached to player ", player.player_number if player else "unknown")
 
-func package():
+func bowl():
 	# Ensure we have a valid player reference
 	player = get_current_player()
 	if not player:

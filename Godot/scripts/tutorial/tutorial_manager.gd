@@ -73,12 +73,12 @@ func initialize(player_node):
 	
 	# Use hardcoded positions for all appliances
 	appliance_positions = {
-		TutorialStage.LETTUCE_INTERACTION: Vector2(48, 16),   # Lettuce station
-		TutorialStage.CHOPPING_INTERACTION: Vector2(80, 16),  # Chopping board
-		TutorialStage.PACKAGING_INTERACTION: Vector2(112, 16), # Packaging station
-		TutorialStage.TABLE_INTERACTION: Vector2(48, 112),      # Default table position
-		TutorialStage.STORE_INTERACTION: Vector2(176, -16),      # Store position
-		TutorialStage.TRASH_INTERACTION: Vector2(144, 16)       # Trash tile (one tile right of packaging)
+		TutorialStage.LETTUCE_INTERACTION: Vector2(384, 128),   # Lettuce station
+		TutorialStage.CHOPPING_INTERACTION: Vector2(320, 16),  # Chopping board
+		TutorialStage.PACKAGING_INTERACTION: Vector2(192, 320), # Packaging station
+		TutorialStage.TABLE_INTERACTION: Vector2(384, 512),      # Default table position
+		TutorialStage.STORE_INTERACTION: Vector2(768, 512),      # Store position
+		TutorialStage.TRASH_INTERACTION: Vector2(128, 128)       # Trash tile (one tile right of packaging)
 	}
 	
 	# Find actual table position

@@ -6,6 +6,7 @@ var current_lives = 3
 var max_lives = 3
 
 func _ready():
+	position = Vector2(100,7)
 	update_hearts()
 
 func lose_life():

@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://couhiyx3qcnv4" path="res://scripts/main.gd" id="1_oodj8"]
 [ext_resource type="Texture2D" uid="uid://dgsbriafynrsa" path="res://textures/map.png" id="2_choun"]
 [ext_resource type="PackedScene" uid="uid://5g7828xotp1y" path="res://scenes/UI.tscn" id="3_cur7g"]
-[ext_resource type="Script" uid="uid://dg5eco17dfd62" path="res://scripts/UI/heldItemTexture.gd" id="4_choun"]
+[ext_resource type="Script" uid="uid://posv1qnxbe4t" path="res://scripts/UI/heldItemTexture.gd" id="4_choun"]
 [ext_resource type="Texture2D" uid="uid://dwnsxnisyn7xe" path="res://textures/heldItemBox.png" id="5_ya4ey"]
 [ext_resource type="PackedScene" uid="uid://5f30vvb22fft" path="res://scenes/table.tscn" id="7_85g3d"]
 [ext_resource type="PackedScene" uid="uid://mgaxh2nqvgsn" path="res://scenes/shop/storeInterface.tscn" id="7_o6xl0"]
@@ -1347,17 +1347,14 @@ offset_right = 45.0
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -20.0
-offset_top = 7.0
-offset_right = 20.0
-offset_bottom = 47.0
+offset_left = -120.0
+offset_right = -120.0
+offset_bottom = 0.0
 grow_horizontal = 2
-scale = Vector2(0.485, 0.485)
 
 [node name="HeartContainer" parent="UI/lifeBar" index="0"]
 offset_left = -24.9999
 offset_right = 79.0001
-offset_bottom = 32.0
 
 [node name="heldItemDisplay2" type="Control" parent="UI"]
 layout_mode = 3
