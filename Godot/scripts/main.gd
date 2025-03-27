@@ -4,7 +4,7 @@ extends Node2D
 @onready var tilemap = $TileMapLayer
 @onready var dayLabel = $UI/dayCounter/dayLabel
 @onready var player_scene = preload("res://scenes/player.tscn")
-@onready var storeInterface = $storeInterface
+@onready var storeInterface = $UI/storeInterface
 
 var ingredient_scenes = {
 	"Lettuce": preload("res://scenes/Lettuce.tscn"),
@@ -188,8 +188,8 @@ func toggle_store():
 		storeInterface.show()
 
 func _on_day_label_day_changed() -> void:
-	# Reset boss spawn flag for new day
 	has_spawned_boss = false
+	storeInterface.refresh_stock()
 	
 	# clear all customers if they exist
 	print("regular customers spawning")

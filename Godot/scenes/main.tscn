@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://couhiyx3qcnv4" path="res://scripts/main.gd" id="1_oodj8"]
 [ext_resource type="Texture2D" uid="uid://dgsbriafynrsa" path="res://textures/map.png" id="2_choun"]
 [ext_resource type="PackedScene" uid="uid://5g7828xotp1y" path="res://scenes/UI.tscn" id="3_cur7g"]
-[ext_resource type="Script" uid="uid://dg5eco17dfd62" path="res://scripts/UI/heldItemTexture.gd" id="4_choun"]
+[ext_resource type="Script" uid="uid://posv1qnxbe4t" path="res://scripts/UI/heldItemTexture.gd" id="4_choun"]
 [ext_resource type="Texture2D" uid="uid://dwnsxnisyn7xe" path="res://textures/heldItemBox.png" id="5_ya4ey"]
 [ext_resource type="PackedScene" uid="uid://5f30vvb22fft" path="res://scenes/table.tscn" id="7_85g3d"]
 [ext_resource type="PackedScene" uid="uid://mgaxh2nqvgsn" path="res://scenes/shop/storeInterface.tscn" id="7_o6xl0"]
@@ -383,6 +383,7 @@ texture_region_size = Vector2i(64, 64)
 3:2/0/custom_data_5 = true
 2:2/0 = 0
 2:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+2:2/0/custom_data_7 = true
 1:2/0 = 0
 1:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
 1:2/0/custom_data_16 = true
@@ -1405,8 +1406,6 @@ zoom = Vector2(0.5, 0.5)
 position_smoothing_enabled = true
 position_smoothing_speed = 10.0
 script = ExtResource("8_camera")
-
-[node name="storeInterface" parent="." instance=ExtResource("7_o6xl0")]
 
 [connection signal="day_changed" from="UI/dayCounter/dayLabel" to="." method="_on_day_label_day_changed"]
 
