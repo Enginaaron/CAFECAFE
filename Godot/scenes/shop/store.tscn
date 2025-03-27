@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://dee817ma5jeji"]
+
+[ext_resource type="Script" uid="uid://3ow7uwafbo2f" path="res://scripts/MapObjects/store.gd" id="1_fosne"]
+
+[node name="Store" type="Node2D"]
+script = ExtResource("1_fosne")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
