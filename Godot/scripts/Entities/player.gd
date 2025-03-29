@@ -85,6 +85,7 @@ func attempt_interaction():
 	var facing_tile: Vector2i = tileMap.local_to_map(global_position) + get_facing_direction()
 	
 	# check for table interaction
+	@warning_ignore("shadowed_variable")
 	var table = main.get_table_at_tile(facing_tile)
 	if table:
 		table.serve(held_ingredient)
