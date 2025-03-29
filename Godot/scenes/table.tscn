@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://5f30vvb22fft"]
+[gd_scene load_steps=12 format=3 uid="uid://5f30vvb22fft"]
 
 [ext_resource type="Script" uid="uid://cbiqvn2e5txac" path="res://scripts/MapObjects/table.gd" id="1_eotx8"]
 [ext_resource type="Texture2D" uid="uid://66qd7hujpumd" path="res://textures/FoodSprites/tilemap_pack_49.tres" id="2_docs3"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://ckk8aivsfl07h" path="res://textures/FoodSprites/tilemap_pack_51.tres" id="5_5it3b"]
 [ext_resource type="Texture2D" uid="uid://tqwxp3lpva0p" path="res://textures/FoodSprites/tilemap_pack_40.tres" id="6_g0e7t"]
 [ext_resource type="Texture2D" uid="uid://clrttoa5dpd1r" path="res://textures/FoodSprites/tilemap_pack_42.tres" id="7_e1moh"]
+[ext_resource type="Texture2D" uid="uid://fhyafsjhtwwq" path="res://textures/FoodSprites/tilemap_pack_30.tres" id="8_5it3b"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_u03e6"]
 atlas = ExtResource("2_olh0b")
@@ -16,7 +17,7 @@ region = Rect2(0, 0, 64, 64)
 
 [node name="table" type="Node2D"]
 script = ExtResource("1_eotx8")
-possible_dishes = Array[Texture]([ExtResource("2_docs3"), ExtResource("3_e1moh"), ExtResource("3_olh0b"), ExtResource("5_5it3b"), ExtResource("6_g0e7t"), ExtResource("7_e1moh")])
+possible_dishes = Array[Texture]([ExtResource("2_docs3"), ExtResource("3_e1moh"), ExtResource("3_olh0b"), ExtResource("5_5it3b"), ExtResource("6_g0e7t"), ExtResource("7_e1moh"), ExtResource("8_5it3b")])
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = SubResource("AtlasTexture_u03e6")

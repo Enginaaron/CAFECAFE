@@ -50,9 +50,10 @@ func setup_collision():
 func setup_player_position():
 	if player_number == 1:
 		position = Vector2(16, 16)
+		sprite2D.texture = preload("res://textures/PlayerSprites/bear1Front.tres")
 	else:
 		position = Vector2(48, 16)
-		sprite2D.modulate = Color(0.2, 0.8, 1.0)  # Blue tint for player 2
+		sprite2D.texture = preload("res://textures/PlayerSprites/panda1Front.tres")
 
 func _physics_process(_delta):
 	if is_busy or (storeInterface and storeInterface.visible):
@@ -193,7 +194,7 @@ func pick_up_ingredient(scene_path: String):
 		held_ingredient = load(scene_path).instantiate()
 		held_ingredient.pick_up()
 		$Chef.add_child(held_ingredient)
-		held_ingredient.global_position += Vector2(0, 32)
+		held_ingredient.global_position += Vector2(0, 16)
 		# Ensure the ingredient is in the ingredients group
 		if not held_ingredient.is_in_group("ingredients"):
 			held_ingredient.add_to_group("ingredients")

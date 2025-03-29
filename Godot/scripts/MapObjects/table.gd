@@ -13,7 +13,7 @@ signal order_generated
 @onready var lifeBar = get_node("../../UI/lifeBar")
 @onready var tilemap = get_node("../../TileMapLayer")
 
-const ORDER_TIME = 30.0 
+const ORDER_TIME = 60
 
 var current_dishes: Array[Texture] = []
 var has_order: bool = false

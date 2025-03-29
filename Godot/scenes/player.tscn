@@ -1,14 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://b2mb4i3qikusu"]
+[gd_scene load_steps=4 format=3 uid="uid://b2mb4i3qikusu"]
 
 [ext_resource type="Script" uid="uid://c4tbqeh80t1cg" path="res://scripts/Entities/player.gd" id="1_aqxvr"]
-[ext_resource type="Texture2D" uid="uid://v2kg034w0wq0" path="res://textures/tilemap_pack.png" id="2_aqxvr"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_g2els"]
-atlas = ExtResource("2_aqxvr")
-region = Rect2(960, 256, 64, 128)
+[ext_resource type="Texture2D" uid="uid://c3b5sdgoamwm2" path="res://textures/PlayerSprites/panda1Front.tres" id="2_g2els"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1"]
-radius = 14.0
+radius = 15.0
 
 [node name="player" type="CharacterBody2D"]
 y_sort_enabled = true
@@ -22,9 +18,8 @@ drag_horizontal_enabled = true
 drag_vertical_enabled = true
 
 [node name="Chef" type="Sprite2D" parent="."]
-position = Vector2(1, -33)
-texture = SubResource("AtlasTexture_g2els")
+position = Vector2(-1, -20)
+texture = ExtResource("2_g2els")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(1, -1)
 shape = SubResource("CircleShape2D_1")
