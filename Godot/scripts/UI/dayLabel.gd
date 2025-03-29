@@ -8,7 +8,7 @@ var main
 var orderCount
 
 signal day_changed
-var dayCount: int = 0
+var dayCount: int = 4
 
 func _ready() -> void:
 	self.text = str(dayCount)

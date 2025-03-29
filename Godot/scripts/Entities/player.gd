@@ -87,7 +87,7 @@ func attempt_interaction():
 	# check for table interaction
 	var table = main.get_table_at_tile(facing_tile)
 	if table:
-		table.serve("lettuce")
+		table.serve(held_ingredient)
 		return
 
 	# check for ingredients on the facing tile
@@ -111,6 +111,8 @@ func attempt_interaction():
 		drop_ingredient()
 	elif tile_data.get_custom_data("lettuce"):
 		pick_up_ingredient("res://scenes/food/Lettuce.tscn")
+	elif tile_data.get_custom_data("tomato"):
+		pick_up_ingredient("res://scenes/food/Tomato.tscn")
 	elif tile_data.get_custom_data("chicken"):
 		pick_up_ingredient("res://scenes/food/Chicken.tscn")
 	elif tile_data.get_custom_data("chopping board") and held_ingredient and not held_ingredient.is_chopped:

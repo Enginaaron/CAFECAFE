@@ -74,6 +74,7 @@ func setup_players(count: int):
 		player2.player_number = 2
 		player2.storeInterface = $UI/storeInterface
 		add_child(player2)
+		player2.global_position = Vector2(-186,-550)
 		
 		# Setup multiplayer camera
 		var camera = $MultiplayerCamera

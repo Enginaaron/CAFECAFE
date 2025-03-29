@@ -92,20 +92,47 @@ func generate_random_order():
 		
 	print("Generating random order...")
 	
-	# Clear previous orders
+	# Clear previous orders and remove existing dish sprites
 	current_dishes.clear()
 	completed_orders = 0
+	
+	# Get the wrapper node
+	var wrapper = $OrderBubble/Wrapper
+	if not wrapper:
+		print("ERROR: Wrapper node not found!")
+		return
+	
+	# Clear existing sprites
+	for child in wrapper.get_children():
+		child.queue_free()
 	
 	# Generate orders based on whether this is a boss table
 	if is_boss_table:
 		# Generate 3 random orders for boss
 		for i in range(3):
 			current_dishes.append(possible_dishes[randi() % possible_dishes.size()])
-		dish_sprite.texture = current_dishes[0]  # Show first order
 	else:
 		# Generate single order for regular customer
 		current_dishes.append(possible_dishes[randi() % possible_dishes.size()])
-		dish_sprite.texture = current_dishes[0]
+	
+	# Calculate sprite size based on wrapper size and number of orders
+	var sprite_size = min(wrapper.size.x / current_dishes.size(), wrapper.size.y)
+	
+	# Create a new DishSprite for each order
+	for i in range(current_dishes.size()):
+		var new_dish_sprite = Sprite2D.new()
+		new_dish_sprite.name = "DishSprite" + str(i)
+		new_dish_sprite.texture = current_dishes[i]
+		
+		# Scale the sprite to fit within the calculated size
+		var scale_factor = 0.8*(sprite_size) / max(new_dish_sprite.texture.get_width(), new_dish_sprite.texture.get_height())
+		new_dish_sprite.scale = Vector2(scale_factor, scale_factor)
+		
+		# Position the sprite horizontally within the wrapper
+		var x_pos = (wrapper.size.x / current_dishes.size()) * i + (wrapper.size.x / current_dishes.size() / 2)
+		new_dish_sprite.position = Vector2(x_pos, wrapper.size.y / 1.75)
+		
+		wrapper.add_child(new_dish_sprite)
 	
 	# Show the bubble
 	$OrderBubble.visible = true
@@ -158,58 +185,54 @@ func set_customer(customer: Node) -> void:
 	is_boss_table = customer.name.begins_with("BossCustomer")
 
 func serve(ingredient_name):
-	var dish_texture = null
-	
-	# Map ingredient names to their corresponding dish textures
-	match ingredient_name.to_lower():
-		"lettuce":
-			dish_texture = possible_dishes[0]
-			return
-	
 	# Get the active player
 	var player = get_active_player()
 	if not player:
 		print("No player at table!")
 		return
 	
-	# Check if we have an order, the player is holding something, and it's packaged
+	# Check if we have an order and the player is holding something
 	if not has_order or player.held_ingredient == null:
 		return
-		
-	# Ensure the ingredient is in its packaged state
-	if player.held_ingredient.state != player.held_ingredient.State.PACKAGED:
-		print("Cannot serve unpackaged ingredient!")
-		return
 	
-	# Check if the served dish matches any of the current orders
-	var order_index = current_dishes.find(dish_texture)
-	if order_index != -1:
-		# Handle successful serving
-		player.held_ingredient.drop()
-		player.held_ingredient.queue_free()  # Remove from player
-		player.held_ingredient = null
-		
-		# Remove the completed order
-		current_dishes.remove_at(order_index)
-		completed_orders += 1
-		
-		# Update money based on whether it's a boss order
-		if is_boss_table:
-			moneyLabel.update_money(10)  # More money for boss orders
-		else:
-			moneyLabel.update_money(5)
-		
-		dayLabel.order_done()
-		
-		# Update the displayed order
-		if current_dishes.size() > 0:
-			dish_sprite.texture = current_dishes[0]
-		else:
-			# All orders completed
-			clear_order()
-			# Remove the customer after successful serve
+	# Get the held ingredient's sprite texture
+	var held_ingredient_texture = player.held_ingredient.sprite.texture
+	
+	# Check against all dish sprites in the Wrapper
+	var match_found = false
+	var wrapper = $OrderBubble/Wrapper
+	if wrapper:
+		for child in wrapper.get_children():
+			if child.name.begins_with("DishSprite"):
+				if held_ingredient_texture == child.texture:
+					match_found = true
+					# Remove the matched sprite
+					child.queue_free()
+					# Remove the corresponding texture from current_dishes
+					current_dishes.erase(child.texture)
+					# Clear the player's held item
+					player.drop_ingredient()
+					break
+	
+	if match_found:
+		print("Yes - Ingredient matches one of the orders!")
+		# Check if all orders are completed
+		if current_dishes.is_empty():
+			print("All orders completed!")
+			completed_orders += 1
+			# Update money - more for boss orders
+			if moneyLabel:
+				var reward = 10 if is_boss_table else 5
+				moneyLabel.update_money(reward)
+			# Remove customer
 			if current_customer:
+				# Get the main scene to properly remove the customer
+				var main_scene = get_node("/root/Node2D")
+				if main_scene:
+					main_scene.remove_customer_from_table(current_customer, self)
 				current_customer.queue_free()
 				current_customer = null
+			# Clear the order
+			clear_order()
 	else:
-		print("Wrong dish served!")
+		print("No - Ingredient does not match any orders")

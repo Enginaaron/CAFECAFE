@@ -15,7 +15,7 @@ collision_layer = 2
 script = ExtResource("1_xss0h")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(2, 2)
+scale = Vector2(1.4, 1.4)
 texture = SubResource("AtlasTexture_fx2s6")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
