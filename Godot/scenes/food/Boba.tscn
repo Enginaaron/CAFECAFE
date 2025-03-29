@@ -1,0 +1,33 @@
+[gd_scene load_steps=9 format=3 uid="uid://435fhf7we3e6"]
+
+[ext_resource type="Script" uid="uid://dp6ia5i3u4hy2" path="res://scripts/Food/Boba.gd" id="1_dermj"]
+[ext_resource type="Texture2D" uid="uid://dnwtv1tmyl3ma" path="res://textures/FoodSprites/tilemap_pack_31.tres" id="2_w2llg"]
+[ext_resource type="Texture2D" uid="uid://cvaql078uh6nu" path="res://textures/FoodSprites/tilemap_pack_32.tres" id="3_wqaa1"]
+[ext_resource type="Texture2D" uid="uid://by4pwfygujcn1" path="res://textures/FoodSprites/tilemap_pack_33.tres" id="4_rmhpn"]
+[ext_resource type="Texture2D" uid="uid://v46banfhwj52" path="res://textures/FoodSprites/tilemap_pack_34.tres" id="5_rnkc0"]
+[ext_resource type="Texture2D" uid="uid://fhyafsjhtwwq" path="res://textures/FoodSprites/tilemap_pack_30.tres" id="6_q3wsb"]
+[ext_resource type="Texture2D" uid="uid://wkc1iflvg1ov" path="res://textures/UISprites/progressBG.png" id="7_rmhpn"]
+[ext_resource type="Texture2D" uid="uid://2f6matayyful" path="res://textures/UISprites/progressFill.png" id="8_rnkc0"]
+
+[node name="Boba" type="Node2D"]
+script = ExtResource("1_dermj")
+cup_texture = ExtResource("2_w2llg")
+tea_texture = ExtResource("3_wqaa1")
+tapioca_texture = ExtResource("4_rmhpn")
+tapiocatea_texture = ExtResource("5_rnkc0")
+lid_texture = ExtResource("6_q3wsb")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="bobaTimer" type="Timer" parent="."]
+
+[node name="bobaBar" type="TextureProgressBar" parent="."]
+visible = false
+offset_left = -32.0
+offset_top = -22.0
+offset_right = 32.0
+offset_bottom = 5.0
+texture_under = ExtResource("7_rmhpn")
+texture_progress = ExtResource("8_rnkc0")
+
+[connection signal="timeout" from="bobaTimer" to="." method="_on_boba_timer_timeout"]

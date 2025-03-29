@@ -1,33 +1,29 @@
-[gd_scene load_steps=5 format=3 uid="uid://crbcf3187vnux"]
+[gd_scene load_steps=7 format=3 uid="uid://crbcf3187vnux"]
 
-[ext_resource type="Script" uid="uid://crgq57cgfwy8j" path="res://scripts/Food/Tomato.gd" id="1_48bjv"]
+[ext_resource type="Script" uid="uid://b4c0lhrbnapvk" path="res://scripts/Food/Vegetable.gd" id="1_ps6wi"]
 [ext_resource type="Texture2D" uid="uid://btspuu08q32j2" path="res://textures/FoodSprites/tilemap_pack_50.tres" id="2_3omuj"]
 [ext_resource type="Texture2D" uid="uid://ckk8aivsfl07h" path="res://textures/FoodSprites/tilemap_pack_51.tres" id="3_qcthb"]
 [ext_resource type="Texture2D" uid="uid://clrttoa5dpd1r" path="res://textures/FoodSprites/tilemap_pack_42.tres" id="4_yqxko"]
+[ext_resource type="Texture2D" uid="uid://wkc1iflvg1ov" path="res://textures/UISprites/progressBG.png" id="5_qcthb"]
+[ext_resource type="Texture2D" uid="uid://2f6matayyful" path="res://textures/UISprites/progressFill.png" id="6_yqxko"]
 
 [node name="Tomato" type="Node2D"]
-script = ExtResource("1_48bjv")
+script = ExtResource("1_ps6wi")
 whole_texture = ExtResource("2_3omuj")
 chopped_texture = ExtResource("3_qcthb")
 packaged_texture = ExtResource("4_yqxko")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 
-[node name="tomatoTimer" type="Timer" parent="."]
+[node name="VeggieTimer" type="Timer" parent="."]
 wait_time = 5.0
 one_shot = true
 
-[node name="tomatoBar" type="ProgressBar" parent="."]
+[node name="VeggieBar" type="TextureProgressBar" parent="."]
 visible = false
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
+offset_left = -32.0
 offset_top = -22.0
-offset_right = 20.0
+offset_right = 32.0
 offset_bottom = 5.0
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(1, 0.51)
+texture_under = ExtResource("5_qcthb")
+texture_progress = ExtResource("6_yqxko")

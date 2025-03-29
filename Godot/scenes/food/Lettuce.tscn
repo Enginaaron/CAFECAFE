@@ -1,34 +1,29 @@
-[gd_scene load_steps=5 format=3 uid="uid://cqb1radg726be"]
+[gd_scene load_steps=7 format=3 uid="uid://cqb1radg726be"]
 
-[ext_resource type="Script" uid="uid://b4c0lhrbnapvk" path="res://scripts/Food/Lettuce.gd" id="1_th67u"]
+[ext_resource type="Script" uid="uid://b4c0lhrbnapvk" path="res://scripts/Food/Vegetable.gd" id="1_th67u"]
 [ext_resource type="Texture2D" uid="uid://66qd7hujpumd" path="res://textures/FoodSprites/tilemap_pack_49.tres" id="2_mkgcg"]
 [ext_resource type="Texture2D" uid="uid://w555br4qse7x" path="res://textures/FoodSprites/tilemap_pack_48.tres" id="3_4ugnp"]
 [ext_resource type="Texture2D" uid="uid://tqwxp3lpva0p" path="res://textures/FoodSprites/tilemap_pack_40.tres" id="4_pnpci"]
+[ext_resource type="Texture2D" uid="uid://wkc1iflvg1ov" path="res://textures/UISprites/progressBG.png" id="5_pnpci"]
+[ext_resource type="Texture2D" uid="uid://2f6matayyful" path="res://textures/UISprites/progressFill.png" id="6_3mdgn"]
 
 [node name="Lettuce" type="Node2D"]
 script = ExtResource("1_th67u")
 whole_texture = ExtResource("2_mkgcg")
 chopped_texture = ExtResource("3_4ugnp")
 packaged_texture = ExtResource("4_pnpci")
-ingredient_name = "lettuce"
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 
-[node name="LettuceTimer" type="Timer" parent="."]
+[node name="VeggieTimer" type="Timer" parent="."]
 wait_time = 5.0
 one_shot = true
 
-[node name="LettuceBar" type="ProgressBar" parent="."]
+[node name="VeggieBar" type="TextureProgressBar" parent="."]
 visible = false
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
+offset_left = -32.0
 offset_top = -22.0
-offset_right = 20.0
+offset_right = 32.0
 offset_bottom = 5.0
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(1, 0.51)
+texture_under = ExtResource("5_pnpci")
+texture_progress = ExtResource("6_3mdgn")
