@@ -110,9 +110,9 @@ func attempt_interaction():
 	if tile_data.get_custom_data("trash"):
 		drop_ingredient()
 	elif tile_data.get_custom_data("lettuce"):
-		pick_up_ingredient("res://scenes/Lettuce.tscn")
+		pick_up_ingredient("res://scenes/food/Lettuce.tscn")
 	elif tile_data.get_custom_data("chicken"):
-		pick_up_ingredient("res://scenes/Chicken.tscn")
+		pick_up_ingredient("res://scenes/food/Chicken.tscn")
 	elif tile_data.get_custom_data("chopping board") and held_ingredient and not held_ingredient.is_chopped:
 		held_ingredient.chop()
 	elif tile_data.get_custom_data("bowl") and held_ingredient and held_ingredient.state == held_ingredient.State.CHOPPED:

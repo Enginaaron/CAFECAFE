@@ -164,7 +164,6 @@ func serve(ingredient_name):
 	match ingredient_name.to_lower():
 		"lettuce":
 			dish_texture = possible_dishes[0]
-		_:
 			return
 	
 	# Get the active player

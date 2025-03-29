@@ -1,11 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://cqb1radg726be"]
+[gd_scene load_steps=5 format=3 uid="uid://cqb1radg726be"]
 
 [ext_resource type="Script" uid="uid://b4c0lhrbnapvk" path="res://scripts/Food/Lettuce.gd" id="1_th67u"]
-[ext_resource type="Texture2D" uid="uid://dg8337odcjb41" path="res://textures/FoodSprites/wholeLettuce.tres" id="2_7f228"]
+[ext_resource type="Texture2D" uid="uid://66qd7hujpumd" path="res://textures/FoodSprites/tilemap_pack_49.tres" id="2_mkgcg"]
+[ext_resource type="Texture2D" uid="uid://byes1wxqh80nn" path="res://textures/FoodSprites/tilemap_pack_48.tres" id="3_4ugnp"]
+[ext_resource type="Texture2D" uid="uid://tqwxp3lpva0p" path="res://textures/FoodSprites/tilemap_pack_40.tres" id="4_pnpci"]
 
 [node name="Lettuce" type="Node2D"]
 script = ExtResource("1_th67u")
-whole_texture = ExtResource("2_7f228")
+whole_texture = ExtResource("2_mkgcg")
+chopped_texture = ExtResource("3_4ugnp")
+packaged_texture = ExtResource("4_pnpci")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 

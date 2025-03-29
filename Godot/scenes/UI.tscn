@@ -1,13 +1,13 @@
 [gd_scene load_steps=11 format=3 uid="uid://5g7828xotp1y"]
 
-[ext_resource type="Texture2D" uid="uid://dwnsxnisyn7xe" path="res://textures/heldItemBox.png" id="1_j2yqk"]
+[ext_resource type="Texture2D" uid="uid://dwnsxnisyn7xe" path="res://textures/UISprites/heldItemBox.png" id="1_j2yqk"]
 [ext_resource type="Script" uid="uid://posv1qnxbe4t" path="res://scripts/UI/heldItemTexture.gd" id="1_mfjsr"]
-[ext_resource type="FontFile" uid="uid://b0kv3mlkqmckt" path="res://textures/8-bit-hud.ttf" id="1_uue7a"]
+[ext_resource type="FontFile" uid="uid://b0kv3mlkqmckt" path="res://textures/UISprites/8-bit-hud.ttf" id="1_uue7a"]
 [ext_resource type="Script" uid="uid://8buqd2juhwa7" path="res://scripts/UI/moneylabel.gd" id="2_64wfr"]
 [ext_resource type="Script" uid="uid://d1w0syxmpxqmx" path="res://scripts/UI/dayLabel.gd" id="5_qpv6a"]
-[ext_resource type="Texture2D" uid="uid://c5i1n4xesrowg" path="res://textures/coin.png" id="5_ukj8e"]
-[ext_resource type="Texture2D" uid="uid://7at6pmi3evq7" path="res://textures/Heart.png" id="6_3wlde"]
-[ext_resource type="Texture2D" uid="uid://d2phsq7kek6rq" path="res://textures/Sun.png" id="6_24e4x"]
+[ext_resource type="Texture2D" uid="uid://c5i1n4xesrowg" path="res://textures/UISprites/coin.png" id="5_ukj8e"]
+[ext_resource type="Texture2D" uid="uid://7at6pmi3evq7" path="res://textures/UISprites/Heart.png" id="6_3wlde"]
+[ext_resource type="Texture2D" uid="uid://d2phsq7kek6rq" path="res://textures/UISprites/Sun.png" id="6_24e4x"]
 [ext_resource type="Script" uid="uid://cqyr0t8ukjari" path="res://scripts/UI/lifeBar.gd" id="6_xpksx"]
 [ext_resource type="Script" uid="uid://dkk8nuqcoljmr" path="res://scripts/UI/exit.gd" id="10_w7enk"]
 

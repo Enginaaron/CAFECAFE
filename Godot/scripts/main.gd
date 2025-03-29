@@ -7,7 +7,7 @@ extends Node2D
 @onready var storeInterface = $UI/storeInterface
 
 var ingredient_scenes = {
-	"Lettuce": preload("res://scenes/Lettuce.tscn"),
+	"Lettuce": preload("res://scenes/food/Lettuce.tscn"),
 }
 
 var customer_scene = preload("res://scenes/customer.tscn")
@@ -65,6 +65,7 @@ func setup_players(count: int):
 	player1.player_number = 1
 	player1.storeInterface = $UI/storeInterface
 	add_child(player1)
+	player1.global_position = Vector2(-250,-550)
 	
 	if count == 2:
 		# Create player 2

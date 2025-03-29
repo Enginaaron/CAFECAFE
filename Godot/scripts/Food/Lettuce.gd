@@ -1,4 +1,4 @@
-extends Area2D
+extends Node2D
 
 @onready var LettuceTimer = $LettuceTimer
 @onready var LettuceBar = $LettuceBar
@@ -264,13 +264,10 @@ func update_sprite():
 	match state:
 		State.WHOLE:
 			sprite.texture = whole_texture
-			sprite.modulate = Color(1,1,1)
 		State.CHOPPED:
 			sprite.texture = chopped_texture
-			sprite.modulate = Color(1,0,0)
 		State.PACKAGED:
 			sprite.texture = packaged_texture
-			sprite.modulate = Color(0,0,1)
 	if heldItemTexture:
 		heldItemTexture.update_box_sprite(sprite.texture, state)
 		print("Updated held item display for player ", player.player_number if player else "unknown")

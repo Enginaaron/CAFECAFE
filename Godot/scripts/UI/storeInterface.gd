@@ -5,10 +5,10 @@ extends CanvasLayer
 
 # Dictionary with keys "sprite", "cost", and "stat_bonus"
 var all_items = [
-	{ "sprite": preload("res://textures/boots.png"), "cost": 2, "stat_bonus": {"moveSpeed": 50} },
-	{ "sprite": preload("res://textures/mittens.png"), "cost": 8, "stat_bonus": {"packageSpeed": -.75} },
-	{ "sprite": preload("res://textures/knife.png"), "cost": 5, "stat_bonus": {"chopSpeed": -1} },
-	{ "sprite": preload("res://textures/Heart.png"), "cost": 15, "stat_bonus": {"bonuslife": 1} },
+	{ "sprite": preload("res://textures/UpgradeSprites/boots.png"), "cost": 2, "stat_bonus": {"moveSpeed": 50} },
+	{ "sprite": preload("res://textures/UpgradeSprites/mittens.png"), "cost": 8, "stat_bonus": {"packageSpeed": -.75} },
+	{ "sprite": preload("res://textures/UpgradeSprites/knife.png"), "cost": 5, "stat_bonus": {"chopSpeed": -1} },
+	{ "sprite": preload("res://textures/UISprites/Heart.png"), "cost": 15, "stat_bonus": {"bonuslife": 1} },
 	# Remember to add more items later
 ]
 
@@ -33,7 +33,7 @@ func refresh_stock():
 	var game_data = get_node("/root/GameData")
 	if game_data and game_data.tutorial_mode:
 		# In tutorial mode, only show the chopping card
-		var chop_item = { "sprite": preload("res://textures/knife.png"), "cost": 5, "stat_bonus": {"chopSpeed": -1} }
+		var chop_item = { "sprite": preload("res://textures/UpgradeSprites/knife.png"), "cost": 5, "stat_bonus": {"chopSpeed": -1} }
 		stock.append(chop_item)
 	else:
 		# Normal mode: randomly pick three items

@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://c6xminfcryldc"]
 
 [ext_resource type="Script" uid="uid://ca56ik1cgkeie" path="res://scripts/UI/optionCard.gd" id="1_14081"]
-[ext_resource type="FontFile" uid="uid://b0kv3mlkqmckt" path="res://textures/8-bit-hud.ttf" id="2_fwjlx"]
+[ext_resource type="FontFile" uid="uid://b0kv3mlkqmckt" path="res://textures/UISprites/8-bit-hud.ttf" id="2_fwjlx"]
 
 [node name="OptionCard1" type="Button"]
 custom_minimum_size = Vector2(64, 96)
