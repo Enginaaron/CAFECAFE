@@ -11,7 +11,7 @@
 script = ExtResource("1_ps6wi")
 whole_texture = ExtResource("2_3omuj")
 chopped_texture = ExtResource("3_qcthb")
-packaged_texture = ExtResource("4_yqxko")
+bowl_texture = ExtResource("4_yqxko")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 

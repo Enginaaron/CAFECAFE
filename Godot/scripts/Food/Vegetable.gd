@@ -5,13 +5,13 @@ extends Node2D
 @onready var sprite = $Sprite2D
 
 # Ingredient states
-enum State { WHOLE, CHOPPED, PACKAGED }
+enum State { WHOLE, CHOPPED, BOWL }
 var state = State.WHOLE
 
 # Sprites for each state
 @export var whole_texture: Texture
 @export var chopped_texture: Texture
-@export var packaged_texture: Texture
+@export var bowl_texture: Texture
 
 var player = null
 var is_held: bool = false
@@ -158,7 +158,7 @@ func bowl():
 func _on_VeggieTimer_timeout():
 	player = get_current_player()
 	if is_instance_valid(player):
-		state = State.PACKAGED
+		state = State.BOWL
 		VeggieBar.visible = false
 		update_sprite()
 		player.is_busy = false
@@ -169,8 +169,8 @@ func update_sprite():
 			sprite.texture = whole_texture
 		State.CHOPPED:
 			sprite.texture = chopped_texture
-		State.PACKAGED:
-			sprite.texture = packaged_texture
+		State.BOWL:
+			sprite.texture = bowl_texture
 			
 	var heldItemTexture = get_held_item_display()
 	if heldItemTexture:

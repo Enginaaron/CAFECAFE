@@ -1,15 +1,17 @@
-[gd_scene load_steps=6 format=3 uid="uid://bffsghe6bs5bu"]
+[gd_scene load_steps=7 format=3 uid="uid://bffsghe6bs5bu"]
 
 [ext_resource type="Script" uid="uid://c53f53m2e7fje" path="res://scripts/Food/Chicken.gd" id="1_ddhwp"]
 [ext_resource type="Texture2D" uid="uid://fj27qpgp5lc5" path="res://textures/FoodSprites/rawChicken.tres" id="2_0lddi"]
 [ext_resource type="Texture2D" uid="uid://wkc1iflvg1ov" path="res://textures/UISprites/progressBG.png" id="2_y1mup"]
 [ext_resource type="Texture2D" uid="uid://b7hokl3sih2h1" path="res://textures/FoodSprites/tilemap_pack_10.tres" id="3_3k8sv"]
 [ext_resource type="Texture2D" uid="uid://2f6matayyful" path="res://textures/UISprites/progressFill.png" id="3_gyhn3"]
+[ext_resource type="Texture2D" uid="uid://omjn5wq7j6dk" path="res://textures/FoodSprites/tilemap_pack_24.tres" id="4_3k8sv"]
 
 [node name="Chicken" type="Node2D"]
 script = ExtResource("1_ddhwp")
 raw_texture = ExtResource("2_0lddi")
-fried_texture = ExtResource("3_3k8sv")
+cooked_texture = ExtResource("3_3k8sv")
+plate_texture = ExtResource("4_3k8sv")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 

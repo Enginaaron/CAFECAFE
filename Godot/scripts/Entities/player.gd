@@ -153,6 +153,11 @@ func handle_tile_interaction(facing_tile: Vector2i):
 				# Only allow bowl interaction for ingredients that support it
 				if held_ingredient.has_method("bowl") and held_ingredient.state == held_ingredient.State.CHOPPED:
 					held_ingredient.bowl()
+		"plate":
+			if held_ingredient:
+				# Only allow bowl interaction for ingredients that support it
+				if held_ingredient.has_method("plate") and held_ingredient.state == held_ingredient.State.COOKED:
+					held_ingredient.plate()
 		"store":
 			main.toggle_store()
 		"grill":
@@ -164,7 +169,7 @@ func handle_tile_interaction(facing_tile: Vector2i):
 				var ingredient_tile = tileMap.local_to_map(node.global_position)
 				if ingredient_tile == facing_tile and node.has_method("fry"):
 					found_chicken = true
-					if held_ingredient and held_ingredient.has_method("fry"):
+					if not found_chicken and held_ingredient and held_ingredient.has_method("fry"):
 						if held_ingredient.state == held_ingredient.State.RAW:
 							held_ingredient.fry()
 					elif held_ingredient == null:

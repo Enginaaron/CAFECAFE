@@ -1,10 +1,11 @@
 extends Node2D
 
-enum State { RAW, FRIED }
+enum State { RAW, COOKED, PLATE}
 var state = State.RAW
 
 @export var raw_texture = Texture
-@export var fried_texture = Texture
+@export var cooked_texture = Texture
+@export var plate_texture = Texture
 
 @onready var chickenTimer = $chickenTimer
 @onready var chickenBar = $chickenBar
@@ -42,10 +43,17 @@ func pick_up():
 func drop():
 	if is_held:
 		is_held = false
-		var heldItemTexture = get_held_item_display()
-		if heldItemTexture:
-			heldItemTexture.clear_box_sprite()
+		# Store the player number before clearing the reference
+		var player_number = player.player_number if player else 1
 		player = null
+		
+		# Get the appropriate held item display based on stored player number
+		var display_name = "heldItemDisplay" if player_number == 1 else "heldItemDisplay2"
+		var main_scene = get_node("/root/Node2D")
+		if main_scene:
+			var display = main_scene.get_node_or_null("UI/" + display_name + "/heldItemTexture")
+			if display:
+				display.clear_box_sprite()
 
 func get_held_item_display():
 	var current_player = get_current_player()
@@ -65,7 +73,7 @@ func get_held_item_display():
 	return null
 
 func get_current_player():
-	# If we're on the tapioca station, return the player that's currently interacting
+	# If we're on the fryer, return the player that's currently interacting
 	if on_fryer:
 		# Find any player who can interact with the cup
 		var players = get_tree().get_nodes_in_group("players")
@@ -110,9 +118,9 @@ func fry():
 			on_fryer = true
 			chickenBar.value = 0
 			chickenBar.visible = true
-			chickenTimer.wait_time = max(1.0, 15.0)
+			chickenTimer.wait_time = max(1.0, 2.0)
 			chickenTimer.start()
-	elif state == State.FRIED:
+	elif state == State.COOKED:
 		player = get_current_player()
 		if is_instance_valid(player):
 			player.held_ingredient = self
@@ -132,17 +140,24 @@ func fry():
 				if heldItemTexture:
 					update_sprite()
 
+func plate():
+	if state == State.COOKED:
+		state = State.PLATE
+		update_sprite()
+		heldItemTexture.update_box_sprite(sprite.texture, state)
+
 func _on_chickenTimer_timeout() -> void:
 	chickenTimer.stop()
 	chickenBar.visible = false
-	player = get_current_player()
-	state = State.FRIED
+	state = State.COOKED
 	chickenBar.visible = false
 	update_sprite()
-	
+
 func update_sprite():
 	match state:
 		State.RAW:
 			sprite.texture = raw_texture
-		State.FRIED:
-			sprite.texture = fried_texture
+		State.COOKED:
+			sprite.texture = cooked_texture
+		State.PLATE:
+			sprite.texture = plate_texture
