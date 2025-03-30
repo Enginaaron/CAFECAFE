@@ -57,7 +57,7 @@ func get_active_player() -> Node:
 		# Check if the player is facing a store tile
 		var facing_tile = player.tileMap.local_to_map(player.global_position) + player.get_facing_direction()
 		var tile_data = player.tileMap.get_cell_tile_data(facing_tile)
-		if tile_data and tile_data.get_custom_data("store"):
+		if tile_data and tile_data.get_custom_data("type"):
 			return player
 	
 	return null

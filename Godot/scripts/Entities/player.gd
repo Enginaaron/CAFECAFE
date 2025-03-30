@@ -4,7 +4,6 @@ extends CharacterBody2D
 @onready var sprite2D = $Chef
 @onready var UI = $"../UI"
 @onready var main = $".."
-@onready var store = $"../Store"
 @onready var heldItemTexture = $"../UI/heldItemDisplay/heldItemTexture"
 @export var player_number: int = 1
 @export var storeInterface: CanvasLayer = null
@@ -123,7 +122,7 @@ func handle_ingredient_interaction(facing_tile: Vector2i) -> bool:
 					node.chop()
 				return true
 			# Handle tapioca station interactions
-			elif node.on_tapioca_station and node.has_method("getTapioca"):
+			elif node.has_method("getTapioca") and node.on_tapioca_station:
 				if held_ingredient == null:
 					node.getTapioca()
 				return true
@@ -160,8 +159,20 @@ func handle_tile_interaction(facing_tile: Vector2i):
 			if held_ingredient and held_ingredient.has_method("grill"):
 				held_ingredient.grill()
 		"fryer":
-			if held_ingredient and held_ingredient.has_method("fry"):
-				held_ingredient.fry()
+			var found_chicken = false
+			for node in get_tree().get_nodes_in_group("ingredients"):
+				var ingredient_tile = tileMap.local_to_map(node.global_position)
+				if ingredient_tile == facing_tile and node.has_method("fry"):
+					found_chicken = true
+					if held_ingredient and held_ingredient.has_method("fry"):
+						if held_ingredient.state == held_ingredient.State.RAW:
+							held_ingredient.fry()
+					elif held_ingredient == null:
+						node.fry()
+			if not found_chicken and held_ingredient and held_ingredient.has_method("fry"):
+				if held_ingredient.state == held_ingredient.State.RAW:
+					held_ingredient.fry()
+					
 		"tea":
 			if held_ingredient and held_ingredient.has_method("getTea"):
 				held_ingredient.getTea()
@@ -204,7 +215,13 @@ func drop_ingredient():
 		$Chef.remove_child(held_ingredient)
 		held_ingredient.drop()
 		held_ingredient = null
-		$"../UI/heldItemDisplay/heldItemTexture".clear_box_sprite()
+		# Get the correct held item display based on player number
+		var display_name = "heldItemDisplay" if player_number == 1 else "heldItemDisplay2"
+		var main_scene = get_node("/root/Node2D")
+		if main_scene:
+			var display = main_scene.get_node_or_null("UI/" + display_name + "/heldItemTexture")
+			if display:
+				display.clear_box_sprite()
 
 func _input(event):
 	var interact_action = "interact" if player_number == 1 else "interact_p2"

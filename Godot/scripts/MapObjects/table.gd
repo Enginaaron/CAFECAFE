@@ -19,7 +19,6 @@ var current_dishes: Array[Texture] = []
 var has_order: bool = false
 var current_customer: Node = null
 var is_boss_table: bool = false
-var completed_orders: int = 0
 
 # Get the active player that's interacting with this table
 func get_active_player() -> Node:
@@ -94,7 +93,6 @@ func generate_random_order():
 	
 	# Clear previous orders and remove existing dish sprites
 	current_dishes.clear()
-	completed_orders = 0
 	
 	# Get the wrapper node
 	var wrapper = $OrderBubble/Wrapper
@@ -177,7 +175,6 @@ func clear_order():
 	
 	current_dishes.clear()
 	has_order = false
-	completed_orders = 0
 
 func set_customer(customer: Node) -> void:
 	current_customer = customer
@@ -219,7 +216,7 @@ func serve(ingredient_name):
 		# Check if all orders are completed
 		if current_dishes.is_empty():
 			print("All orders completed!")
-			completed_orders += 1
+			dayLabel.order_done()
 			# Update money - more for boss orders
 			if moneyLabel:
 				var reward = 10 if is_boss_table else 5

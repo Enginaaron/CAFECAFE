@@ -14,14 +14,9 @@ var state = State.CUP
 @onready var sprite = $Sprite2D  # Reference to sprite
 @onready var heldItemTexture = null  # Will be set when picked up
 var player = null  # Current player holding or interacting
-var initial_player = null  # Player who placed the boba
-var last_scooping_player = null  # Track who last chopped the boba
+var initial_player = null  # Player who placed the chicken
 
 var is_held: bool = false
-var is_tea: bool = false
-var is_tapioca: bool = false
-var is_tapiocatea: bool = false
-var has_tapioca: bool = false
 
 # Add variables for scoop progress
 var scoop_progress = 0
@@ -48,7 +43,7 @@ func pick_up():
 	if player:
 		# Update chop required based on player's chop speed
 		scoop_required = max(1, 3)
-		print("Lettuce picked up by player ", player.player_number)
+		print("Boba picked up by player ", player.player_number)
 		# Get the appropriate held item display
 		heldItemTexture = get_held_item_display()
 		if heldItemTexture:
@@ -135,7 +130,7 @@ func getTapioca():
 		return
 	if state == State.CUP or state == State.TEA:
 		if not on_tapioca_station:
-			player = player  # Store the player who placed the Veggie
+			player = player  # Store the player who placed the cup
 			
 			var facing_direction = player.get_facing_direction()
 			var current_tile: Vector2i = player.tileMap.local_to_map(player.global_position)
@@ -169,7 +164,6 @@ func getTapioca():
 				state = State.TAPIOCA
 			elif state == State.TEA:
 				state = State.TAPIOCATEA
-			has_tapioca = true
 			on_tapioca_station = false
 			bobaBar.visible = false
 			
