@@ -91,7 +91,14 @@ func get_facing_direction() -> Vector2i:
 	return last_direction
 
 func get_facing_tile() -> Vector2i:
-	return tileMap.local_to_map(global_position) + get_facing_direction()
+	var current_tile = tileMap.local_to_map(global_position)
+	var facing_tile = current_tile + get_facing_direction()
+	
+	# player can walk inside some counter tiles so just return current position instead
+	var current_tile_data = tileMap.get_cell_tile_data(current_tile)
+	if current_tile_data and current_tile_data.get_custom_data("type") == "counter":
+		return current_tile
+	return facing_tile
 
 func attempt_interaction():
 	if is_busy:
@@ -139,6 +146,55 @@ func handle_tile_interaction(facing_tile: Vector2i):
 			main.toggle_store()
 		"trash":
 			drop_ingredient()
+		"counter":
+			# Check for existing items at the counter
+			var found_item = false
+			for node in get_tree().get_nodes_in_group("ingredients"):
+				var ingredient_tile = tileMap.local_to_map(node.global_position)
+				if ingredient_tile == facing_tile:
+					found_item = true
+					# If we're not holding anything, pick up the item
+					if held_ingredient == null:
+						# Remove from main scene
+						main.remove_child(node)
+						# Add to player's chef node
+						$Chef.add_child(node)
+						node.position = Vector2(0, 16)
+						# Set as held ingredient
+						held_ingredient = node
+						# Update the held item display
+						var display_name = "heldItemDisplay" if player_number == 1 else "heldItemDisplay2"
+						var display = main.get_node_or_null("UI/" + display_name + "/heldItemTexture")
+						if display:
+							display.update_box_sprite(node.sprite.texture, node.state)
+					return
+			
+			# If no item exists and we're holding one, place it
+			if not found_item and held_ingredient:
+				# Get the counter's position - use current tile if standing on counter
+				var current_tile = tileMap.local_to_map(global_position)
+				var current_tile_data = tileMap.get_cell_tile_data(current_tile)
+				var target_tile = facing_tile
+				if current_tile_data and current_tile_data.get_custom_data("type") == "counter":
+					target_tile = current_tile
+				
+				var counter_position = tileMap.map_to_local(target_tile)
+				
+				# Remove from player's chef node
+				$Chef.remove_child(held_ingredient)
+				
+				# Add to main scene at counter position
+				main.add_child(held_ingredient)
+				held_ingredient.global_position = counter_position
+				
+				# Clear the held ingredient reference
+				held_ingredient = null
+				
+				# Clear the held item display
+				var display_name = "heldItemDisplay" if player_number == 1 else "heldItemDisplay2"
+				var display = main.get_node_or_null("UI/" + display_name + "/heldItemTexture")
+				if display:
+					display.clear_box_sprite()
 		"ingredient":
 			var ingredient_type = tile_data.get_custom_data("ingredient_type")
 			if ingredient_type in INGREDIENT_SCENES:
@@ -158,8 +214,6 @@ func handle_tile_interaction(facing_tile: Vector2i):
 				# Only allow bowl interaction for ingredients that support it
 				if held_ingredient.has_method("plate") and held_ingredient.state == held_ingredient.State.COOKED:
 					held_ingredient.plate()
-		"store":
-			main.toggle_store()
 		"grill":
 			if held_ingredient and held_ingredient.has_method("grill"):
 				held_ingredient.grill()

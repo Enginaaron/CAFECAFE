@@ -3,8 +3,8 @@ extends Camera2D
 @export var player1: Node2D
 @export var player2: Node2D
 @export var min_zoom: float = 0.1
-@export var max_zoom: float = 0.5
-@export var zoom_sens: float = 160 # lower for more sensitivity
+@export var max_zoom: float = 0.4
+@export var zoom_sens: float = 150 # lower for more sensitivity
 @export var margin: float = 50
 
 func _physics_process(_delta):

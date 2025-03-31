@@ -70,7 +70,6 @@ func _process(_delta):
 func _on_orderTimer_timeout():
 	# Order timed out
 	if has_order:
-		print("Order timed out!")
 		clear_order()
 		# Remove the customer if they exist
 		if current_customer:
@@ -88,8 +87,6 @@ func generate_random_order():
 	if possible_dishes.size() == 0:
 		print("ERROR: No dishes in possible_dishes array")
 		return
-		
-	print("Generating random order...")
 	
 	# Clear previous orders and remove existing dish sprites
 	current_dishes.clear()
@@ -160,10 +157,8 @@ func generate_random_order():
 	if orderTimer:
 		orderTimer.wait_time = newOrderTime
 		orderTimer.start()
-		print("day ", currentDay, ": order time is ", newOrderTime, " secs")
 	
 	has_order = true
-	print("order created")
 	# Emit the signal when a new order is generated
 	order_generated.emit()
 

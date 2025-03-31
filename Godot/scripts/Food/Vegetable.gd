@@ -98,6 +98,7 @@ func chop():
 			if current_parent:
 				current_parent.remove_child(self)
 				player.get_parent().add_child(self)
+				player.drop_ingredient()
 
 			global_position = chopping_board_position
 			is_held = false

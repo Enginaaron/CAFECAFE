@@ -13,10 +13,12 @@ atlas = ExtResource("2_olh0b")
 region = Rect2(0, 0, 64, 64)
 
 [node name="table" type="Node2D"]
+z_index = 2
 script = ExtResource("1_eotx8")
 possible_dishes = Array[Texture]([ExtResource("6_g0e7t"), ExtResource("7_e1moh"), ExtResource("8_5it3b"), ExtResource("5_ov7a8")])
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
 texture = SubResource("AtlasTexture_u03e6")
 
 [node name="OrderBubble" type="Node2D" parent="."]

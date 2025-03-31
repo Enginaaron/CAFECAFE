@@ -11,6 +11,7 @@ region = Rect2(768, 384, 64, 128)
 radius = 31.257
 
 [node name="BossCustomer" type="CharacterBody2D"]
+z_index = 1
 collision_layer = 2
 script = ExtResource("1_xss0h")
 

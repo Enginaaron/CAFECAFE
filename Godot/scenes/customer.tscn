@@ -10,6 +10,7 @@ region = Rect2(960, 160, 64, 96)
 [sub_resource type="CircleShape2D" id="CircleShape2D_xss0h"]
 
 [node name="Customer" type="CharacterBody2D"]
+z_index = 1
 collision_layer = 2
 script = ExtResource("1_xss0h")
 

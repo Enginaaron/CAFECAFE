@@ -5,10 +5,10 @@ extends CanvasLayer
 
 # Dictionary with keys "sprite", "cost", and "stat_bonus"
 var all_items = [
-	{ "sprite": preload("res://textures/UpgradeSprites/boots.png"), "cost": 2, "stat_bonus": {"moveSpeed": 50} },
-	{ "sprite": preload("res://textures/UpgradeSprites/mittens.png"), "cost": 8, "stat_bonus": {"packageSpeed": -.75} },
-	{ "sprite": preload("res://textures/UpgradeSprites/knife.png"), "cost": 5, "stat_bonus": {"chopSpeed": -1} },
-	{ "sprite": preload("res://textures/UISprites/Heart.png"), "cost": 15, "stat_bonus": {"bonuslife": 1} },
+	{ "sprite": preload("res://textures/UpgradeSprites/boots.png"), "cost": 20, "stat_bonus": {"moveSpeed": 20} },
+	{ "sprite": preload("res://textures/UpgradeSprites/mittens.png"), "cost": 50, "stat_bonus": {"packageSpeed": -.75} },
+	{ "sprite": preload("res://textures/UpgradeSprites/knife.png"), "cost": 100, "stat_bonus": {"chopSpeed": -1} },
+	{ "sprite": preload("res://textures/UISprites/Heart.png"), "cost": 1000, "stat_bonus": {"bonuslife": 1} },
 	# Remember to add more items later
 ]
 
