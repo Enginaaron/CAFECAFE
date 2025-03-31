@@ -22,7 +22,6 @@ var on_chopping_board = false
 
 func _ready():
 	VeggieBar.value = 0
-	VeggieTimer.timeout.connect(_on_VeggieTimer_timeout)
 	update_sprite()
 	add_to_group("ingredients")
 
@@ -149,16 +148,6 @@ func bowl():
 		return
 		
 	if state == State.CHOPPED:
-		VeggieBar.value = 0
-		VeggieBar.visible = true
-		
-		var basetime = player.PACKAGE_SPEED
-		VeggieTimer.wait_time = max(1.0, basetime)
-		VeggieTimer.start()
-
-func _on_VeggieTimer_timeout():
-	player = get_current_player()
-	if is_instance_valid(player):
 		state = State.BOWL
 		VeggieBar.visible = false
 		update_sprite()

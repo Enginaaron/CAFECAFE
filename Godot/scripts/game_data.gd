@@ -8,20 +8,32 @@ var tutorial_mode: bool = false  # Flag for tutorial mode
 var default_stats = {
 	"MOVE_SPEED": 200,
 	"CHOP_SPEED": 6,
-	"PACKAGE_SPEED": 5
+	"PACKAGE_SPEED": 5,
+	"FRY_TIME": 15,
+	"TAPIOCA_SCOOP": 5,
+	"TEA_SPEED": 5,
+	"GRILL_SPEED": 15
 }
 
 # Player stats
 var player1_stats = {
 	"MOVE_SPEED": 200,
 	"CHOP_SPEED": 6,
-	"PACKAGE_SPEED": 5
+	"PACKAGE_SPEED": 5,
+	"FRY_TIME": 15,
+	"TAPIOCA_SCOOP": 5,
+	"TEA_SPEED": 5,
+	"GRILL_SPEED": 15
 }
 
 var player2_stats = {
 	"MOVE_SPEED": 200,
 	"CHOP_SPEED": 6,
-	"PACKAGE_SPEED": 5
+	"PACKAGE_SPEED": 5,
+	"FRY_TIME": 15,
+	"TAPIOCA_SCOOP": 5,
+	"TEA_SPEED": 5,
+	"GRILL_SPEED": 15
 }
 
 func reset_game():

@@ -15,6 +15,8 @@ var player = null
 var is_held = null
 var on_fryer = false
 
+var chicken_time = 15
+
 func _ready():
 	chickenBar.value = 0
 	chickenTimer.timeout.connect(_on_chickenTimer_timeout)  # Connect only once
@@ -118,7 +120,7 @@ func fry():
 			on_fryer = true
 			chickenBar.value = 0
 			chickenBar.visible = true
-			chickenTimer.wait_time = max(1.0, 15.0)
+			chickenTimer.wait_time = max(1.0, chicken_time)
 			chickenTimer.start()
 	elif state == State.COOKED:
 		player = get_current_player()

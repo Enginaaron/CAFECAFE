@@ -9,6 +9,10 @@ var all_items = [
 	{ "sprite": preload("res://textures/UpgradeSprites/mittens.png"), "cost": 50, "stat_bonus": {"packageSpeed": -.75} },
 	{ "sprite": preload("res://textures/UpgradeSprites/knife.png"), "cost": 100, "stat_bonus": {"chopSpeed": -1} },
 	{ "sprite": preload("res://textures/UISprites/Heart.png"), "cost": 1000, "stat_bonus": {"bonuslife": 1} },
+	{ "sprite": preload("res://textures/UpgradeSprites/fryerupgrade.jpg"), "cost": 30, "stat_bonus": {"fryTime": -1} },
+	{ "sprite": preload("res://textures/UpgradeSprites/tapioca.png"), "cost": 25, "stat_bonus": {"tapiocaScoop": -1} },
+	{ "sprite": preload("res://textures/UpgradeSprites/tea.png"), "cost": 30, "stat_bonus": {"teaSpeed": -1} },
+	{ "sprite": preload("res://textures/UpgradeSprites/griddle.png"), "cost": 40, "stat_bonus": {"grillSpeed": -1} },
 	# Remember to add more items later
 ]
 

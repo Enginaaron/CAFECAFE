@@ -22,6 +22,8 @@ var is_held: bool = false
 var scoop_progress = 0
 var scoop_required = 6  # Base number of interactions needed
 var on_tapioca_station = false
+var tea_time = 5
+var lid_time = 5
 
 # Called when the ingredient spawns
 func _ready():
@@ -42,7 +44,9 @@ func pick_up():
 	player = get_current_player()
 	if player:
 		# Update chop required based on player's chop speed
-		scoop_required = max(1, 3)
+		scoop_required = max(1, player.TAPIOCA_SCOOP)
+		lid_time = player.PACKAGE_SPEED
+		tea_time = player.TEA_SPEED
 		print("Boba picked up by player ", player.player_number)
 		# Get the appropriate held item display
 		heldItemTexture = get_held_item_display()
@@ -106,7 +110,7 @@ func getTea():
 		bobaBar.value = 0
 		bobaBar.visible = true
 	else: return
-	bobaTimer.wait_time = max(1.0, 3.0)
+	bobaTimer.wait_time = max(1.0, tea_time)
 	bobaTimer.start()
 	player.is_busy = true
 
@@ -155,7 +159,6 @@ func getTapioca():
 			return
 		if is_instance_valid(player) and player.held_ingredient != null:
 			return
-		scoop_required = max(1, 3)
 		scoop_progress += 1
 		bobaBar.value = (scoop_progress / float(scoop_required)) * 100
 		

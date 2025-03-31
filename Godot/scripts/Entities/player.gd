@@ -16,6 +16,10 @@ var last_direction = Vector2i(0, 0)
 var MOVE_SPEED: int
 var CHOP_SPEED: int
 var PACKAGE_SPEED: int
+var FRY_TIME: int
+var TAPIOCA_SCOOP: int
+var TEA_SPEED: int
+var GRILL_SPEED: int
 
 # Ingredient scene paths
 const INGREDIENT_SCENES = {
@@ -38,10 +42,18 @@ func initialize_stats():
 		MOVE_SPEED = stats["MOVE_SPEED"]
 		CHOP_SPEED = stats["CHOP_SPEED"]
 		PACKAGE_SPEED = stats["PACKAGE_SPEED"]
+		FRY_TIME = stats["FRY_TIME"]
+		TAPIOCA_SCOOP = stats["TAPIOCA_SCOOP"]
+		TEA_SPEED = stats["TEA_SPEED"]
+		GRILL_SPEED = stats["GRILL_SPEED"]
 	else:
 		MOVE_SPEED = 200
 		CHOP_SPEED = 6
 		PACKAGE_SPEED = 5
+		FRY_TIME = 15
+		TAPIOCA_SCOOP = 5
+		TEA_SPEED = 5
+		GRILL_SPEED = 15
 
 func setup_collision():
 	collision_mask = 3  # walls (layer 1) and customers (layer 2)
@@ -296,6 +308,14 @@ func apply_bonus(stat_bonus: Dictionary) -> void:
 				PACKAGE_SPEED += stat_bonus[stat]
 			"chopSpeed":
 				CHOP_SPEED += stat_bonus[stat]
+			"fryTime":
+				FRY_TIME += stat_bonus[stat]
+			"tapiocaScoop":
+				TAPIOCA_SCOOP += stat_bonus[stat]
+			"teaSpeed":
+				TEA_SPEED += stat_bonus[stat]
+			"grillSpeed":
+				GRILL_SPEED += stat_bonus[stat]
 
 func is_facing_position(target_pos: Vector2) -> bool:
 	return get_facing_tile() == tileMap.local_to_map(target_pos)
