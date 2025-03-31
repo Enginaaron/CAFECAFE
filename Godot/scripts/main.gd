@@ -18,7 +18,7 @@ var table_customers = {} # dictionary tracking table and its customer
 var spawn_timer: Timer = null
 const SPAWN_INTERVAL = 2.0  # time between customer spawns in seconds
 var has_spawned_boss = false
-var tutorial_manager = null  # Reference to the tutorial manager
+var tutorial_manager = null  # eReference to the tutorial manager
 
 func _ready():
 	init_tables()

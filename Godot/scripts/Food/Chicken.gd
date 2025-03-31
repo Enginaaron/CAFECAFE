@@ -118,7 +118,7 @@ func fry():
 			on_fryer = true
 			chickenBar.value = 0
 			chickenBar.visible = true
-			chickenTimer.wait_time = max(1.0, 2.0)
+			chickenTimer.wait_time = max(1.0, 15.0)
 			chickenTimer.start()
 	elif state == State.COOKED:
 		player = get_current_player()

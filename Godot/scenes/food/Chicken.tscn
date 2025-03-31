@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://omjn5wq7j6dk" path="res://textures/FoodSprites/tilemap_pack_24.tres" id="4_3k8sv"]
 
 [node name="Chicken" type="Node2D"]
+z_index = 1
 script = ExtResource("1_ddhwp")
 raw_texture = ExtResource("2_0lddi")
 cooked_texture = ExtResource("3_3k8sv")
