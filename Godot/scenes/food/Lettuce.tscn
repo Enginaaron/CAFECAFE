@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://cqb1radg726be"]
 
-[ext_resource type="Script" uid="uid://b4c0lhrbnapvk" path="res://scripts/Food/Vegetable.gd" id="1_th67u"]
+[ext_resource type="Script" path="res://scripts/Food/Vegetable.gd" id="1_pnpci"]
 [ext_resource type="Texture2D" uid="uid://66qd7hujpumd" path="res://textures/FoodSprites/tilemap_pack_49.tres" id="2_mkgcg"]
 [ext_resource type="Texture2D" uid="uid://w555br4qse7x" path="res://textures/FoodSprites/tilemap_pack_48.tres" id="3_4ugnp"]
 [ext_resource type="Texture2D" uid="uid://tqwxp3lpva0p" path="res://textures/FoodSprites/tilemap_pack_40.tres" id="4_pnpci"]
@@ -8,7 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://2f6matayyful" path="res://textures/UISprites/progressFill.png" id="6_3mdgn"]
 
 [node name="Lettuce" type="Node2D"]
-script = ExtResource("1_th67u")
+script = ExtResource("1_pnpci")
 whole_texture = ExtResource("2_mkgcg")
 chopped_texture = ExtResource("3_4ugnp")
 bowl_texture = ExtResource("4_pnpci")
