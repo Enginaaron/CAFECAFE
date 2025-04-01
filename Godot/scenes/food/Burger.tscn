@@ -1,0 +1,17 @@
+[gd_scene load_steps=6 format=3 uid="uid://chmpx7bqcadgn"]
+
+[ext_resource type="Script" uid="uid://dwx64w4yikw6v" path="res://scripts/Food/Burger.gd" id="1_srxso"]
+[ext_resource type="Texture2D" uid="uid://b3ywctjiiu3bf" path="res://textures/FoodSprites/tilemap_pack_47.tres" id="2_y8vvf"]
+[ext_resource type="Texture2D" uid="uid://geummre3aeb1" path="res://textures/FoodSprites/tilemap_pack_45.tres" id="3_0pb0o"]
+[ext_resource type="Texture2D" uid="uid://bonwnmq3j0vdw" path="res://textures/FoodSprites/tilemap_pack_46.tres" id="4_ae00m"]
+[ext_resource type="Texture2D" uid="uid://df031p6qfdo24" path="res://textures/FoodSprites/tilemap_pack_44.tres" id="5_muqfj"]
+
+[node name="Burger" type="Node2D"]
+z_index = 1
+script = ExtResource("1_srxso")
+bun_texture = ExtResource("2_y8vvf")
+patty_texture = ExtResource("3_0pb0o")
+lettuce_texture = ExtResource("4_ae00m")
+pattylettuce_texture = ExtResource("5_muqfj")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]

@@ -26,7 +26,9 @@ const INGREDIENT_SCENES = {
 	"lettuce": "res://scenes/food/Lettuce.tscn",
 	"tomato": "res://scenes/food/Tomato.tscn",
 	"chicken": "res://scenes/food/Chicken.tscn",
-	"boba": "res://scenes/food/Boba.tscn"
+	"boba": "res://scenes/food/Boba.tscn",
+	"patty": "res://scenes/food/Patty.tscn",
+	"burger": "res://scenes/food/Burger.tscn"
 }
 
 func _ready():
@@ -161,10 +163,16 @@ func handle_tile_interaction(facing_tile: Vector2i):
 		"counter":
 			# Check for existing items at the counter
 			var found_item = false
+			var found_plate = false
 			for node in get_tree().get_nodes_in_group("ingredients"):
 				var ingredient_tile = tileMap.local_to_map(node.global_position)
 				if ingredient_tile == facing_tile:
 					found_item = true
+					# Check if the item is a plate
+					if node.scene_file_path == "res://scenes/food/Plate.tscn":
+						if held_ingredient:
+							node.transform(held_ingredient)
+							return
 					# If we're not holding anything, pick up the item
 					if held_ingredient == null:
 						# Remove from main scene
@@ -226,9 +234,24 @@ func handle_tile_interaction(facing_tile: Vector2i):
 				# Only allow bowl interaction for ingredients that support it
 				if held_ingredient.has_method("plate") and held_ingredient.state == held_ingredient.State.COOKED:
 					held_ingredient.plate()
+			else:
+				print("yoink")
+				pick_up_ingredient("res://scenes/food/Plate.tscn")
+				
 		"grill":
-			if held_ingredient and held_ingredient.has_method("grill"):
-				held_ingredient.grill()
+			var found_patty = false
+			for node in get_tree().get_nodes_in_group("ingredients"):
+				var ingredient_tile = tileMap.local_to_map(node.global_position)
+				if ingredient_tile == facing_tile and node.has_method("grill"):
+					found_patty = true
+					if not found_patty and held_ingredient and held_ingredient.has_method("grill"):
+						if held_ingredient.state == held_ingredient.State.RAW:
+							held_ingredient.grill()
+					elif held_ingredient == null:
+						node.grill()
+			if not found_patty and held_ingredient and held_ingredient.has_method("grill"):
+				if held_ingredient.state == held_ingredient.State.RAW:
+					held_ingredient.grill()
 		"fryer":
 			var found_chicken = false
 			for node in get_tree().get_nodes_in_group("ingredients"):

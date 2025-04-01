@@ -112,7 +112,7 @@ func init_tables():
 			for table in child.get_children():
 				table_customers[table] = []
 				table.order_generated.connect(_on_table_order_generated.bind(table))
-				print("table init successful at ", table.position)
+				print("table init successful at ", tilemap.local_to_map(table.position))
 
 func get_table_at_tile(tile_pos: Vector2i) -> Node:
 	# checks for tables in scene
@@ -176,7 +176,6 @@ func spawn_ingredient(type, position):
 		ingredient.ingredient_type = type
 		ingredient.position = position
 		ingredients_container.add_child(ingredient)
-		print("Spawned:", type, "at", position)
 
 func remove_customer_from_table(customer, table):
 	if table_customers.has(table):
