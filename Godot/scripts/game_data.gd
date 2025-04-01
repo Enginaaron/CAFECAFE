@@ -4,6 +4,9 @@ extends Node
 var player_count: int = 1  # Default to 1 player
 var tutorial_mode: bool = false  # Flag for tutorial mode
 
+# Array of possible dishes for tutorial mode
+var possible_dishes: Array[Texture] = []
+
 # Default player stats
 var default_stats = {
 	"MOVE_SPEED": 200,
@@ -36,9 +39,14 @@ var player2_stats = {
 	"GRILL_SPEED": 15
 }
 
+func set_tutorial_mode(enabled: bool):
+	tutorial_mode = enabled
+	if enabled:
+		player_count = 2
+	else:
+		player_count = 1
+
 func reset_game():
-	player_count = 1
-	tutorial_mode = false
 	player1_stats = default_stats.duplicate()
 	player2_stats = default_stats.duplicate()
 

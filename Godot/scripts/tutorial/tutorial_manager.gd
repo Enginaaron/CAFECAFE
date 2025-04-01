@@ -12,7 +12,11 @@ var icon_positions = {
 	"a": Vector2(-40, 0),  # Left of player
 	"s": Vector2(0, 40),   # Below player
 	"d": Vector2(40, 0),   # Right of player
-	"e": Vector2(0, -15)   # E key position (much closer to appliance)
+	"e": Vector2(0, -15),  # E key position (much closer to appliance)
+	"up": Vector2(0, -50),    # Arrow keys for player 2
+	"left": Vector2(-40, 0),
+	"down": Vector2(0, 40),
+	"right": Vector2(40, 0)
 }
 
 # Icon scales
@@ -21,7 +25,11 @@ var key_scales = {
 	"a": Vector2(0.6, 0.6),
 	"s": Vector2(0.6, 0.6),
 	"d": Vector2(0.6, 0.6),
-	"e": Vector2(0.3, 0.3)   # E key scale (half the size of WASD keys)
+	"e": Vector2(0.3, 0.3),   # E key scale (half the size of WASD keys)
+	"up": Vector2(0.6, 0.6),    # Arrow keys for player 2
+	"left": Vector2(0.6, 0.6),
+	"down": Vector2(0.6, 0.6),
+	"right": Vector2(0.6, 0.6)
 }
 
 # Tutorial stages
@@ -40,7 +48,11 @@ var movement_keys_pressed = {
 	"w": false,
 	"a": false,
 	"s": false,
-	"d": false
+	"d": false,
+	"up": false,
+	"left": false,
+	"down": false,
+	"right": false
 }
 
 # Keep track of which key icons have been created
@@ -59,16 +71,28 @@ var appliance_positions = {
 # Flag to prevent multiple transitions
 var is_transitioning = false
 
-# Flag to track which cycle we're in
-var is_second_cycle = false
+# Flag to track if this is player 2
+var is_player2 = false
+
+# Track which items have been served
+var served_items = {}
+
+# Track pending orders for each table
+var pending_orders = {}
 
 func _ready():
 	# Display is initially disabled until the player reference is set
 	visible = false
+	
+	# Connect to the order completion signal
+	var main_scene = get_parent()
+	if main_scene:
+		main_scene.order_completed.connect(_on_order_completed)
 
 # Called by main script to setup the tutorial manager
-func initialize(player_node):
+func initialize(player_node, player2: bool = false):
 	player = player_node
+	is_player2 = player2
 	visible = true
 	
 	# Use hardcoded positions for all appliances
@@ -92,7 +116,10 @@ func initialize(player_node):
 
 func start_movement_tutorial():
 	current_stage = TutorialStage.MOVEMENT
-	create_key_icons(["w", "a", "s", "d"])
+	if is_player2:
+		create_key_icons(["up", "left", "down", "right"])
+	else:
+		create_key_icons(["w", "a", "s", "d"])
 
 func start_appliance_interaction_tutorial():
 	print("Starting appliance tutorial from previous stage: ", current_stage)
@@ -145,6 +172,7 @@ func create_key_icons(keys):
 			var key_icon = key_icon_scene.instantiate()
 			key_icon.name = key.to_upper() + "KeyIcon"  # Give it a distinct name
 			key_icon.key_name = key
+			key_icon.is_player2 = is_player2  # Set which player this icon belongs to
 			
 			# Add to our node
 			add_child(key_icon)
@@ -187,7 +215,7 @@ func _process(delta):
 				# Check if player has picked up lettuce and move to chopping stage
 				if current_stage == TutorialStage.LETTUCE_INTERACTION:
 					var ingredient = player.held_ingredient
-					if ingredient and ingredient.ingredient_name == "LETTUCE":
+					if ingredient and ingredient.has_method("get_ingredient_type") and ingredient.get_ingredient_type() == "Lettuce":
 						print("Player picked up lettuce, moving to chopping stage")
 						current_stage = TutorialStage.CHOPPING_INTERACTION
 						global_position = appliance_positions[current_stage]
@@ -195,31 +223,20 @@ func _process(delta):
 				# Check if lettuce is chopped and move to appropriate next stage
 				if current_stage == TutorialStage.CHOPPING_INTERACTION:
 					var ingredient = player.held_ingredient
-					if ingredient and ingredient.ingredient_name == "LETTUCE" and ingredient.state == ingredient.State.CHOPPED:
-						if is_second_cycle:
-							print("Lettuce is chopped, moving to trash stage")
-							current_stage = TutorialStage.TRASH_INTERACTION
-						else:
-							print("Lettuce is chopped, moving to packaging stage")
-							current_stage = TutorialStage.PACKAGING_INTERACTION
+					if ingredient and ingredient.has_method("get_ingredient_type") and ingredient.get_ingredient_type() == "Lettuce" and ingredient.has_method("get_state") and ingredient.get_state() == "CHOPPED":
+						print("Lettuce is chopped, moving to packaging stage")
+						current_stage = TutorialStage.PACKAGING_INTERACTION
 						global_position = appliance_positions[current_stage]
 				
-				# Check if lettuce is thrown in trash (second cycle)
-				if current_stage == TutorialStage.TRASH_INTERACTION:
-					var ingredient = player.held_ingredient
-					if not ingredient:  # If player is not holding anything (threw it away)
-						print("Lettuce thrown away, tutorial complete!")
-						finish_tutorial()
-				
-				# Check if lettuce is packaged and move to table stage (first cycle)
+				# Check if lettuce is packaged and move to table stage
 				if current_stage == TutorialStage.PACKAGING_INTERACTION:
 					var ingredient = player.held_ingredient
-					if ingredient and ingredient.ingredient_name == "LETTUCE" and ingredient.state == ingredient.State.PACKAGED:
+					if ingredient and ingredient.has_method("get_ingredient_type") and ingredient.get_ingredient_type() == "Lettuce" and ingredient.has_method("get_state") and ingredient.get_state() == "PACKAGED":
 						print("Lettuce is packaged, moving to table stage")
 						current_stage = TutorialStage.TABLE_INTERACTION
 						global_position = appliance_positions[current_stage]
 				
-				# Check if order is served and move to store stage (first cycle)
+				# Check if order is served and move to next stage
 				if current_stage == TutorialStage.TABLE_INTERACTION:
 					# Check if there are no customers at any table
 					var main_scene = player.get_parent()
@@ -230,21 +247,28 @@ func _process(delta):
 							break
 					
 					if all_tables_empty:
-						print("Order served, moving to store stage")
-						current_stage = TutorialStage.STORE_INTERACTION
-						global_position = appliance_positions[current_stage]
+						# Check if we've served all possible items
+						var game_data = get_node("/root/GameData")
+						if game_data and game_data.possible_dishes:
+							var all_items_served = true
+							for item in game_data.possible_dishes:
+								if not served_items.has(item):
+									all_items_served = false
+									break
+							
+							if all_items_served:
+								print("All items served, tutorial complete!")
+								finish_tutorial()
+							else:
+								print("Order served, moving to store stage")
+								current_stage = TutorialStage.STORE_INTERACTION
+								global_position = appliance_positions[current_stage]
 				
-				# Check if chop upgrade has been purchased (either by money = 0 or chop speed = 5)
+				# Check if player has enough money to buy upgrades
 				if current_stage == TutorialStage.STORE_INTERACTION:
 					var money_label = get_tree().get_root().get_node("Node2D/UI/moneyCounter/MoneyLabel")
-					if money_label and money_label.money == 0:
-						print("Money is 0, chop upgrade purchased, starting second cycle")
-						is_second_cycle = true
-						current_stage = TutorialStage.LETTUCE_INTERACTION
-						global_position = appliance_positions[current_stage]
-					elif player.has_method("get_chop_speed") and player.get_chop_speed() == 5:
-						print("Chop speed is 5, chop upgrade purchased, starting second cycle")
-						is_second_cycle = true
+					if money_label and money_label.money >= 30:  # Minimum amount needed for upgrades
+						print("Player has enough money, moving to lettuce stage")
 						current_stage = TutorialStage.LETTUCE_INTERACTION
 						global_position = appliance_positions[current_stage]
 
@@ -275,7 +299,9 @@ func check_movement_progress():
 	var all_pressed = true
 	var keys_pressed_count = 0
 	
-	for key in ["w", "a", "s", "d"]:
+	var keys_to_check = ["up", "left", "down", "right"] if is_player2 else ["w", "a", "s", "d"]
+	
+	for key in keys_to_check:
 		if created_icons.has(key) and created_icons[key] != null:
 			if created_icons[key].has_been_pressed:
 				keys_pressed_count += 1
@@ -328,17 +354,19 @@ func print_player_held_item():
 		if player.has_method("get_held_ingredient"):
 			var ingredient = player.get_held_ingredient()
 			if ingredient:
-				held_item = ingredient.ingredient_name
+				# Get the ingredient type from the scene name
+				held_item = ingredient.name
 				if ingredient.has_method("get_state"):
 					held_item += " (" + str(ingredient.get_state()) + ")"
 		else:
 			# Try to access the property directly
 			var ingredient = player.held_ingredient
 			if ingredient:
-				held_item = ingredient.ingredient_name
+				# Get the ingredient type from the scene name
+				held_item = ingredient.name
 				if ingredient.has_method("get_state"):
 					held_item += " (" + str(ingredient.get_state()) + ")"
-		
+
 # Find store position in the scene
 func find_store_position():
 	print("\nLooking for store position...")
@@ -356,3 +384,50 @@ func find_store_position():
 func on_chop_upgrade_purchased():
 	print("Chop upgrade purchased, moving to lettuce stage")
 	current_stage = TutorialStage.LETTUCE_INTERACTION
+
+# Handle order completion
+func _on_order_completed(table: Node, customer: Node):
+	# Get the game data
+	var game_data = get_node("/root/GameData")
+	if not game_data or not game_data.possible_dishes:
+		return
+	
+	# Get the order that was completed
+	if pending_orders.has(table):
+		var order = pending_orders[table]
+		# Mark this item as served
+		served_items[order] = true
+		# Remove the pending order
+		pending_orders.erase(table)
+		print("Tutorial: Marked ", order, " as served")
+		
+		# Check if we've served all possible items
+		var all_items_served = true
+		for item in game_data.possible_dishes:
+			if not served_items.has(item):
+				all_items_served = false
+				break
+		
+		if all_items_served:
+			print("All items served, tutorial complete!")
+			finish_tutorial()
+		else:
+			# Generate a new order with the next unserved dish
+			var next_dish = null
+			for item in game_data.possible_dishes:
+				if not served_items.has(item):
+					next_dish = item
+					break
+			
+			if next_dish:
+				# Update the table's possible_dishes array to only include the next dish
+				table.possible_dishes.clear()
+				table.possible_dishes.append(next_dish)
+				print("Tutorial: Set next order to ", next_dish)
+				
+				# Get the main scene to spawn a new customer
+				var main_scene = get_parent()
+				if main_scene:
+					# Spawn a new customer for the table
+					main_scene.spawn_customer_for_table(table)
+					print("Tutorial: Spawned new customer for next order")

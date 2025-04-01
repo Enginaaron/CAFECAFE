@@ -1,5 +1,7 @@
 extends Node2D
 
+signal order_completed(table: Node, customer: Node)
+
 @onready var ingredients_container = $Ingredients
 @onready var tilemap = $TileMapLayer
 @onready var dayLabel = $UI/dayCounter/dayLabel
@@ -182,6 +184,34 @@ func remove_customer_from_table(customer, table):
 
 func _on_table_order_generated(table: Node):
 	print("order generated at ", table.position)
+	
+	# If in tutorial mode, track the order
+	if tutorial_manager:
+		var game_data = get_node("/root/GameData")
+		if game_data and game_data.tutorial_mode:
+			# Get the order from the table's current_dishes array
+			if table.current_dishes.size() > 0:
+				# Get the first dish from the array
+				var order = table.current_dishes[0]
+				if order and table.possible_dishes.has(order):
+					# Store the order in the tutorial manager's pending orders
+					tutorial_manager.pending_orders[table] = order
+					print("Tutorial: Stored pending order ", order, " for table")
+
+# Add a new function to handle order completion
+func _on_order_completed(table: Node, customer: Node):
+	# If in tutorial mode, track the completed order
+	if tutorial_manager:
+		var game_data = get_node("/root/GameData")
+		if game_data and game_data.tutorial_mode:
+			# Get the order that was completed
+			if tutorial_manager.pending_orders.has(table):
+				var order = tutorial_manager.pending_orders[table]
+				# Mark this item as served in the tutorial manager
+				tutorial_manager.served_items[order] = true
+				# Remove the pending order
+				tutorial_manager.pending_orders.erase(table)
+				print("Tutorial: Marked ", order, " as served")
 
 func toggle_store():
 	if storeInterface.visible:
@@ -206,7 +236,7 @@ func _on_day_label_day_changed() -> void:
 		spawn_customers_for_empty_tables()
 
 func setup_tutorial():
-	# Create tutorial manager instance
+	# Initialize tutorial manager
 	tutorial_manager = tutorial_manager_scene.instantiate()
 	add_child(tutorial_manager)
 	
@@ -215,23 +245,49 @@ func setup_tutorial():
 	
 	# Initialize tutorial with reference to player 1
 	var player1 = get_node_or_null("player1")
-	if player1:
-		print("Found player1, initializing tutorial")
-		tutorial_manager.initialize(player1)
+	var player2 = get_node_or_null("player2")
+	
+	if player1 and player2:
+		print("Found both players, initializing tutorial")
+		tutorial_manager.initialize(player1, false)  # false for player 1
 		
-		# Spawn one customer immediately for the tutorial
-		var empty_tables = get_empty_tables()
-		if not empty_tables.is_empty():
-			spawn_customer_for_table(empty_tables[0])
+		# Create a second tutorial manager for player 2
+		var tutorial_manager2 = tutorial_manager_scene.instantiate()
+		add_child(tutorial_manager2)
+		tutorial_manager2.visible = true
+		tutorial_manager2.initialize(player2, true)  # true for player 2
+		
+		# Get the first table and initialize its possible_dishes array
+		var first_table = get_node("Tables").get_child(0)
+		if first_table:
+			# Get the game data
+			var game_data = get_node("/root/GameData")
+			if game_data:
+				# Copy the table's possible_dishes to game_data
+				game_data.possible_dishes = first_table.possible_dishes.duplicate()
+				print("Tutorial: Initialized possible_dishes with ", game_data.possible_dishes.size(), " dishes")
+				
+				# Spawn initial customer
+				spawn_customer_for_table(first_table)
 	else:
-		print("WARNING: Could not find player1 for tutorial")
-		# Try to find any player node
-		player1 = find_player_node()
+		print("WARNING: Could not find both players for tutorial")
+		# Try to find any player nodes
+		if not player1:
+			player1 = find_player_node()
+		if not player2:
+			player2 = find_player_node()
+			
 		if player1:
-			print("Found alternative player node: " + player1.name)
-			tutorial_manager.initialize(player1)
-		else:
-			print("ERROR: Cannot initialize tutorial - no player found")
+			print("Found player1, initializing tutorial")
+			tutorial_manager.initialize(player1, false)  # false for player 1
+		if player2:
+			print("Found player2, initializing tutorial")
+			var tutorial_manager2 = tutorial_manager_scene.instantiate()
+			add_child(tutorial_manager2)
+			tutorial_manager2.visible = true
+			tutorial_manager2.initialize(player2, true)  # true for player 2
+		if not player1 and not player2:
+			print("ERROR: Cannot initialize tutorial - no players found")
 
 # Find the first player node in the scene
 func find_player_node():
@@ -239,3 +295,8 @@ func find_player_node():
 		if child.name.begins_with("player"):
 			return child
 	return null
+
+# Add a function to handle order completion
+func complete_order(table: Node, customer: Node):
+	# Emit the order completion signal
+	order_completed.emit(table, customer)

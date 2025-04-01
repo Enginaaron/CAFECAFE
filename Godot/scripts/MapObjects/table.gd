@@ -2,7 +2,7 @@ extends Node2D
 
 signal order_generated
 
-@export var possible_dishes: Array[Texture]
+@export var possible_dishes: Array[Texture] = []
 
 @onready var bubble_sprite = $OrderBubble/BubbleSprite
 @onready var dish_sprite   = $OrderBubble/DishSprite
@@ -101,14 +101,25 @@ func generate_random_order():
 	for child in wrapper.get_children():
 		child.queue_free()
 	
-	# Generate orders based on whether this is a boss table
-	if is_boss_table:
-		# Generate 3 random orders for boss
-		for i in range(3):
-			current_dishes.append(possible_dishes[randi() % possible_dishes.size()])
+	# Check if we're in tutorial mode
+	var game_data = get_node("/root/GameData")
+	if game_data and game_data.tutorial_mode:
+		# In tutorial mode, use the first possible dish consistently
+		if possible_dishes.size() > 0:
+			current_dishes.append(possible_dishes[0])
+			print("Tutorial mode - using consistent order: ", possible_dishes[0])
+		else:
+			print("ERROR: No dishes available for tutorial mode")
+			return
 	else:
-		# Generate single order for regular customer
-		current_dishes.append(possible_dishes[randi() % possible_dishes.size()])
+		# Generate orders based on whether this is a boss table
+		if is_boss_table:
+			# Generate 3 random orders for boss
+			for i in range(3):
+				current_dishes.append(possible_dishes[randi() % possible_dishes.size()])
+		else:
+			# Generate single order for regular customer
+			current_dishes.append(possible_dishes[randi() % possible_dishes.size()])
 	
 	# Calculate sprite size based on wrapper size and number of orders
 	var sprite_size = min(wrapper.size.x / current_dishes.size(), wrapper.size.y)
@@ -132,10 +143,8 @@ func generate_random_order():
 	# Show the bubble
 	$OrderBubble.visible = true
 	
-	# Check if we're in tutorial mode
-	var game_data = get_node("/root/GameData")
+	# In tutorial mode, don't show timer or progress bar
 	if game_data and game_data.tutorial_mode:
-		# In tutorial mode, don't show timer or progress bar
 		print("Tutorial mode - no timer for order")
 		if orderProgressBar:
 			orderProgressBar.visible = false
@@ -216,15 +225,33 @@ func serve(ingredient_name):
 			if moneyLabel:
 				var reward = 10 if is_boss_table else 5
 				moneyLabel.update_money(reward)
+			
+			# Get the main scene to properly handle order completion
+			var main_scene = get_node("/root/Node2D")
+			if main_scene:
+				# Emit the order completion signal
+				main_scene.complete_order(self, current_customer)
+			
 			# Remove customer
 			if current_customer:
-				# Get the main scene to properly remove the customer
-				var main_scene = get_node("/root/Node2D")
-				if main_scene:
-					main_scene.remove_customer_from_table(current_customer, self)
 				current_customer.queue_free()
 				current_customer = null
+			
 			# Clear the order
 			clear_order()
 	else:
 		print("No - Ingredient does not match any orders")
+
+func serve_order():
+	if not has_order or not current_customer:
+		return
+		
+	# Get the main scene to call complete_order
+	var main_scene = get_parent().get_parent()
+	if main_scene and main_scene.has_method("complete_order"):
+		main_scene.complete_order(self, current_customer)
+	
+	# Clear the order and customer
+	clear_order()
+	current_customer.queue_free()
+	current_customer = null
