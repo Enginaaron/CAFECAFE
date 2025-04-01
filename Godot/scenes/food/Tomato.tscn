@@ -1,8 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://dxo7dt31g8wr4"]
+[gd_scene load_steps=7 format=3 uid="uid://crbcf3187vnux"]
 
 [ext_resource type="Script" uid="uid://b4c0lhrbnapvk" path="res://scripts/Food/Vegetable.gd" id="1_eba1j"]
-[ext_resource type="Texture2D" path="res://textures/FoodSprites/tilemap_pack_50.tres" id="2_3omuj"]
-[ext_resource type="Texture2D" path="res://textures/FoodSprites/tilemap_pack_51.tres" id="3_qcthb"]
+[ext_resource type="Texture2D" uid="uid://btspuu08q32j2" path="res://textures/FoodSprites/tilemap_pack_50.tres" id="2_3omuj"]
+[ext_resource type="Texture2D" uid="uid://ckk8aivsfl07h" path="res://textures/FoodSprites/tilemap_pack_51.tres" id="3_qcthb"]
 [ext_resource type="Texture2D" uid="uid://clrttoa5dpd1r" path="res://textures/FoodSprites/tilemap_pack_42.tres" id="4_yqxko"]
 [ext_resource type="Texture2D" uid="uid://wkc1iflvg1ov" path="res://textures/UISprites/progressBG.png" id="5_qcthb"]
 [ext_resource type="Texture2D" uid="uid://2f6matayyful" path="res://textures/UISprites/progressFill.png" id="6_yqxko"]

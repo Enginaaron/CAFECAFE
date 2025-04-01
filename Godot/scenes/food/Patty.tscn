@@ -1,6 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://o501knvrgnfg"]
+[gd_scene load_steps=6 format=3 uid="uid://dvsloh4wjs0u7"]
 
-[ext_resource type="Script" uid="uid://lty7v3hpxo6n" path="res://scripts/Food/Patty.gd" id="1_lqhuu"]
+[ext_resource type="Script" path="res://scripts/Food/Patty.gd" id="1_lqhuu"]
 [ext_resource type="Texture2D" uid="uid://e2uom2tcmxxn" path="res://textures/FoodSprites/tilemap_pack_11.tres" id="2_bjp4a"]
 [ext_resource type="Texture2D" uid="uid://b7y0kfdqr0qsp" path="res://textures/FoodSprites/tilemap_pack_18.tres" id="3_g8cbm"]
 [ext_resource type="Texture2D" uid="uid://wkc1iflvg1ov" path="res://textures/UISprites/progressBG.png" id="5_tjewl"]

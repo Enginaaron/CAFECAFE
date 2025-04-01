@@ -1,6 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://chmpx7bqcadgn"]
+[gd_scene load_steps=6 format=3 uid="uid://c1027vcjw464j"]
 
-[ext_resource type="Script" uid="uid://dwx64w4yikw6v" path="res://scripts/Food/Burger.gd" id="1_srxso"]
+[ext_resource type="Script" path="res://scripts/Food/Burger.gd" id="1_srxso"]
 [ext_resource type="Texture2D" uid="uid://b3ywctjiiu3bf" path="res://textures/FoodSprites/tilemap_pack_47.tres" id="2_y8vvf"]
 [ext_resource type="Texture2D" uid="uid://geummre3aeb1" path="res://textures/FoodSprites/tilemap_pack_45.tres" id="3_0pb0o"]
 [ext_resource type="Texture2D" uid="uid://bonwnmq3j0vdw" path="res://textures/FoodSprites/tilemap_pack_46.tres" id="4_ae00m"]
