@@ -72,7 +72,8 @@ func get_held_item_display():
 				print("Could not find held item display: UI/" + display_name + "/heldItemTexture")
 		else:
 			print("Could not find main scene Node2D")
-	return null
+	elif null:
+		return get_held_item_display()
 
 func get_current_player():
 	# If we're on the fryer, return the player that's currently interacting
@@ -100,9 +101,10 @@ func get_current_player():
 	return null
 
 func fry():
+	var heldItemTexture = get_held_item_display()
 	if state == State.RAW:
 		if not on_fryer:
-			player = player  # Store the player who placed the cup
+			player = get_current_player()  # Store the player who placed the cup
 			
 			var facing_direction = player.get_facing_direction()
 			var current_tile: Vector2i = player.tileMap.local_to_map(player.global_position)
@@ -138,11 +140,12 @@ func fry():
 				position = Vector2(0, 16)
 				heldItemTexture.update_box_sprite(sprite.texture, state)
 				
-				var heldItemTexture = get_held_item_display()
+				heldItemTexture = get_held_item_display()
 				if heldItemTexture:
 					update_sprite()
 
 func plate():
+	heldItemTexture = get_held_item_display()
 	if state == State.COOKED:
 		state = State.PLATE
 		update_sprite()

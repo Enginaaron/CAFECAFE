@@ -70,6 +70,7 @@ func _process(_delta):
 func _on_orderTimer_timeout():
 	# Order timed out
 	if has_order:
+		AudioManager.play_sound("lostOrder")
 		clear_order()
 		# Remove the customer if they exist
 		if current_customer:
@@ -221,6 +222,7 @@ func serve(ingredient_name):
 		if current_dishes.is_empty():
 			print("All orders completed!")
 			dayLabel.order_done()
+			AudioManager.play_sound("successfulOrder")
 			# Update money - more for boss orders
 			if moneyLabel:
 				var reward = 10 if is_boss_table else 5

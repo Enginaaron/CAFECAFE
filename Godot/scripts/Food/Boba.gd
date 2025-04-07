@@ -106,6 +106,7 @@ func get_current_player():
 	return null
 	
 func getTea():
+	player = get_current_player()
 	if state == State.CUP or state == State.TAPIOCA:
 		bobaBar.value = 0
 		bobaBar.visible = true
@@ -160,6 +161,7 @@ func getTapioca():
 		if is_instance_valid(player) and player.held_ingredient != null:
 			return
 		scoop_progress += 1
+		AudioManager.play_sound("tapioca")
 		bobaBar.value = (scoop_progress / float(scoop_required)) * 100
 		
 		if scoop_progress >= scoop_required:

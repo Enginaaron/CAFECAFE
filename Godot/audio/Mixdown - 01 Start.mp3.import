@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://cy7dbco2ljd15"
+path="res://.godot/imported/Mixdown - 01 Start.mp3-e8a6ee713f3a975beec7db05c9772caf.mp3str"
+
+[deps]
+
+source_file="res://audio/Mixdown - 01 Start.mp3"
+dest_files=["res://.godot/imported/Mixdown - 01 Start.mp3-e8a6ee713f3a975beec7db05c9772caf.mp3str"]
+
+[params]
+
+loop=true
+loop_offset=7.95
+bpm=0.0
+beat_count=0
+bar_beats=4

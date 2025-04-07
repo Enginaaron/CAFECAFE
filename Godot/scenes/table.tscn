@@ -1,10 +1,12 @@
-[gd_scene load_steps=9 format=3 uid="uid://5f30vvb22fft"]
+[gd_scene load_steps=11 format=3 uid="uid://5f30vvb22fft"]
 
 [ext_resource type="Script" uid="uid://cbiqvn2e5txac" path="res://scripts/MapObjects/table.gd" id="1_eotx8"]
 [ext_resource type="Texture2D" uid="uid://v2kg034w0wq0" path="res://textures/tilemap_pack.png" id="2_olh0b"]
 [ext_resource type="Texture2D" uid="uid://dchw4qlkuaaof" path="res://textures/speechBubble.png" id="2_x8522"]
 [ext_resource type="Texture2D" uid="uid://omjn5wq7j6dk" path="res://textures/FoodSprites/tilemap_pack_24.tres" id="5_ov7a8"]
+[ext_resource type="Texture2D" uid="uid://p10boiwaso1r" path="res://textures/FoodSprites/tilemap_pack_21.tres" id="6_e1moh"]
 [ext_resource type="Texture2D" uid="uid://tqwxp3lpva0p" path="res://textures/FoodSprites/tilemap_pack_40.tres" id="6_g0e7t"]
+[ext_resource type="Texture2D" uid="uid://copb5wsy0s31a" path="res://textures/FoodSprites/tilemap_pack_20.tres" id="7_5it3b"]
 [ext_resource type="Texture2D" uid="uid://clrttoa5dpd1r" path="res://textures/FoodSprites/tilemap_pack_42.tres" id="7_e1moh"]
 [ext_resource type="Texture2D" uid="uid://fhyafsjhtwwq" path="res://textures/FoodSprites/tilemap_pack_30.tres" id="8_5it3b"]
 
@@ -15,7 +17,7 @@ region = Rect2(0, 0, 64, 64)
 [node name="table" type="Node2D"]
 z_index = 2
 script = ExtResource("1_eotx8")
-possible_dishes = Array[Texture]([ExtResource("6_g0e7t"), ExtResource("7_e1moh"), ExtResource("8_5it3b"), ExtResource("5_ov7a8")])
+possible_dishes = Array[Texture]([ExtResource("6_g0e7t"), ExtResource("7_e1moh"), ExtResource("8_5it3b"), ExtResource("5_ov7a8"), ExtResource("6_e1moh"), ExtResource("7_5it3b")])
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 visible = false
