@@ -15,7 +15,7 @@ var player = null
 var is_held = null
 var on_fryer = false
 
-var chicken_time = 15
+var chicken_time = 5
 
 func _ready():
 	chickenBar.value = 0
@@ -25,22 +25,6 @@ func _ready():
 func _process(_delta):
 	if chickenTimer.time_left > 0:
 		chickenBar.value = 100 * (1 - (chickenTimer.time_left / chickenTimer.wait_time))
-
-func pick_up():
-	is_held = true
-	# Get reference to the player that picked up this ingredient
-	await ready
-	
-	# Now we can safely get the player reference and held item display
-	player = get_current_player()
-	if player:
-		print("Chicken picked up by player ", player.player_number)
-		# Get the appropriate held item display
-		heldItemTexture = get_held_item_display()
-		if heldItemTexture:
-			update_sprite()
-		else:
-			print("Warning: Could not find held item display for player ", player.player_number)
 
 func drop():
 	if is_held:
@@ -104,6 +88,7 @@ func fry():
 	var heldItemTexture = get_held_item_display()
 	if state == State.RAW:
 		if not on_fryer:
+			visible=true
 			player = get_current_player()  # Store the player who placed the cup
 			
 			var facing_direction = player.get_facing_direction()
@@ -139,7 +124,7 @@ func fry():
 				is_held = true
 				position = Vector2(0, 16)
 				heldItemTexture.update_box_sprite(sprite.texture, state)
-				
+				visible=false
 				heldItemTexture = get_held_item_display()
 				if heldItemTexture:
 					update_sprite()

@@ -80,6 +80,7 @@ func drop():
 		player = null
 
 func chop():
+	self.visible = true
 	player = get_current_player()
 	if not player:
 		return
@@ -124,6 +125,7 @@ func chop():
 			is_chopped = true
 			on_chopping_board = false
 			VeggieBar.visible = false
+			self.visible = false
 			
 			player = get_current_player()
 			if is_instance_valid(player):

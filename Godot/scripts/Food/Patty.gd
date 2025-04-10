@@ -23,22 +23,6 @@ func _process(_delta):
 	if pattyTimer.time_left > 0:
 		pattyBar.value = 100 * (1 - (pattyTimer.time_left / pattyTimer.wait_time))
 
-func pick_up():
-	is_held = true
-	# Get reference to the player that picked up this ingredient
-	await ready
-	
-	# Now we can safely get the player reference and held item display
-	player = get_current_player()
-	if player:
-		print("patty picked up by player ", player.player_number)
-		# Get the appropriate held item display
-		heldItemTexture = get_held_item_display()
-		if heldItemTexture:
-			update_sprite()
-		else:
-			print("Warning: Could not find held item display for player ", player.player_number)
-
 func drop():
 	if is_held:
 		is_held = false
@@ -97,6 +81,7 @@ func grill():
 		if not on_fryer:
 			player = get_current_player()
 			
+			visible = true
 			var facing_direction = player.get_facing_direction()
 			var current_tile: Vector2i = player.tileMap.local_to_map(player.global_position)
 			var target_tile: Vector2i = current_tile + facing_direction
@@ -127,6 +112,7 @@ func grill():
 			var chef_node = player.get_node("Chef")
 			if chef_node:
 				chef_node.add_child(self)
+				visible=false
 				is_held = true
 				position = Vector2(0, 16)
 				heldItemTexture.update_box_sprite(sprite.texture, state)
