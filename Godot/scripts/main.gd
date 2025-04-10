@@ -130,13 +130,18 @@ func spawn_customers_for_empty_tables():
 	spawn_customer_for_table(empty_tables[0])
 
 func spawn_customer_for_table(table: Node):
+	var game_data = get_node("/root/GameData")
+	
+	# In tutorial mode, only spawn if there are no customers at any table
+	if game_data and game_data.tutorial_mode:
+		for t in table_customers.keys():
+			if not table_customers[t].is_empty():
+				return
+	
 	var customer
 	# Only spawn boss if it's a boss day and we haven't spawned one yet
 	if dayLabel.dayCount % 5 == 0 and not has_spawned_boss:
 		customer = boss_customer_scene.instantiate()
-		print("SPAWNING BOSS!")
-		print("SPAWNING BOSS!")
-		print("SPAWNING BOSS!")
 		has_spawned_boss = true
 	else:
 		customer = customer_scene.instantiate()
@@ -149,7 +154,6 @@ func spawn_customer_for_table(table: Node):
 	table_customers[table].append(customer)
 	
 	# Only schedule next spawn if not in tutorial mode
-	var game_data = get_node("/root/GameData")
 	if not game_data or not game_data.tutorial_mode:
 		var empty_tables = get_empty_tables()
 		if not empty_tables.is_empty():
@@ -210,7 +214,33 @@ func _on_order_completed(table: Node, customer: Node):
 				tutorial_manager.served_items[order] = true
 				# Remove the pending order
 				tutorial_manager.pending_orders.erase(table)
-				print("Tutorial: Marked ", order, " as served")
+				
+				# Check if we've served all possible items
+				var all_items_served = true
+				for item in game_data.possible_dishes:
+					if not tutorial_manager.served_items.has(item):
+						all_items_served = false
+						break
+				
+				if all_items_served:
+					tutorial_manager.finish_tutorial()
+				else:
+					# Generate a new order with the next unserved dish
+					var next_dish = null
+					for item in game_data.possible_dishes:
+						if not tutorial_manager.served_items.has(item):
+							next_dish = item
+							break
+					
+					if next_dish:
+						# Update the table's possible_dishes array to only include the next dish
+						table.possible_dishes.clear()
+						table.possible_dishes.append(next_dish)
+						
+						# Wait a short moment before spawning the next customer
+						await get_tree().create_timer(1.0).timeout
+						# Spawn a new customer for the table
+						spawn_customer_for_table(table)
 
 func toggle_store():
 	if storeInterface.visible:

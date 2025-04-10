@@ -4,4 +4,4 @@
 
 [resource]
 atlas = ExtResource("1_iaemg")
-region = Rect2(90, 337, 13, 15)
+region = Rect2(90, 336, 13, 16)

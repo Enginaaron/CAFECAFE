@@ -1,6 +1,7 @@
 extends Node2D
 
 signal order_generated
+signal order_served  # New signal for when an order is served
 
 @export var possible_dishes: Array[Texture] = []
 
@@ -231,6 +232,8 @@ func serve(ingredient_name):
 			if main_scene:
 				# Emit the order completion signal
 				main_scene.complete_order(self, current_customer)
+				# Emit the order served signal
+				order_served.emit()
 			
 			# Remove customer
 			if current_customer:
