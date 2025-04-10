@@ -58,22 +58,6 @@ func get_held_item_display():
 			print("Could not find main scene Node2D")
 	return null
 
-func pick_up():
-	is_held = true
-	# Get reference to the player that picked up this ingredient
-	await ready
-	
-	# Now we can safely get the player reference and held item display
-	player = get_current_player()
-	if player:
-		print("Picked up by player ", player.player_number)
-		# Get the appropriate held item display
-		heldItemTexture = get_held_item_display()
-		if heldItemTexture:
-			update_sprite()
-		else:
-			print("Warning: Could not find held item display for player ", player.player_number)
-
 func drop():
 	if is_held:
 		is_held = false

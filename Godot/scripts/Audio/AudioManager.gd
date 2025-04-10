@@ -59,8 +59,6 @@ func play_sound(sound_name: String):
 				"transform", "drop", "trash":
 					pickup_player.stream = audio_stream
 					pickup_player.play()
-					print("pickup")
 				"chop", "tapioca", "upgrade", "transform", "successfulOrder", "lostOrder":
 					action_player.stream = audio_stream
 					action_player.play()
-					print("action")

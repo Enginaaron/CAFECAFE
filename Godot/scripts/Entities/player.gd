@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 @onready var tileMap = $"../TileMapLayer"
-@onready var sprite2D = $Chef
+@onready var anim = $Chef
 @onready var UI = $"../UI"
 @onready var main = $".."
 @onready var heldItemTexture = $"../UI/heldItemDisplay/heldItemTexture"
@@ -11,6 +11,8 @@ extends CharacterBody2D
 var held_ingredient = null
 var is_busy = false
 var last_direction = Vector2i(0, 0)
+var last_vertical_direction = 1  # 1 for down, -1 for up
+var is_held_item_visible = true
 
 # Player stats
 var MOVE_SPEED: int
@@ -63,10 +65,10 @@ func setup_collision():
 func setup_player_position():
 	if player_number == 1:
 		position = Vector2(16, 16)
-		sprite2D.texture = preload("res://textures/PlayerSprites/bear1Front.tres")
+		anim.play("bearDOWN")
 	else:
 		position = Vector2(48, 16)
-		sprite2D.texture = preload("res://textures/PlayerSprites/panda1Front.tres")
+		anim.play("pandaDOWN")
 
 func _physics_process(_delta):
 	if is_busy or (storeInterface and storeInterface.visible):
@@ -81,8 +83,41 @@ func handle_movement():
 		direction = direction.normalized()
 		last_direction = Vector2i(direction)
 		velocity = direction * MOVE_SPEED
+		
+		# Handle animations and held item visibility
+		if direction.y < 0:  # Moving up
+			if player_number == 1:
+				anim.play("bearUP")
+			else:
+				anim.play("pandaUP")
+			last_vertical_direction = -1
+			if held_ingredient and is_held_item_visible:
+				held_ingredient.hide()
+				is_held_item_visible = false
+		elif direction.y > 0:  # Moving down
+			if player_number == 1:
+				anim.play("bearDOWN")
+			else:
+				anim.play("pandaDOWN")
+			last_vertical_direction = 1
+			if held_ingredient and not is_held_item_visible:
+				held_ingredient.show()
+				is_held_item_visible = true
 	else:
 		velocity = Vector2.ZERO
+		# Set to first frame of the last direction's animation
+		anim.stop()
+		if player_number == 1:
+			if last_vertical_direction < 0:
+				anim.play("bearUP")
+			else:
+				anim.play("bearDOWN")
+		else:
+			if last_vertical_direction < 0:
+				anim.play("pandaUP")
+			else:
+				anim.play("pandaDOWN")
+		anim.frame = 0
 	
 	move_and_slide()
 
@@ -214,6 +249,7 @@ func handle_tile_interaction(facing_tile: Vector2i):
 				# Add to main scene at counter position
 				main.add_child(held_ingredient)
 				held_ingredient.global_position = counter_position
+				held_ingredient.visible = true
 				
 				# Clear the held ingredient reference
 				held_ingredient = null
@@ -314,6 +350,14 @@ func pick_up_ingredient(scene_path: String):
 		# Ensure the ingredient is in the ingredients group
 		if not held_ingredient.is_in_group("ingredients"):
 			held_ingredient.add_to_group("ingredients")
+		# Set initial visibility based on current direction
+		is_held_item_visible = last_vertical_direction > 0
+		held_ingredient.visible = is_held_item_visible
+		# Update the held item display
+		var display_name = "heldItemDisplay" if player_number == 1 else "heldItemDisplay2"
+		var display = main.get_node_or_null("UI/" + display_name + "/heldItemTexture")
+		if display:
+			display.update_box_sprite(held_ingredient.sprite.texture, held_ingredient.state)
 
 func drop_ingredient():
 	if held_ingredient:

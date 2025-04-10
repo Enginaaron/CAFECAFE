@@ -35,26 +35,6 @@ func _process(_delta):
 	if bobaTimer.time_left > 0:
 		bobaBar.value = 100 * (1 - (bobaTimer.time_left / bobaTimer.wait_time))
 
-func pick_up():
-	is_held = true
-	# Get reference to the player that picked up this ingredient
-	await ready
-	
-	# Now we can safely get the player reference and held item display
-	player = get_current_player()
-	if player:
-		# Update chop required based on player's chop speed
-		scoop_required = max(1, player.TAPIOCA_SCOOP)
-		lid_time = player.PACKAGE_SPEED
-		tea_time = player.TEA_SPEED
-		print("Boba picked up by player ", player.player_number)
-		# Get the appropriate held item display
-		heldItemTexture = get_held_item_display()
-		if heldItemTexture:
-			update_sprite()
-		else:
-			print("Warning: Could not find held item display for player ", player.player_number)
-
 func drop():
 	if is_held:
 		is_held = false
@@ -67,17 +47,12 @@ func get_held_item_display():
 	# Use the stored player variable instead of getting current player
 	if is_instance_valid(player):
 		# Get the appropriate held item display based on player number
-		var display_name = "heldItemDisplay" if player.player_number == 1 else "heldItemDisplay2"
-		var main_scene = get_node("/root/Node2D")
+		var display_name = "heldItemDisplay" if current_player.player_number == 1 else "heldItemDisplay2"
+		var main_scene = current_player.main
 		if main_scene:
 			var display = main_scene.get_node_or_null("UI/" + display_name + "/heldItemTexture")
 			if display:
-				print("Found held item display for player ", player.player_number)
 				return display
-			else:
-				print("Could not find held item display: UI/" + display_name + "/heldItemTexture")
-		else:
-			print("Could not find main scene Node2D")
 	return null
 
 func get_current_player():
@@ -106,6 +81,7 @@ func get_current_player():
 	return null
 
 func getTea():
+	visible=true
 	player = get_current_player()
 	if state == State.CUP or state == State.TAPIOCA:
 		bobaBar.value = 0
@@ -128,6 +104,7 @@ func _on_bobaTimer_timeout() -> void:
 		bobaBar.visible = false
 		update_sprite()
 		player.is_busy = false
+		visible=false
 	
 func getTapioca():
 	player = get_current_player()
@@ -138,6 +115,7 @@ func getTapioca():
 			# Store the player who placed the cup
 			initial_player = player
 			
+			visible = true
 			var facing_direction = player.get_facing_direction()
 			var current_tile: Vector2i = player.tileMap.local_to_map(player.global_position)
 			var target_tile: Vector2i = current_tile + facing_direction
@@ -170,6 +148,7 @@ func getTapioca():
 				state = State.TAPIOCA
 			elif state == State.TEA:
 				state = State.TAPIOCATEA
+			visible = false
 			on_tapioca_station = false
 			bobaBar.visible = false
 			
@@ -201,11 +180,13 @@ func lid():
 	else: 
 		bobaBar.value = 0
 		bobaBar.visible = true
+	visible=true
 	bobaTimer.wait_time = max(1.0, 3.0)
 	bobaTimer.start()
 	player.is_busy = true
 
 func update_sprite():
+	heldItemTexture = get_held_item_display()
 	match state:
 		State.CUP:
 			sprite.texture = cup_texture
@@ -218,5 +199,6 @@ func update_sprite():
 		State.LID:
 			sprite.texture = lid_texture
 	if heldItemTexture:
+		print("do stuff plzkashdjksadhja")
 		heldItemTexture.update_box_sprite(sprite.texture, state)
 		print("Updated held item display for player ", player.player_number if player else "unknown")
