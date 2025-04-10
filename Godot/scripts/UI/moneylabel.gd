@@ -3,7 +3,7 @@ extends Label
 @onready var sprite = $"../sprite"
 @export var coin: Texture
 
-var money: int = 100
+var money: int = 0
 
 func _ready():
 	update_money(0)
