@@ -116,6 +116,7 @@ func chop():
 			
 		chop_required = max(1, player.CHOP_SPEED)
 		chop_progress += 1
+		AudioManager.play_sound("chop")
 		VeggieBar.value = (chop_progress / float(chop_required)) * 100
 		
 		if chop_progress >= chop_required:

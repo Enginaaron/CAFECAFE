@@ -7,6 +7,7 @@ var state = State.BUN
 @export var patty_texture = Texture
 @export var lettuce_texture = Texture
 @export var pattylettuce_texture = Texture
+@export var possible_textures: Array[Texture]
 
 @onready var sprite = $Sprite2D
 @onready var heldItemTexture = null  # Will be set when picked up
@@ -26,6 +27,7 @@ func get_current_player():
 	var players = get_tree().get_nodes_in_group("players")
 	for potential_player in players:
 		if potential_player.is_facing_position(self.global_position) and potential_player.held_ingredient == null:
+			print(potential_player.held_ingredient)
 			print("Found player ", potential_player.player_number, " interacting")
 			return potential_player
 	
@@ -86,6 +88,67 @@ func drop():
 			var display = main_scene.get_node_or_null("UI/" + display_name + "/heldItemTexture")
 			if display:
 				display.clear_box_sprite()
+
+func burgerTransform(ingredient: Node):
+	var successful = false
+	var ingredient_scene = ingredient.scene_file_path
+	
+	# Update the burger's sprite based on the ingredient scene and state
+	match ingredient_scene:
+		"res://scenes/food/Lettuce.tscn":
+			match ingredient.state:
+				ingredient.State.CHOPPED:
+					if sprite.texture == possible_textures[3]: 
+						sprite.texture = possible_textures[0]
+						state = State.LETTUCE
+						successful = true
+					elif sprite.texture == possible_textures[1]:
+						sprite.texture = possible_textures[2]
+						state = State.PATTYLETTUCE
+						successful = true
+				_: return
+			successful = true
+
+		"res://scenes/food/Patty.tscn":
+			match ingredient.state:
+				ingredient.State.COOKED:
+					if sprite.texture == possible_textures[3]:
+						sprite.texture = possible_textures[1]
+						state = State.PATTY
+						successful = true
+					elif sprite.texture == possible_textures[0]:
+						sprite.texture = possible_textures[2]
+						state = State.PATTYLETTUCE
+						successful = true
+				_: return
+			successful = true
+
+		"res://scenes/food/Plate.tscn":
+			match ingredient.state:
+				ingredient.State.EMPTY:
+					if sprite.texture == possible_textures[1]:
+						sprite.texture = possible_textures[6]
+						successful = true
+					elif sprite.texture == possible_textures[2]:
+						sprite.texture = possible_textures[7]
+						successful = true
+				_: return
+	
+	if successful:
+		# Update the held item display if we have one
+		if heldItemTexture:
+			update_sprite()
+		
+		# Try to drop the ingredient from the player
+		if ingredient.player:
+			ingredient.player.drop_ingredient()
+		else:
+			# If no direct player reference, search for the player holding the ingredient
+			var players = get_tree().get_nodes_in_group("players")
+			for player in players:
+				if player.held_ingredient == ingredient:
+					player.drop_ingredient()
+					break
 
 func update_sprite():
 	match state:

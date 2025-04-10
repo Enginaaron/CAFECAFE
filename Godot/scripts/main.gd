@@ -32,6 +32,7 @@ func _ready():
 	add_child(spawn_timer)
 	
 	dayLabel.update_day()
+	AudioManager.play_background_music()
 	
 	# Get player count from GameData
 	var game_data = get_node("/root/GameData")

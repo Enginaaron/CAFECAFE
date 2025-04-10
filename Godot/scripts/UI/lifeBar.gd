@@ -17,6 +17,7 @@ func lose_life():
 		if current_lives <= 0:
 			# Game over logic here
 			print("Game Over!")
+			AudioManager.stop_background_music()
 			get_tree().reload_current_scene()
 
 func update_hearts():

@@ -72,34 +72,30 @@ func get_held_item_display():
 	return null
 
 func get_current_player():
-	# If we're on the fryer, return the player that's currently interacting
-	if on_fryer:
-		# Find any player who can interact with the cup
-		var players = get_tree().get_nodes_in_group("players")
-		for potential_player in players:
-			# Check if this player is facing the cup and has empty hands
-			if potential_player.is_facing_position(global_position) and potential_player.held_ingredient == null:
-				print("Found player ", potential_player.player_number, " interacting")
-				return potential_player
-		return null
-	
-	# If we have a valid player reference, use it
-	if is_instance_valid(player):
+	# If we're being held, return the player that's holding us
+	if is_held and is_instance_valid(player):
 		return player
 	
-	# Otherwise, try to find our player through the scene tree
+	# First check if we're in a player's chef node
 	var parent = get_parent()
 	if parent and parent.name == "Chef":
 		var potential_player = parent.get_parent()
-		if potential_player is CharacterBody2D:
+		if potential_player is CharacterBody2D and potential_player.is_in_group("players"):
 			player = potential_player
 			return player
-	return null
+	
+	# If not in a player's node, look for a player facing us with empty hands
+	var players = get_tree().get_nodes_in_group("players")
+	for potential_player in players:
+		if potential_player.held_ingredient == null and potential_player.is_facing_position(self.global_position):
+			player = potential_player
+			return player
 
 func grill():
+	var heldItemTexture = get_held_item_display()
 	if state == State.RAW:
 		if not on_fryer:
-			player = player  # Store the player who placed the cup
+			player = get_current_player()
 			
 			var facing_direction = player.get_facing_direction()
 			var current_tile: Vector2i = player.tileMap.local_to_map(player.global_position)
@@ -135,15 +131,9 @@ func grill():
 				position = Vector2(0, 16)
 				heldItemTexture.update_box_sprite(sprite.texture, state)
 				
-				var heldItemTexture = get_held_item_display()
+				heldItemTexture = get_held_item_display()
 				if heldItemTexture:
 					update_sprite()
-
-func plate():
-	if state == State.COOKED:
-		state = State.PLATE
-		update_sprite()
-		heldItemTexture.update_box_sprite(sprite.texture, state)
 
 func _on_pattyTimer_timeout() -> void:
 	pattyTimer.stop()

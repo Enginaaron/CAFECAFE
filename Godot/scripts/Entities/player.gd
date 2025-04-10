@@ -159,7 +159,9 @@ func handle_tile_interaction(facing_tile: Vector2i):
 		"store":
 			main.toggle_store()
 		"trash":
-			drop_ingredient()
+			if held_ingredient:
+				drop_ingredient()
+				AudioManager.play_sound("trash")
 		"counter":
 			# Check for existing items at the counter
 			var found_item = false
@@ -169,12 +171,17 @@ func handle_tile_interaction(facing_tile: Vector2i):
 				if ingredient_tile == facing_tile:
 					found_item = true
 					# Check if the item is a plate
-					if node.scene_file_path == "res://scenes/food/Plate.tscn":
+					if node.scene_file_path == "res://scenes/food/Plate.tscn" and held_ingredient:
+						node.transform(held_ingredient)
+						return
+					# Check if item is a burger
+					if node.scene_file_path == "res://scenes/food/Burger.tscn":
 						if held_ingredient:
-							node.transform(held_ingredient)
+							node.burgerTransform(held_ingredient)
 							return
 					# If we're not holding anything, pick up the item
 					if held_ingredient == null:
+						AudioManager.play_sound("transform")
 						# Remove from main scene
 						main.remove_child(node)
 						# Add to player's chef node
@@ -191,6 +198,7 @@ func handle_tile_interaction(facing_tile: Vector2i):
 			
 			# If no item exists and we're holding one, place it
 			if not found_item and held_ingredient:
+				AudioManager.play_sound("drop")
 				# Get the counter's position - use current tile if standing on counter
 				var current_tile = tileMap.local_to_map(global_position)
 				var current_tile_data = tileMap.get_cell_tile_data(current_tile)
@@ -235,9 +243,12 @@ func handle_tile_interaction(facing_tile: Vector2i):
 				if held_ingredient.has_method("plate") and held_ingredient.state == held_ingredient.State.COOKED:
 					held_ingredient.plate()
 			else:
-				print("yoink")
 				pick_up_ingredient("res://scenes/food/Plate.tscn")
-				
+				# Update the held item display after picking up the plate
+				var display_name = "heldItemDisplay" if player_number == 1 else "heldItemDisplay2"
+				var display = main.get_node_or_null("UI/" + display_name + "/heldItemTexture")
+				if display:
+					display.update_box_sprite(held_ingredient.sprite.texture, held_ingredient.state)
 		"grill":
 			var found_patty = false
 			for node in get_tree().get_nodes_in_group("ingredients"):
@@ -296,8 +307,8 @@ func handle_tile_interaction(facing_tile: Vector2i):
 
 func pick_up_ingredient(scene_path: String):
 	if held_ingredient == null:
+		AudioManager.play_sound("transform")
 		held_ingredient = load(scene_path).instantiate()
-		held_ingredient.pick_up()
 		$Chef.add_child(held_ingredient)
 		held_ingredient.global_position += Vector2(0, 16)
 		# Ensure the ingredient is in the ingredients group
@@ -306,6 +317,7 @@ func pick_up_ingredient(scene_path: String):
 
 func drop_ingredient():
 	if held_ingredient:
+		AudioManager.play_sound("drop")
 		$Chef.remove_child(held_ingredient)
 		held_ingredient.drop()
 		held_ingredient = null
@@ -341,6 +353,6 @@ func apply_bonus(stat_bonus: Dictionary) -> void:
 				TEA_SPEED += stat_bonus[stat]
 			"grillSpeed":
 				GRILL_SPEED += stat_bonus[stat]
-
+		AudioManager.play_sound("upgrade")
 func is_facing_position(target_pos: Vector2) -> bool:
 	return get_facing_tile() == tileMap.local_to_map(target_pos)

@@ -17,6 +17,7 @@ config/features=PackedStringArray("4.4", "Mobile")
 [autoload]
 
 GameData="*res://scripts/game_data.gd"
+AudioManager="*res://scripts/Audio/AudioManager.gd"
 
 [display]
 

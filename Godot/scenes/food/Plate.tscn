@@ -1,7 +1,7 @@
-[gd_scene load_steps=14 format=3 uid="uid://diu3cnoaulkyb"]
+[gd_scene load_steps=14 format=3 uid="uid://chknckjnbr2w2"]
 
 [ext_resource type="Script" uid="uid://7t4l2vsvyrg8" path="res://scripts/Food/Plate.gd" id="1_jhqx4"]
-[ext_resource type="Texture2D" path="res://textures/FoodSprites/tilemap_pack_19.tres" id="2_2nsxw"]
+[ext_resource type="Texture2D" uid="uid://hn5syj5arlxa" path="res://textures/FoodSprites/tilemap_pack_19.tres" id="2_2nsxw"]
 [ext_resource type="Texture2D" uid="uid://b7hokl3sih2h1" path="res://textures/FoodSprites/tilemap_pack_10.tres" id="2_8nq08"]
 [ext_resource type="Texture2D" path="res://textures/FoodSprites/tilemap_pack_18.tres" id="3_1e5lu"]
 [ext_resource type="Texture2D" path="res://textures/FoodSprites/tilemap_pack_47.tres" id="4_gha1s"]
