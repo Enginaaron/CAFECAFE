@@ -72,8 +72,7 @@ func get_held_item_display():
 				print("Could not find held item display: UI/" + display_name + "/heldItemTexture")
 		else:
 			print("Could not find main scene Node2D")
-	elif null:
-		return get_held_item_display()
+	return null
 
 func get_current_player():
 	# If we're on the fryer, return the player that's currently interacting
@@ -138,7 +137,8 @@ func fry():
 				chef_node.add_child(self)
 				is_held = true
 				position = Vector2(0, 16)
-				heldItemTexture.update_box_sprite(sprite.texture, state)
+				if heldItemTexture:
+					heldItemTexture.update_box_sprite(sprite.texture, state)
 				
 				heldItemTexture = get_held_item_display()
 				if heldItemTexture:
@@ -149,7 +149,8 @@ func plate():
 	if state == State.COOKED:
 		state = State.PLATE
 		update_sprite()
-		heldItemTexture.update_box_sprite(sprite.texture, state)
+		if heldItemTexture:
+			heldItemTexture.update_box_sprite(sprite.texture, state)
 
 func _on_chickenTimer_timeout() -> void:
 	chickenTimer.stop()

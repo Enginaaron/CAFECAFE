@@ -9,7 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://7at6pmi3evq7" path="res://textures/UISprites/Heart.png" id="6_3wlde"]
 [ext_resource type="Texture2D" uid="uid://d2phsq7kek6rq" path="res://textures/UISprites/Sun.png" id="6_24e4x"]
 [ext_resource type="Script" uid="uid://cqyr0t8ukjari" path="res://scripts/UI/lifeBar.gd" id="6_xpksx"]
-[ext_resource type="Script" path="res://scripts/UI/exit.gd" id="10_w7enk"]
+[ext_resource type="Script" uid="uid://dkk8nuqcoljmr" path="res://scripts/UI/exit.gd" id="10_w7enk"]
 
 [node name="UI" type="CanvasLayer"]
 
