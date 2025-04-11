@@ -43,6 +43,7 @@ func drop():
 
 func get_held_item_display():
 	var current_player = get_current_player()
+	print(current_player) # prints null
 	if current_player:
 		# Get the appropriate held item display based on player number
 		var display_name = "heldItemDisplay" if current_player.player_number == 1 else "heldItemDisplay2"
@@ -57,7 +58,7 @@ func get_held_item_display():
 		else:
 			print("Could not find main scene Node2D")
 	elif null:
-		return get_held_item_display()
+		return
 
 func get_current_player():
 	# If we're on the fryer, return the player that's currently interacting
@@ -66,9 +67,12 @@ func get_current_player():
 		var players = get_tree().get_nodes_in_group("players")
 		for potential_player in players:
 			# Check if this player is facing the cup and has empty hands
+			print(potential_player.is_facing_position(global_position))
+			print(potential_player.held_ingredient)
 			if potential_player.is_facing_position(global_position) and potential_player.held_ingredient == null:
 				print("Found player ", potential_player.player_number, " interacting")
 				return potential_player
+		print("gonna return null")
 		return null
 	
 	# If we have a valid player reference, use it
@@ -134,13 +138,16 @@ func plate():
 	if state == State.COOKED:
 		state = State.PLATE
 		update_sprite()
-		heldItemTexture.update_box_sprite(sprite.texture, state)
-
+		if heldItemTexture:
+			heldItemTexture.update_box_sprite(sprite.texture, state)
+		else:
+			print("heldItemTexture not found")
 func _on_chickenTimer_timeout() -> void:
 	chickenTimer.stop()
 	chickenBar.visible = false
 	state = State.COOKED
 	chickenBar.visible = false
+	on_fryer = false
 	update_sprite()
 
 func update_sprite():

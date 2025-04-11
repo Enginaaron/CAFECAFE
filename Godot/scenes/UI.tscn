@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://5g7828xotp1y"]
+[gd_scene load_steps=13 format=3 uid="uid://5g7828xotp1y"]
 
 [ext_resource type="Texture2D" uid="uid://dwnsxnisyn7xe" path="res://textures/UISprites/heldItemBox.png" id="1_j2yqk"]
 [ext_resource type="Script" uid="uid://posv1qnxbe4t" path="res://scripts/UI/heldItemTexture.gd" id="1_mfjsr"]
@@ -9,7 +9,12 @@
 [ext_resource type="Texture2D" uid="uid://7at6pmi3evq7" path="res://textures/UISprites/Heart.png" id="6_3wlde"]
 [ext_resource type="Texture2D" uid="uid://d2phsq7kek6rq" path="res://textures/UISprites/Sun.png" id="6_24e4x"]
 [ext_resource type="Script" uid="uid://cqyr0t8ukjari" path="res://scripts/UI/lifeBar.gd" id="6_xpksx"]
-[ext_resource type="Script" path="res://scripts/UI/exit.gd" id="10_w7enk"]
+[ext_resource type="Script" uid="uid://dkk8nuqcoljmr" path="res://scripts/UI/exit.gd" id="10_w7enk"]
+[ext_resource type="Texture2D" uid="uid://v2kg034w0wq0" path="res://textures/tilemap_pack.png" id="11_aputy"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7paak"]
+atlas = ExtResource("11_aputy")
+region = Rect2(960, 960, 64, 64)
 
 [node name="UI" type="CanvasLayer"]
 
@@ -127,13 +132,18 @@ script = ExtResource("10_w7enk")
 
 [node name="TextureRect" type="TextureRect" parent="Exit"]
 layout_mode = 0
-offset_right = 42.0
-offset_bottom = 42.0
-texture = ExtResource("6_24e4x")
+offset_left = 24.0
+offset_top = 4.0
+offset_right = 88.0
+offset_bottom = 68.0
+scale = Vector2(0.6, 0.6)
+texture = SubResource("AtlasTexture_7paak")
 
 [node name="Button" type="Button" parent="Exit"]
 layout_mode = 0
-offset_right = 42.0
-offset_bottom = 41.0
+offset_left = 22.0
+offset_top = 2.0
+offset_right = 64.0
+offset_bottom = 43.0
 
 [connection signal="pressed" from="Exit/Button" to="Exit" method="_on_button_pressed"]
