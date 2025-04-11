@@ -1,7 +1,7 @@
-# Cooking Craze
+# Cafe Cafe
 
 ## Overview
-Cooking Craze is a fun and engaging cooking simulation game where players can interact with various ingredients, cook dishes, and manage their kitchen efficiently. The game features a player character that can move around the kitchen, interact with appliances, and process ingredients.
+Cafe Cafe is a fun and engaging cooking simulation game where players can interact with various ingredients, cook dishes, and manage their kitchen efficiently. The game features a player character that can move around the kitchen, interact with appliances, and process ingredients.
 
 ## Project Structure
 The project is organized as follows:
@@ -9,12 +9,11 @@ The project is organized as follows:
 ```
 Cooking-Craze
 ├── Godot
-│   ├── player.gd               # Player logic for movement and interaction
 │   ├── scenes
 │   │   ├── player.tscn         # Scene file for the player character
 │   │   ├── ingredients.tscn     # Scene file for the ingredients
 │   └── scripts
-│       ├── player.gd           # Duplicate of player.gd for script organization
+│       ├── player.gd            # Player logic for movement and interaction
 │       └── ingredients.gd       # Logic for handling ingredients
 ├── project.godot                # Main project configuration file
 └── README.md                    # Documentation for the project
