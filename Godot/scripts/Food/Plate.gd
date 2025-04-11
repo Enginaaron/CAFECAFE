@@ -64,7 +64,7 @@ func pick_up():
 	# Now we can safely get the player reference and held item display
 	player = get_current_player()
 	if player:
-		print("Chicken picked up by player ", player.player_number)
+		print("plate picked up by player ", player.player_number)
 		# Get the appropriate held item display
 		heldItemTexture = get_held_item_display()
 		if heldItemTexture:

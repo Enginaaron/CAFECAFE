@@ -377,7 +377,9 @@ func _input(event):
 	var interact_action = "interact" if player_number == 1 else "interact_p2"
 	if event.is_action_pressed(interact_action):
 		attempt_interaction()
-
+		print(get_facing_tile())
+		print(tileMap.map_to_local(get_facing_tile()))
+		
 func apply_bonus(stat_bonus: Dictionary) -> void:
 	for stat in stat_bonus:
 		match stat:

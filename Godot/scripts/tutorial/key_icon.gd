@@ -63,32 +63,33 @@ func _process(delta):
 			just_created = false
 			print("Key detection enabled for ", key_name)
 	
-	# Ensure the icon is visible if it hasn't been pressed yet
-	# For WASD keys, hide after press, but keep E keys visible until explicitly hidden
-	if not has_been_pressed or key_name == "e":
+	# For E key, let the tutorial manager handle visibility and position
+	if key_name == "e":
+		return
+	
+	# For movement keys, handle visibility and key detection
+	if not has_been_pressed:
 		visible = true
 		modulate.a = 1.0
-	
-	# Only detect keypresses for WASD and arrow keys - E key is handled by tutorial manager
-	if not has_been_pressed and action_name != "" and not just_created and key_name != "e":
-		# Check using both input action and direct key code, but only for the correct player's keys
-		var is_key_pressed = false
-		if is_player2:
-			# Player 2 uses arrow keys
-			is_key_pressed = Input.is_key_pressed(get_key_scancode(key_name))
-		else:
-			# Player 1 uses WASD
-			is_key_pressed = Input.is_action_just_pressed(action_name) or Input.is_key_pressed(get_key_scancode(key_name))
 		
-		if is_key_pressed:
-			print("Key pressed: ", key_name, " by player ", 2 if is_player2 else 1)
-			has_been_pressed = true
+		if action_name != "" and not just_created:
+			# Check using both input action and direct key code, but only for the correct player's keys
+			var is_key_pressed = false
+			if is_player2:
+				# Player 2 uses arrow keys
+				is_key_pressed = Input.is_key_pressed(get_key_scancode(key_name))
+			else:
+				# Player 1 uses WASD
+				is_key_pressed = Input.is_action_just_pressed(action_name) or Input.is_key_pressed(get_key_scancode(key_name))
 			
-			# Only hide WASD and arrow keys immediately after press, E key visibility is managed by tutorial manager
-			# Don't hide immediately so the user can see the feedback
-			await get_tree().create_timer(0.2).timeout
-			visible = false
-			
+			if is_key_pressed:
+				print("Key pressed: ", key_name, " by player ", 2 if is_player2 else 1)
+				has_been_pressed = true
+				
+				# Don't hide immediately so the user can see the feedback
+				await get_tree().create_timer(0.2).timeout
+				visible = false
+	
 	# Debug display every 2 seconds
 	test_pressed_timer -= delta
 	if test_pressed_timer <= 0:

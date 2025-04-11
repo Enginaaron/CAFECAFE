@@ -4,9 +4,9 @@
 [ext_resource type="Texture2D" uid="uid://v2kg034w0wq0" path="res://textures/tilemap_pack.png" id="2_olh0b"]
 [ext_resource type="Texture2D" uid="uid://dchw4qlkuaaof" path="res://textures/speechBubble.png" id="2_x8522"]
 [ext_resource type="Texture2D" uid="uid://omjn5wq7j6dk" path="res://textures/FoodSprites/tilemap_pack_24.tres" id="5_ov7a8"]
-[ext_resource type="Texture2D" uid="uid://p10boiwaso1r" path="res://textures/FoodSprites/tilemap_pack_21.tres" id="6_e1moh"]
+[ext_resource type="Texture2D" path="res://textures/FoodSprites/tilemap_pack_21.tres" id="6_e1moh"]
 [ext_resource type="Texture2D" uid="uid://tqwxp3lpva0p" path="res://textures/FoodSprites/tilemap_pack_40.tres" id="6_g0e7t"]
-[ext_resource type="Texture2D" uid="uid://copb5wsy0s31a" path="res://textures/FoodSprites/tilemap_pack_20.tres" id="7_5it3b"]
+[ext_resource type="Texture2D" path="res://textures/FoodSprites/tilemap_pack_20.tres" id="7_5it3b"]
 [ext_resource type="Texture2D" uid="uid://clrttoa5dpd1r" path="res://textures/FoodSprites/tilemap_pack_42.tres" id="7_e1moh"]
 [ext_resource type="Texture2D" uid="uid://fhyafsjhtwwq" path="res://textures/FoodSprites/tilemap_pack_30.tres" id="8_5it3b"]
 

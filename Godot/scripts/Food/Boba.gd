@@ -44,8 +44,8 @@ func drop():
 		player = null
 
 func get_held_item_display():
-	var current_player = get_current_player()
-	if current_player:
+	# Use the stored player variable instead of getting current player
+	if is_instance_valid(player):
 		# Get the appropriate held item display based on player number
 		var display_name = "heldItemDisplay" if current_player.player_number == 1 else "heldItemDisplay2"
 		var main_scene = current_player.main
@@ -79,7 +79,7 @@ func get_current_player():
 			player = potential_player
 			return player
 	return null
-	
+
 func getTea():
 	visible=true
 	player = get_current_player()
@@ -112,7 +112,8 @@ func getTapioca():
 		return
 	if state == State.CUP or state == State.TEA:
 		if not on_tapioca_station:
-			player = player  # Store the player who placed the cup
+			# Store the player who placed the cup
+			initial_player = player
 			
 			visible = true
 			var facing_direction = player.get_facing_direction()
@@ -151,8 +152,11 @@ func getTapioca():
 			on_tapioca_station = false
 			bobaBar.visible = false
 			
-			player = get_current_player()
-			if is_instance_valid(player):
+			# Get the current player who finished the boba
+			var finishing_player = get_current_player()
+			if is_instance_valid(finishing_player):
+				# Update the player reference to the one who finished it
+				player = finishing_player
 				player.held_ingredient = self
 				
 				var current_parent = get_parent()
@@ -165,7 +169,8 @@ func getTapioca():
 					is_held = true
 					position = Vector2(0, 16)
 					
-					var heldItemTexture = get_held_item_display()
+					# Update the heldItemTexture reference for the new player
+					heldItemTexture = get_held_item_display()
 					if heldItemTexture:
 						update_sprite()
 

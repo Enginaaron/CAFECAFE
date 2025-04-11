@@ -142,6 +142,9 @@ func plate():
 			heldItemTexture.update_box_sprite(sprite.texture, state)
 		else:
 			print("heldItemTexture not found")
+		if heldItemTexture:
+			heldItemTexture.update_box_sprite(sprite.texture, state)
+
 func _on_chickenTimer_timeout() -> void:
 	chickenTimer.stop()
 	chickenBar.visible = false

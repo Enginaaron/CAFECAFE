@@ -31,6 +31,10 @@ window/stretch/mode="canvas_items"
 
 enabled=PackedStringArray("res://addons/AtlasTextureManager/plugin.cfg")
 
+[global]
+
+api=false
+
 [input]
 
 up={
@@ -87,4 +91,4 @@ interact_p2={
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
-renderer/rendering_method="mobile"
+renderer/rendering_method="gl_compatibility"
