@@ -13,8 +13,14 @@ signal order_served  # New signal for when an order is served
 @onready var dayLabel = get_node("../../UI/dayCounter/dayLabel")
 @onready var lifeBar = get_node("../../UI/lifeBar")
 @onready var tilemap = get_node("../../TileMapLayer")
+@onready var game_data = get_node("/root/GameData")
+var ORDER_TIME
 
-const ORDER_TIME = 60
+func get_order_time():
+	if game_data.player_count == 1:
+		ORDER_TIME = 150
+	elif game_data.player_count == 2:
+		ORDER_TIME = 60
 
 var current_dishes: Array[Texture] = []
 var has_order: bool = false
@@ -41,6 +47,7 @@ func get_active_player() -> Node:
 	return null
 
 func _ready():
+	get_order_time()
 	# Initialize timer
 	if orderTimer:
 		orderTimer.wait_time = ORDER_TIME
@@ -161,7 +168,7 @@ func generate_random_order():
 	
 	# Calculate order time based on day
 	var currentDay = dayLabel.dayCount
-	var dayFactor = pow(0.98, currentDay - 1)  # 2% reduction per day
+	var dayFactor = pow(0.965, currentDay - 1)  # 2% reduction per day
 	var newOrderTime = ORDER_TIME * dayFactor
 	
 	# Start timer
