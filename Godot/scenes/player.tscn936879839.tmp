@@ -383,7 +383,7 @@ shape = SubResource("CircleShape2D_1")
 [node name="Chef" type="AnimatedSprite2D" parent="."]
 z_index = 1
 y_sort_enabled = true
-position = Vector2(2, -32)
+position = Vector2(1, -32)
 sprite_frames = SubResource("SpriteFrames_6e8lb")
 animation = &"bearDOWN"
 speed_scale = 5.0

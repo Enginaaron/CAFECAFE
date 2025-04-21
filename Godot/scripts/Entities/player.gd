@@ -73,6 +73,7 @@ func setup_player_position():
 func _physics_process(_delta):
 	if is_busy or (storeInterface and storeInterface.visible):
 		velocity = Vector2.ZERO
+		anim.stop()
 		return
 	
 	handle_movement()
@@ -84,25 +85,44 @@ func handle_movement():
 		last_direction = Vector2i(direction)
 		velocity = direction * MOVE_SPEED
 		
-		# Handle animations and held item visibility
-		if direction.y < 0:  # Moving up
+		# Move the character first
+		move_and_slide()
+		
+		# Only play animation if we're actually moving (not colliding with a wall)
+		if velocity.length() > 0:
+			# Handle animations and held item visibility
+			if direction.y < 0:  # Moving up
+				if player_number == 1:
+					anim.play("bearUP")
+				else:
+					anim.play("pandaUP")
+				last_vertical_direction = -1
+				if held_ingredient and is_held_item_visible:
+					held_ingredient.hide()
+					is_held_item_visible = false
+			elif direction.y > 0:  # Moving down
+				if player_number == 1:
+					anim.play("bearDOWN")
+				else:
+					anim.play("pandaDOWN")
+				last_vertical_direction = 1
+				if held_ingredient and not is_held_item_visible:
+					held_ingredient.show()
+					is_held_item_visible = true
+		else:
+			# We hit a wall, stop the animation
+			anim.stop()
 			if player_number == 1:
-				anim.play("bearUP")
+				if last_vertical_direction < 0:
+					anim.play("bearUP")
+				else:
+					anim.play("bearDOWN")
 			else:
-				anim.play("pandaUP")
-			last_vertical_direction = -1
-			if held_ingredient and is_held_item_visible:
-				held_ingredient.hide()
-				is_held_item_visible = false
-		elif direction.y > 0:  # Moving down
-			if player_number == 1:
-				anim.play("bearDOWN")
-			else:
-				anim.play("pandaDOWN")
-			last_vertical_direction = 1
-			if held_ingredient and not is_held_item_visible:
-				held_ingredient.show()
-				is_held_item_visible = true
+				if last_vertical_direction < 0:
+					anim.play("pandaUP")
+				else:
+					anim.play("pandaDOWN")
+			anim.frame = 0
 	else:
 		velocity = Vector2.ZERO
 		# Set to first frame of the last direction's animation
@@ -118,8 +138,6 @@ func handle_movement():
 			else:
 				anim.play("pandaDOWN")
 		anim.frame = 0
-	
-	move_and_slide()
 
 func get_input_direction() -> Vector2:
 	var direction = Vector2.ZERO
@@ -216,7 +234,6 @@ func handle_tile_interaction(facing_tile: Vector2i):
 							return
 					# If we're not holding anything, pick up the item
 					if held_ingredient == null:
-						AudioManager.play_sound("transform")
 						# Remove from main scene
 						main.remove_child(node)
 						# Add to player's chef node
@@ -398,5 +415,6 @@ func apply_bonus(stat_bonus: Dictionary) -> void:
 			"grillSpeed":
 				GRILL_SPEED += stat_bonus[stat]
 		AudioManager.play_sound("upgrade")
+		
 func is_facing_position(target_pos: Vector2) -> bool:
 	return get_facing_tile() == tileMap.local_to_map(target_pos)

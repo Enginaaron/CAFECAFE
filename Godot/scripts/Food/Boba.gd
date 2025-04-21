@@ -44,6 +44,7 @@ func drop():
 		player = null
 
 func get_held_item_display():
+	var current_player = get_current_player()
 	# Use the stored player variable instead of getting current player
 	if is_instance_valid(player):
 		# Get the appropriate held item display based on player number
@@ -83,9 +84,13 @@ func get_current_player():
 func getTea():
 	visible=true
 	player = get_current_player()
+	var current_tile: Vector2i = player.tileMap.local_to_map(player.global_position)
+	var target_tile: Vector2i = current_tile + player.get_facing_direction()
+	var dispenser_position = player.tileMap.map_to_local(target_tile) + Vector2(1.5,-4)
 	if state == State.CUP or state == State.TAPIOCA:
 		bobaBar.value = 0
 		bobaBar.visible = true
+		global_position = dispenser_position
 	else: return
 	bobaTimer.wait_time = max(1.0, tea_time)
 	bobaTimer.start()
@@ -105,6 +110,7 @@ func _on_bobaTimer_timeout() -> void:
 		update_sprite()
 		player.is_busy = false
 		visible=false
+		global_position = player.global_position - Vector2(0, 16)
 	
 func getTapioca():
 	player = get_current_player()
@@ -116,9 +122,8 @@ func getTapioca():
 			initial_player = player
 			
 			visible = true
-			var facing_direction = player.get_facing_direction()
 			var current_tile: Vector2i = player.tileMap.local_to_map(player.global_position)
-			var target_tile: Vector2i = current_tile + facing_direction
+			var target_tile: Vector2i = current_tile + player.get_facing_direction()
 			var tapioca_position = player.tileMap.map_to_local(target_tile)
 
 			var current_parent = get_parent()
@@ -175,11 +180,15 @@ func getTapioca():
 						update_sprite()
 
 func lid():
+	var current_tile: Vector2i = player.tileMap.local_to_map(player.global_position)
+	var target_tile: Vector2i = current_tile + player.get_facing_direction()
+	var machine_position = player.tileMap.map_to_local(target_tile) + Vector2(1,-2)
 	if state != State.TAPIOCATEA:
 		return
 	else: 
 		bobaBar.value = 0
 		bobaBar.visible = true
+		global_position = machine_position
 	visible=true
 	bobaTimer.wait_time = max(1.0, 3.0)
 	bobaTimer.start()
@@ -199,6 +208,5 @@ func update_sprite():
 		State.LID:
 			sprite.texture = lid_texture
 	if heldItemTexture:
-		print("do stuff plzkashdjksadhja")
 		heldItemTexture.update_box_sprite(sprite.texture, state)
 		print("Updated held item display for player ", player.player_number if player else "unknown")

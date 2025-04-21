@@ -37,7 +37,7 @@ func setup_audio_player(player: AudioStreamPlayer):
 	player.bus = "SFX"
 
 func setup_background_music():
-	bgm_player.volume_db = -3  # Slightly quieter than sound effects
+	bgm_player.volume_db = -10  # Slightly quieter than sound effects
 	bgm_player.bus = "Music"
 	bgm_player.stream = load(BACKGROUND_MUSIC)
 	bgm_player.stream.loop = true
@@ -49,6 +49,10 @@ func play_background_music():
 func stop_background_music():
 	if bgm_player.playing:
 		bgm_player.stop()
+
+func toggle_background_music(state: bool):
+	bgm_player.stream_paused = not state
+	return not state
 
 func play_sound(sound_name: String):
 	var sound_path = SOUND_EFFECTS.get(sound_name)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://5g7828xotp1y"]
+[gd_scene load_steps=14 format=3 uid="uid://5g7828xotp1y"]
 
 [ext_resource type="Texture2D" uid="uid://dwnsxnisyn7xe" path="res://textures/UISprites/heldItemBox.png" id="1_j2yqk"]
 [ext_resource type="Script" uid="uid://posv1qnxbe4t" path="res://scripts/UI/heldItemTexture.gd" id="1_mfjsr"]
@@ -10,11 +10,9 @@
 [ext_resource type="Texture2D" uid="uid://d2phsq7kek6rq" path="res://textures/UISprites/Sun.png" id="6_24e4x"]
 [ext_resource type="Script" uid="uid://cqyr0t8ukjari" path="res://scripts/UI/lifeBar.gd" id="6_xpksx"]
 [ext_resource type="Script" uid="uid://dkk8nuqcoljmr" path="res://scripts/UI/exit.gd" id="10_w7enk"]
-[ext_resource type="Texture2D" uid="uid://v2kg034w0wq0" path="res://textures/tilemap_pack.png" id="11_aputy"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_7paak"]
-atlas = ExtResource("11_aputy")
-region = Rect2(960, 960, 64, 64)
+[ext_resource type="Theme" uid="uid://bun4unoynwm7q" path="res://textures/ButtonSprites/Exit.tres" id="11_aputy"]
+[ext_resource type="Script" uid="uid://1dvnf41fr1lf" path="res://scripts/UI/bgmControl.gd" id="12_5sqrc"]
+[ext_resource type="Theme" uid="uid://bk2m5xpmoma36" path="res://textures/ButtonSprites/BGM.tres" id="12_7paak"]
 
 [node name="UI" type="CanvasLayer"]
 
@@ -130,20 +128,30 @@ offset_bottom = 25.0
 scale = Vector2(0.5, 0.5)
 script = ExtResource("10_w7enk")
 
-[node name="TextureRect" type="TextureRect" parent="Exit"]
-layout_mode = 0
-offset_left = 24.0
-offset_top = 4.0
-offset_right = 88.0
-offset_bottom = 68.0
-scale = Vector2(0.6, 0.6)
-texture = SubResource("AtlasTexture_7paak")
-
 [node name="Button" type="Button" parent="Exit"]
 layout_mode = 0
-offset_left = 22.0
-offset_top = 2.0
-offset_right = 64.0
-offset_bottom = 43.0
+offset_left = 38.0
+offset_top = 6.0
+offset_right = 258.0
+offset_bottom = 226.0
+scale = Vector2(0.1, 0.1)
+theme = ExtResource("11_aputy")
+
+[node name="BGM" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("12_5sqrc")
+
+[node name="Button" type="Button" parent="BGM"]
+layout_mode = 0
+offset_left = 201.0
+offset_top = 28.0
+offset_right = 1301.0
+offset_bottom = 1128.0
+scale = Vector2(0.01, 0.01)
+theme = ExtResource("12_7paak")
 
 [connection signal="pressed" from="Exit/Button" to="Exit" method="_on_button_pressed"]
+[connection signal="pressed" from="BGM/Button" to="BGM" method="_on_button_pressed"]
